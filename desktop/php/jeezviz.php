@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__."../../3rdparty/client.php";
 if (!isConnect('admin')) {
 	throw new Exception('{{401 - Accès non autorisé}}');
 }

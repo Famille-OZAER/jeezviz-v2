@@ -18,7 +18,13 @@
 
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
+require_once __DIR__  . '/../../3rdparty/jeezviz/client.php';
+require_once __DIR__  . '/../../3rdparty/jeezviz/camera.php';
+require_once __DIR__  . '/../../3rdparty/jeezviz/userAgent.php';
 
+/*include_file('3rdparty', 'client', 'php', 'jeezviz');
+include_file('3rdparty', 'camera', 'php', 'jeezviz');
+include_file('3rdparty', 'userAgent', 'php', 'jeezviz');*/
 class jeezviz extends eqLogic {
     /*     * *************************Attributs****************************** */
     
@@ -77,7 +83,13 @@ class jeezviz extends eqLogic {
          // Sauvegarde de la commande
          $cmd->save();
       }
-      $directions=array("refresh"=> "Rafraichir", "moveup"=> "Haut", "movedown"=> "Bas", "moveleft": "Gauche", "moveright" => "Droite", "privacyOn" => "Mode Privé On", "privacyOff" => "Mode Privé Off");
+      $directions=array("refresh" => "Rafraichir", 
+                  "moveup" => "Haut", 
+                  "movedown" => "Bas", 
+                  "moveleft" => "Gauche", 
+                  "moveright" => "Droite", 
+                  "privacyOn" => "Mode Privé On", 
+                  "privacyOff" => "Mode Privé Off");
 
       foreach ($directions as $key => $value) {
          $getDataCmd = $this->getCmd(null, $key);
@@ -93,6 +105,7 @@ class jeezviz extends eqLogic {
             $cmd->setEqLogic_id($this->getId());
             // Type de la commande
             $cmd->setType('action');
+            $cmd->setSubType('other');
             // Visibilité de la commande
             $cmd->setIsVisible(1);
             // Sauvegarde de la commande
@@ -120,8 +133,6 @@ class jeezviz extends eqLogic {
     public function postRemove() {
         
     }
-   
-   }
 
     /*     * **********************Getteur Setteur*************************** */
 }
@@ -151,6 +162,10 @@ class jeezvizCmd extends cmd {
          if ($this->getType() != 'action') {
             return;
          }
+         
+         if (strtoupper($this->getLogicalId()) == "REFRESH") {
+            return;
+         }
          log::add('jeezviz', 'debug', 'Fonction execute démarrée');
          log::add('jeezviz', 'debug', 'EqLogic_Id : '.$this->getEqlogic_id());
          log::add('jeezviz', 'debug', 'Name : '.$this->getName());
@@ -158,13 +173,13 @@ class jeezvizCmd extends cmd {
          $jeezvizObj = jeezviz::byId($this->getEqlogic_id());
          $serial=$jeezvizObj->getConfiguration('serial');
          $identifiant=config::byKey('identifiant', 'jeezviz');
-         $motDePasse=config::byKey('motdepasse', 'jeezviz');
+         $motdepasse=config::byKey('motdepasse', 'jeezviz');
          
          log::add('jeezviz', 'debug', 'Serial : '.$serial);         
          log::add('jeezviz', 'debug', 'identifiant : '.$identifiant);
          log::add('jeezviz', 'debug', 'motdepasse : '.$motdepasse);
 
-         $EzvizClient = new EzvizClient($identifiant, $motDePasse);
+         $EzvizClient = new EzvizClient($identifiant, $motdepasse);
          $EzvizClient->login();
          #$EzvizClient->get_PAGE_LIST();
          $EzvizCamera = new EzvizCamera($EzvizClient, $serial);
