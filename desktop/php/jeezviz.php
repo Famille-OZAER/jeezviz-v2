@@ -74,6 +74,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                         ?>
                    </select>
                </div>
+
            </div>
 	   <div class="form-group">
                 <label class="col-sm-3 control-label">{{Catégorie}}</label>
@@ -95,13 +96,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 		</div>
     </div>
     
-	<!-- OOZ - Pas nécessaire, tous les paramètres sont récupérés via le compte
-    <div class="form-group">
-        <label class="col-sm-3 control-label">{{jeezviz param 1}}</label>
+	<div class="form-group">
+        <label class="col-sm-3 control-label">{{Numero de série}}</label>
         <div class="col-sm-3">
-            <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="city" placeholder="param1"/>
+            <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="SERIAL" placeholder="serial"/>
         </div>
-    </div>-->
+    </div>
 </fieldset>
 </form>
 </div>
