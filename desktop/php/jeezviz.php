@@ -1,4 +1,8 @@
 <?php
+include_file('3rdparty', 'jeezviz', 'php', 'client');
+include_file('3rdparty', 'jeezviz', 'php', 'camera');
+include_file('3rdparty', 'jeezviz', 'php', 'userAgent');
+require_once __DIR__."../../3rdparty/client.php";
 if (!isConnect('admin')) {
 	throw new Exception('{{401 - Accès non autorisé}}');
 }
@@ -99,7 +103,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 	<div class="form-group">
         <label class="col-sm-3 control-label">{{Numero de série}}</label>
         <div class="col-sm-3">
-            <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="SERIAL" placeholder="serial"/>
+            <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="serial" placeholder="Numéro de série"/>
         </div>
     </div>
 </fieldset>
