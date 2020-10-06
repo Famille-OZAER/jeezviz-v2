@@ -1,7 +1,4 @@
 <?php
-include_file('3rdparty', 'jeezviz', 'php', 'client');
-include_file('3rdparty', 'jeezviz', 'php', 'camera');
-include_file('3rdparty', 'jeezviz', 'php', 'userAgent');
 require_once __DIR__."../../3rdparty/client.php";
 if (!isConnect('admin')) {
 	throw new Exception('{{401 - Accès non autorisé}}');
