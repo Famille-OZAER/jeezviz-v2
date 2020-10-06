@@ -19,7 +19,7 @@
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
-class template extends eqLogic {
+class jeezviz extends eqLogic {
     /*     * *************************Attributs****************************** */
     
   /*
@@ -35,44 +35,6 @@ class template extends eqLogic {
       public static function cron() {
       }
      */
-
-    /*
-     * Fonction exécutée automatiquement toutes les 5 minutes par Jeedom
-      public static function cron5() {
-      }
-     */
-
-    /*
-     * Fonction exécutée automatiquement toutes les 10 minutes par Jeedom
-      public static function cron10() {
-      }
-     */
-    
-    /*
-     * Fonction exécutée automatiquement toutes les 15 minutes par Jeedom
-      public static function cron15() {
-      }
-     */
-    
-    /*
-     * Fonction exécutée automatiquement toutes les 30 minutes par Jeedom
-      public static function cron30() {
-      }
-     */
-    
-    /*
-     * Fonction exécutée automatiquement toutes les heures par Jeedom
-      public static function cronHourly() {
-      }
-     */
-
-    /*
-     * Fonction exécutée automatiquement tous les jours par Jeedom
-      public static function cronDaily() {
-      }
-     */
-
-
 
     /*     * *********************Méthodes d'instance************************* */
     
@@ -115,30 +77,48 @@ class template extends eqLogic {
     public function postRemove() {
         
     }
-
-    /*
-     * Non obligatoire : permet de modifier l'affichage du widget (également utilisable par les commandes)
-      public function toHtml($_version = 'dashboard') {
-
-      }
-     */
-
-    /*
-     * Non obligatoire : permet de déclencher une action après modification de variable de configuration
-    public static function postConfig_<Variable>() {
-    }
-     */
-
-    /*
-     * Non obligatoire : permet de déclencher une action avant modification de variable de configuration
-    public static function preConfig_<Variable>() {
-    }
-     */
+    public static function addNewEquipment($_equipmentName, $_iPAddress) {
+		log::add('jeezviz', 'debug', '============ Début addNewEquipement ==========');
+		log::add('jeezviz', 'debug', 'Fonction addNewEquipment démarrée');
+		$getEqlogic = self::byLogicalId($_iPAddress,'jeezviz');
+		if (!is_object($getEqlogic))
+		{
+			try{
+				// Création de l'équipement
+				$eqLogic = new jeezviz();
+				// Nom affiché
+				$eqLogic->setName($_equipmentName);
+				// Identifiant de l'objet
+				$eqLogic->setObject_id(null);
+				// Identifiant de l'équipement
+				$eqLogic->setLogicalId($_iPAddress);
+				// Type de l'équipement
+				$eqLogic->setEqType_name('jeezviz');
+				// Visibilité de l'équipement
+				$eqLogic->setIsVisible(1);
+				// Accessibilité de l'équipement
+				$eqLogic->setIsEnable(1);
+				//Ajout du time out
+				$eqLogic->setConfiguration('timeOutStateChange', '1');
+				// Sauvegarde de l'équipement
+				$eqLogic->save();
+				$eqLogic->postUpdate();
+				return "L'équipement a été créé. Si la page ne se rafraichi pas dans 5 secondes, faites F5";
+			} catch(Exception $e){
+				return $e->getMessage();
+			}
+		}
+		else
+		{
+			throw new Exception("L'équipement existe déjà sous le nom \"" . $getEqlogic->getName() . "\"");
+		}
+      	log::add('jeezviz', 'debug', '============ Fin addNewEquipement ==========');
+	}
 
     /*     * **********************Getteur Setteur*************************** */
 }
 
-class templateCmd extends cmd {
+class jeezvizCmd extends cmd {
     /*     * *************************Attributs****************************** */
     
     /*
