@@ -19,9 +19,6 @@
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
-include_file('3rdparty', 'client', 'php', 'jeezviz');
-include_file('3rdparty', 'camera', 'php', 'jeezviz');
-include_file('3rdparty', 'userAgent', 'php', 'jeezviz');
 class jeezviz extends eqLogic {
     /*     * *************************Attributs****************************** */
     
