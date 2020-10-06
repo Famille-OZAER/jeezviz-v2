@@ -125,4 +125,4 @@ $eqLogics = eqLogic::byType($plugin->getId());
 <!-- Inclusion du fichier javascript du plugin (dossier, nom_du_fichier, extension_du_fichier, nom_du_plugin) -->
 <?php include_file('desktop', 'jeezviz', 'js', 'jeezviz');?>
 <!-- Inclusion du fichier javascript du core - NE PAS MODIFIER NI SUPPRIMER -->
-<?php include_file('core', 'plugin.jeezviz', 'js');?>
+<?php include_file('core', 'plugin.template', 'js');?>
