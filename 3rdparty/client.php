@@ -21,7 +21,6 @@ class EzvizClient
 
     public $EU_API_DOMAIN = "apiieu";
     public $API_BASE_TLD = "ezvizlife.com";
-    public $API_BASE_URI = "https://".$this->EU_API_DOMAIN.".".$this->$API_BASE_TLD;
     public $API_ENDPOINT_LOGIN = "/v3/users/login";
     public $API_ENDPOINT_CLOUDDEVICES = "/api/cloud/v2/cloudDevices/getAll";
     public $API_ENDPOINT_PAGELIST = "/v3/userdevices/v1/devices/pagelist";
@@ -33,15 +32,17 @@ class EzvizClient
     public $API_ENDPOINT_DETECTION_SENSIBILITY = "/api/device/configAlgorithm";
     public $API_ENDPOINT_DETECTION_SENSIBILITY_GET = "/api/device/queryAlgorithmConfig";
 
-    public $LOGIN_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_LOGIN;
-    public $CLOUDDEVICES_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_CLOUDDEVICES;
-    public $DEVICES_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DEVICES;
-    public $PAGELIST_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_PAGELIST;
-    public $DATA_REPORT_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DATA_REPORT;
+    
+    public $API_BASE_URI;
+    public $LOGIN_URL;
+    public $CLOUDDEVICES_URL;
+    public $DEVICES_URL;
+    public $PAGELIST_URL;
+    public $DATA_REPORT_URL;
 
-    public $SWITCH_STATUS_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_SWITCH_STATUS;
-    public $DETECTION_SENSIBILITY_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DETECTION_SENSIBILITY;
-    public $DETECTION_SENSIBILITY_GET_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DETECTION_SENSIBILITY_GET;
+    public $SWITCH_STATUS_URL;
+    public $DETECTION_SENSIBILITY_URL;
+    public $DETECTION_SENSIBILITY_GET_URL;
 
 
 
@@ -654,10 +655,11 @@ class EzvizClient
             curl_close($ch);
             // Decode the response
             $response_json = json_decode($response, TRUE);    
-            #var_dump($response_json);
+            var_dump($response_json);
             $this->get_JsonLastError();
             $this->get_EZVIZ_Result_Message($response_json);           
             return $response_json;
+			//return true;
         } catch(Exception $e) {
             echo $e;
             trigger_error(sprintf('Curl failed with error #%d: %s',$e->getCode(), $e->getMessage()),E_USER_ERROR);
@@ -768,12 +770,23 @@ class EzvizClient
     {        
         if ($apiDomain=="")
         {
-            $apiDomain=$this-> $EU_API_DOMAIN;
+            $apiDomain=$this->EU_API_DOMAIN;
         }
-        echo "Login to Ezviz' API at ".$this->$LOGIN_URL."\r\n";
+        $this->API_BASE_URI = "https://".$apiDomain.".".$this->API_BASE_TLD;
+		
+        $this->LOGIN_URL = $this->API_BASE_URI.$this->API_ENDPOINT_LOGIN;
+        $this->CLOUDDEVICES_URL = $this->API_BASE_URI.$this->API_ENDPOINT_CLOUDDEVICES;
+        $this->DEVICES_URL = $this->API_BASE_URI.$this->API_ENDPOINT_DEVICES;
+        $this->PAGELIST_URL = $this->API_BASE_URI.$this->API_ENDPOINT_PAGELIST;
+        $this->DATA_REPORT_URL = $this->API_BASE_URI.$this->API_ENDPOINT_DATA_REPORT;
+    
+        $this->SWITCH_STATUS_URL = $this->API_BASE_URI.$this->API_ENDPOINT_SWITCH_STATUS;
+        $this->DETECTION_SENSIBILITY_URL = $this->API_BASE_URI.$this->API_ENDPOINT_DETECTION_SENSIBILITY;
+        $this->DETECTION_SENSIBILITY_GET_URL = $this->API_BASE_URI.$this->API_ENDPOINT_DETECTION_SENSIBILITY_GET;
+        echo "Login to Ezviz' API at ".$this->LOGIN_URL."\r\n";
         # Ezviz API sends md5 of password
         $md5pass = md5(utf8_encode($this->password));
-        
+        log::add('jeezviz', 'debug', 'md5pass : '.$md5pass);
         $postData = array("account"=>$this->account, 
                         "password"=>$md5pass, 
                         "featureCode"=>"92c579faa0902cbfcfcc4fc004ef67e7"
@@ -783,7 +796,7 @@ class EzvizClient
                     "customNo: 1000001");
         try
         {
-            $response_json = $this->QueryAPIPost($this->$LOGIN_URL, $postData, $this->_timeout, $headers);
+            $response_json = $this->QueryAPIPost($this->LOGIN_URL, $postData, $this->_timeout, $headers);
         }
         catch (Exception $e)
         {
@@ -798,6 +811,7 @@ class EzvizClient
         
         if ($response_json["meta"]["code"] != 200)
         {
+			echo var_dump($response_json);
             return false;
         }
         # let's parse the answer, session is in {.."loginSession":{"sessionId":"xxx...}
@@ -818,7 +832,7 @@ class EzvizClient
     {
         echo "Get data from pagelist API.\r\n";
 
-        if ($max_retries > MAX_RETRIES)
+        if ($max_retries > $this->MAX_RETRIES)
         {
             echo "Can't gather proper data. Max retries exceeded.";
         }
@@ -831,7 +845,7 @@ class EzvizClient
         $headers=array('sessionId:'.$this->_sessionId);
         try
         {
-            $response_json = $this->QueryAPIGet($this->$PAGELIST_URL, $postData, $this->_timeout, $headers);
+            $response_json = $this->QueryAPIGet($this->PAGELIST_URL, $postData, $this->_timeout, $headers);
         }
         catch (Exception $e)
         {
@@ -882,7 +896,7 @@ class EzvizClient
             $headers=array("Content-Type: application/x-www-form-urlencoded", 
                 "clientType: 1", 
                 "customNo: 1000001");
-            $response_json = $this->QueryAPIPost($this->$SWITCH_STATUS_URL, $data, $this->_timeout,$headers);
+            $response_json = $this->QueryAPIPost($this->SWITCH_STATUS_URL, $data, $this->_timeout,$headers);
 
             if (array_key_exists("meta",$response_json))
             {
@@ -953,7 +967,7 @@ class EzvizClient
     function detection_sensibility($serial, $sensibility=3, $max_retries=0)
     {
         echo "Enable alarm notifications.\r\n";
-        if ($max_retries > MAX_RETRIES)
+        if ($max_retries > $this->MAX_RETRIES)
         {
             echo "Can't gather proper data. Max retries exceeded.";
         }
@@ -969,7 +983,7 @@ class EzvizClient
         {
             $headers=array('sessionId:'.$this->_sessionId);
             $data=array('subSerial'=>$serial, 'type'=>'0', 'sessionId'=>$this->_sessionId, 'value'=>$sensibility);
-            $response_json = $this->QueryAPIPost($this->$DETECTION_SENSIBILITY_URL, $data, $timeout=$this->_timeout,$headers);
+            $response_json = $this->QueryAPIPost($this->DETECTION_SENSIBILITY_URL, $data, $timeout=$this->_timeout,$headers);
         }
         catch (Exception $e)
         {
@@ -991,7 +1005,7 @@ class EzvizClient
     function get_detection_sensibility($serial, $max_retries=0)
     {
         echo "Get detection sensibility.\r\n";
-        if ($max_retries > MAX_RETRIES)
+        if ($max_retries > $this->MAX_RETRIES)
         {
             echo "Can't gather proper data. Max retries exceeded.";
         }
@@ -1000,7 +1014,7 @@ class EzvizClient
         {
             $headers=array('sessionId:'.$this->_sessionId);
             $data=array('subSerial'=>$serial, 'sessionId'=>$this->_sessionId, 'clientType'=>1);
-            $response_json = $this->QueryAPIPost($this->$DETECTION_SENSIBILITY_GET_URL, $data, $timeout=$this->_timeout,$headers);
+            $response_json = $this->QueryAPIPost($this->DETECTION_SENSIBILITY_GET_URL, $data, $timeout=$this->_timeout,$headers);
         }
         catch (Exception $e)
         {
@@ -1031,7 +1045,7 @@ class EzvizClient
     function alarm_sound($serial, $soundType, $enable=1, $max_retries=0)
     {
         echo "Enable alarm sound by API.\r\n";
-        if ($max_retries > MAX_RETRIES)
+        if ($max_retries > $this->MAX_RETRIES)
         {
             echo "Can't gather proper data. Max retries exceeded.";
         }
@@ -1045,7 +1059,7 @@ class EzvizClient
         {
             $data=array('enable'=>$enable, 'soundType'=>$soundType, 'voiceId'=>'0', 'deviceSerial'=>$serial);
             $headers=array('sessionId:'.$this->_sessionId);
-            $response_json = $this->QueryAPIPut($DEVICES_URL + $serial + $this->$API_ENDPOINT_ALARM_SOUND, $data, $timeout=$this->_timeout, $headers);
+            $response_json = $this->QueryAPIPut($DEVICES_URL + $serial + $this->API_ENDPOINT_ALARM_SOUND, $data, $timeout=$this->_timeout, $headers);
         }
         catch (Exception $e)
         {
@@ -1068,7 +1082,7 @@ class EzvizClient
     function data_report($serial, $enable=1, $max_retries=0)
     {
         echo "Enable alarm notifications.\r\n";
-        if ($max_retries > MAX_RETRIES)
+        if ($max_retries > $this->MAX_RETRIES)
         {
             echo "Can't gather proper data. Max retries exceeded.";
         }            
@@ -1086,7 +1100,7 @@ class EzvizClient
                     'sessionId'=>$this->_sessionId);
         try
         {
-            $response_json = $this->QueryAPIPost($this->$DATA_REPORT_URL, $postData, $this->_timeout);
+            $response_json = $this->QueryAPIPost($this->DATA_REPORT_URL, $postData, $this->_timeout);
         }
         catch (Exception $e)
         {
@@ -1107,7 +1121,7 @@ class EzvizClient
     function ptzControl($command, $serial, $action, $speed=5, $max_retries=0)
     {
         echo "PTZ Control by API.\r\n";
-        if ($max_retries > MAX_RETRIES)
+        if ($max_retries > $this->MAX_RETRIES)
         {
             echo "Can't gather proper data. Max retries exceeded.";            
         }
@@ -1125,7 +1139,7 @@ class EzvizClient
         {
             $data=array('command'=>$command, 'action'=>$action, 'channelNo'=>"1", 'speed'=>$speed, 'uuid'=>uniqid(), 'serial'=>$serial);
             $headers=array('sessionId:'.$this->_sessionId, 'clientType:1');
-            $response_json = $this->QueryAPIPut($this->$DEVICES_URL.$serial.$this->$API_ENDPOINT_PTZCONTROL, $data, $timeout=$this->_timeout, $headers);
+            $response_json = $this->QueryAPIPut($this->DEVICES_URL.$serial.$this->API_ENDPOINT_PTZCONTROL, $data, $timeout=$this->_timeout, $headers);
         }
         catch (Exception $e) 
         {

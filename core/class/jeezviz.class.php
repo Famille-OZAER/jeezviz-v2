@@ -177,7 +177,7 @@ class jeezvizCmd extends cmd {
          
          log::add('jeezviz', 'debug', 'Serial : '.$serial);         
          log::add('jeezviz', 'debug', 'identifiant : '.$identifiant);
-         log::add('jeezviz', 'debug', 'motdepasse : '.$motdepasse);
+         //log::add('jeezviz', 'debug', 'motdepasse : '.$motdepasse);
 
          $EzvizClient = new EzvizClient($identifiant, $motdepasse);
          $EzvizClient->login();
@@ -202,19 +202,19 @@ class jeezvizCmd extends cmd {
              break;
            case "MOVEUP":
              log::add('jeezviz', 'debug', "MOVEUP");
-             $EzvizCamera->move("UP");
+             $EzvizCamera->move("up");
              break;
            case "MOVEDOWN":
              log::add('jeezviz', 'debug', "MOVEDOWN");
-             $EzvizCamera->move("MOVEDOWN");
+             $EzvizCamera->move("down");
              break;
            case "MOVELEFT":
              log::add('jeezviz', 'debug', "MOVELEFT");
-             $EzvizCamera->move("MOVELEFT");
+             $EzvizCamera->move("left");
              break;
            case "MOVERIGHT":
              log::add('jeezviz', 'debug', "MOVERIGHT");
-             $EzvizCamera->move("MOVERIGHT");
+             $EzvizCamera->move("right");
              break;
          }
 
