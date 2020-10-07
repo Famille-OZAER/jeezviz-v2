@@ -1,69 +1,6 @@
 <?php
 require_once __DIR__."/userAgent.php";
 require_once __DIR__."/camera.php";
-$COOKIE_NAME = "sessionId";
-$CAMERA_DEVICE_CATEGORY = "IPC";
-$DOORBELL_DEVICE_CATEGORY = "BDoorBell";
-
-
-const EU_API_DOMAIN = "apiieu";
-$API_BASE_TLD = "ezvizlife.com";
-$API_BASE_URI = "https://".EU_API_DOMAIN.".".$API_BASE_TLD;
-$API_ENDPOINT_LOGIN = "/v3/users/login";
-$API_ENDPOINT_CLOUDDEVICES = "/api/cloud/v2/cloudDevices/getAll";
-$API_ENDPOINT_PAGELIST = "/v3/userdevices/v1/devices/pagelist";
-$API_ENDPOINT_DEVICES = "/v3/devices/";
-$API_ENDPOINT_SWITCH_STATUS = "/api/device/switchStatus";
-$API_ENDPOINT_PTZCONTROL = "/ptzControl";
-$API_ENDPOINT_ALARM_SOUND = "/alarm/sound";
-$API_ENDPOINT_DATA_REPORT = "/api/other/data/report";
-$API_ENDPOINT_DETECTION_SENSIBILITY = "/api/device/configAlgorithm";
-$API_ENDPOINT_DETECTION_SENSIBILITY_GET = "/api/device/queryAlgorithmConfig";
-
-$LOGIN_URL = $API_BASE_URI.$API_ENDPOINT_LOGIN;
-$CLOUDDEVICES_URL = $API_BASE_URI.$API_ENDPOINT_CLOUDDEVICES;
-$DEVICES_URL = $API_BASE_URI.$API_ENDPOINT_DEVICES;
-$PAGELIST_URL = $API_BASE_URI.$API_ENDPOINT_PAGELIST;
-$DATA_REPORT_URL = $API_BASE_URI.$API_ENDPOINT_DATA_REPORT;
-
-$SWITCH_STATUS_URL = $API_BASE_URI.$API_ENDPOINT_SWITCH_STATUS;
-$DETECTION_SENSIBILITY_URL = $API_BASE_URI.$API_ENDPOINT_DETECTION_SENSIBILITY;
-$DETECTION_SENSIBILITY_GET_URL = $API_BASE_URI.$API_ENDPOINT_DETECTION_SENSIBILITY_GET;
-
-
-
-const DEFAULT_TIMEOUT = 10;
-const MAX_RETRIES = 3;
-
-function get_JsonLastError()
-{
-    $lastError=json_last_error();
-    switch ($lastError) {
-        case JSON_ERROR_NONE:
-            #echo " - Aucune erreur\r\n";
-        break;
-        case JSON_ERROR_DEPTH:
-            echo " - Profondeur maximale atteinte\r\n";
-        break;
-        case JSON_ERROR_STATE_MISMATCH:
-            echo " - Inadéquation des modes ou underflow\r\n";
-        break;
-        case JSON_ERROR_CTRL_CHAR:
-            echo " - Erreur lors du contrôle des caractères\r\n";
-        break;
-        case JSON_ERROR_SYNTAX:
-            echo " - Erreur de syntaxe ; JSON malformé\r\n";
-        break;
-        case JSON_ERROR_UTF8:
-            echo " - Caractères UTF-8 malformés, probablement une erreur d\'encodage\r\n";
-        break;
-        default:
-            echo " - Erreur inconnue\r\n";
-        break;
-    }
-}
-
-
 
 class EzvizClient
 {
@@ -77,6 +14,67 @@ class EzvizClient
     public $_CLOUD;
     public $_CONNECTION;
     public $_UserAgent;
+    $COOKIE_NAME = "sessionId";
+    $CAMERA_DEVICE_CATEGORY = "IPC";
+    $DOORBELL_DEVICE_CATEGORY = "BDoorBell";
+
+
+    const EU_API_DOMAIN = "apiieu";
+    $this->$API_BASE_TLD = "ezvizlife.com";
+    $this->$API_BASE_URI = "https://".EU_API_DOMAIN.".".$this->$API_BASE_TLD;
+    $this->$API_ENDPOINT_LOGIN = "/v3/users/login";
+    $this->$API_ENDPOINT_CLOUDDEVICES = "/api/cloud/v2/cloudDevices/getAll";
+    $this->$API_ENDPOINT_PAGELIST = "/v3/userdevices/v1/devices/pagelist";
+    $this->$API_ENDPOINT_DEVICES = "/v3/devices/";
+    $this->$API_ENDPOINT_SWITCH_STATUS = "/api/device/switchStatus";
+    $this->$API_ENDPOINT_PTZCONTROL = "/ptzControl";
+    $this->$API_ENDPOINT_ALARM_SOUND = "/alarm/sound";
+    $this->$API_ENDPOINT_DATA_REPORT = "/api/other/data/report";
+    $this->$API_ENDPOINT_DETECTION_SENSIBILITY = "/api/device/configAlgorithm";
+    $this->$API_ENDPOINT_DETECTION_SENSIBILITY_GET = "/api/device/queryAlgorithmConfig";
+
+    $LOGIN_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_LOGIN;
+    $CLOUDDEVICES_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_CLOUDDEVICES;
+    $DEVICES_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DEVICES;
+    $PAGELIST_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_PAGELIST;
+    $DATA_REPORT_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DATA_REPORT;
+
+    $SWITCH_STATUS_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_SWITCH_STATUS;
+    $DETECTION_SENSIBILITY_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DETECTION_SENSIBILITY;
+    $DETECTION_SENSIBILITY_GET_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DETECTION_SENSIBILITY_GET;
+
+
+
+    const DEFAULT_TIMEOUT = 10;
+    const MAX_RETRIES = 3;
+
+    function get_JsonLastError()
+    {
+        $lastError=json_last_error();
+        switch ($lastError) {
+            case JSON_ERROR_NONE:
+                #echo " - Aucune erreur\r\n";
+            break;
+            case JSON_ERROR_DEPTH:
+                echo " - Profondeur maximale atteinte\r\n";
+            break;
+            case JSON_ERROR_STATE_MISMATCH:
+                echo " - Inadéquation des modes ou underflow\r\n";
+            break;
+            case JSON_ERROR_CTRL_CHAR:
+                echo " - Erreur lors du contrôle des caractères\r\n";
+            break;
+            case JSON_ERROR_SYNTAX:
+                echo " - Erreur de syntaxe ; JSON malformé\r\n";
+            break;
+            case JSON_ERROR_UTF8:
+                echo " - Caractères UTF-8 malformés, probablement une erreur d\'encodage\r\n";
+            break;
+            default:
+                echo " - Erreur inconnue\r\n";
+            break;
+        }
+    }
     function get_EZVIZ_Result_Message($response_json)
     {
         if (array_key_exists("meta", $response_json))
@@ -657,7 +655,7 @@ class EzvizClient
             // Decode the response
             $response_json = json_decode($response, TRUE);    
             #var_dump($response_json);
-            get_JsonLastError();
+            $this->get_JsonLastError();
             $this->get_EZVIZ_Result_Message($response_json);           
             return $response_json;
         } catch(Exception $e) {
@@ -701,7 +699,7 @@ class EzvizClient
             // Decode the response
             $response_json = json_decode($response, TRUE);    
             #var_dump($response_json);
-            get_JsonLastError();        
+            $this->get_JsonLastError();        
             $this->get_EZVIZ_Result_Message($response_json);
             return $response_json;
         } catch(Exception $e) {
@@ -746,7 +744,7 @@ class EzvizClient
             // Decode the response
             $response_json = json_decode($response, TRUE);    
             #var_dump($response_json);
-            get_JsonLastError();        
+            $this->get_JsonLastError();        
             $this->get_EZVIZ_Result_Message($response_json);
             return $response_json;
         } catch(Exception $e) {
@@ -1048,7 +1046,7 @@ class EzvizClient
         {
             $data=array('enable'=>$enable, 'soundType'=>$soundType, 'voiceId'=>'0', 'deviceSerial'=>$serial);
             $headers=array('sessionId:'.$this->_sessionId);
-            $response_json = $this->QueryAPIPut($DEVICES_URL + $serial + $API_ENDPOINT_ALARM_SOUND, $data, $timeout=$this->_timeout, $headers);
+            $response_json = $this->QueryAPIPut($DEVICES_URL + $serial + $this->$API_ENDPOINT_ALARM_SOUND, $data, $timeout=$this->_timeout, $headers);
         }
         catch (Exception $e)
         {
@@ -1110,7 +1108,7 @@ class EzvizClient
     }
     function ptzControl($command, $serial, $action, $speed=5, $max_retries=0)
     {
-        global $DEVICES_URL,$API_ENDPOINT_PTZCONTROL;
+        global $DEVICES_URL,$this->$API_ENDPOINT_PTZCONTROL;
         echo "PTZ Control by API.\r\n";
         if ($max_retries > MAX_RETRIES)
         {
@@ -1130,7 +1128,7 @@ class EzvizClient
         {
             $data=array('command'=>$command, 'action'=>$action, 'channelNo'=>"1", 'speed'=>$speed, 'uuid'=>uniqid(), 'serial'=>$serial);
             $headers=array('sessionId:'.$this->_sessionId, 'clientType:1');
-            $response_json = $this->QueryAPIPut($DEVICES_URL.$serial.$API_ENDPOINT_PTZCONTROL, $data, $timeout=$this->_timeout, $headers);
+            $response_json = $this->QueryAPIPut($DEVICES_URL.$serial.$this->$API_ENDPOINT_PTZCONTROL, $data, $timeout=$this->_timeout, $headers);
         }
         catch (Exception $e) 
         {
