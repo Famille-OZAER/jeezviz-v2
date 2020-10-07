@@ -765,9 +765,8 @@ class EzvizClient
         
 
     function _login($apiDomain=EU_API_DOMAIN)
-    {
-        global $LOGIN_URL;
-        echo "Login to Ezviz' API.\r\n";
+    {        
+        echo "Login to Ezviz' API at ".$this->$LOGIN_URL."\r\n";
         # Ezviz API sends md5 of password
         $md5pass = md5(utf8_encode($this->password));
         
@@ -780,7 +779,7 @@ class EzvizClient
                     "customNo: 1000001");
         try
         {
-            $response_json = $this->QueryAPIPost($LOGIN_URL, $postData, $this->_timeout, $headers);
+            $response_json = $this->QueryAPIPost($this->$LOGIN_URL, $postData, $this->_timeout, $headers);
         }
         catch (Exception $e)
         {
