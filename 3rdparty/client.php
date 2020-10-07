@@ -14,34 +14,34 @@ class EzvizClient
     public $_CLOUD;
     public $_CONNECTION;
     public $_UserAgent;
-    $COOKIE_NAME = "sessionId";
-    $CAMERA_DEVICE_CATEGORY = "IPC";
-    $DOORBELL_DEVICE_CATEGORY = "BDoorBell";
+    public $COOKIE_NAME = "sessionId";
+    public $CAMERA_DEVICE_CATEGORY = "IPC";
+    public $DOORBELL_DEVICE_CATEGORY = "BDoorBell";
 
 
     const EU_API_DOMAIN = "apiieu";
-    $this->$API_BASE_TLD = "ezvizlife.com";
-    $this->$API_BASE_URI = "https://".EU_API_DOMAIN.".".$this->$API_BASE_TLD;
-    $this->$API_ENDPOINT_LOGIN = "/v3/users/login";
-    $this->$API_ENDPOINT_CLOUDDEVICES = "/api/cloud/v2/cloudDevices/getAll";
-    $this->$API_ENDPOINT_PAGELIST = "/v3/userdevices/v1/devices/pagelist";
-    $this->$API_ENDPOINT_DEVICES = "/v3/devices/";
-    $this->$API_ENDPOINT_SWITCH_STATUS = "/api/device/switchStatus";
-    $this->$API_ENDPOINT_PTZCONTROL = "/ptzControl";
-    $this->$API_ENDPOINT_ALARM_SOUND = "/alarm/sound";
-    $this->$API_ENDPOINT_DATA_REPORT = "/api/other/data/report";
-    $this->$API_ENDPOINT_DETECTION_SENSIBILITY = "/api/device/configAlgorithm";
-    $this->$API_ENDPOINT_DETECTION_SENSIBILITY_GET = "/api/device/queryAlgorithmConfig";
+    public $API_BASE_TLD = "ezvizlife.com";
+    public $API_BASE_URI = "https://".EU_API_DOMAIN.".".$this->$API_BASE_TLD;
+    public $API_ENDPOINT_LOGIN = "/v3/users/login";
+    public $API_ENDPOINT_CLOUDDEVICES = "/api/cloud/v2/cloudDevices/getAll";
+    public $API_ENDPOINT_PAGELIST = "/v3/userdevices/v1/devices/pagelist";
+    public $API_ENDPOINT_DEVICES = "/v3/devices/";
+    public $API_ENDPOINT_SWITCH_STATUS = "/api/device/switchStatus";
+    public $API_ENDPOINT_PTZCONTROL = "/ptzControl";
+    public $API_ENDPOINT_ALARM_SOUND = "/alarm/sound";
+    public $API_ENDPOINT_DATA_REPORT = "/api/other/data/report";
+    public $API_ENDPOINT_DETECTION_SENSIBILITY = "/api/device/configAlgorithm";
+    public $API_ENDPOINT_DETECTION_SENSIBILITY_GET = "/api/device/queryAlgorithmConfig";
 
-    $LOGIN_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_LOGIN;
-    $CLOUDDEVICES_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_CLOUDDEVICES;
-    $DEVICES_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DEVICES;
-    $PAGELIST_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_PAGELIST;
-    $DATA_REPORT_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DATA_REPORT;
+    public $LOGIN_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_LOGIN;
+    public $CLOUDDEVICES_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_CLOUDDEVICES;
+    public $DEVICES_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DEVICES;
+    public $PAGELIST_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_PAGELIST;
+    public $DATA_REPORT_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DATA_REPORT;
 
-    $SWITCH_STATUS_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_SWITCH_STATUS;
-    $DETECTION_SENSIBILITY_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DETECTION_SENSIBILITY;
-    $DETECTION_SENSIBILITY_GET_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DETECTION_SENSIBILITY_GET;
+    public $SWITCH_STATUS_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_SWITCH_STATUS;
+    public $DETECTION_SENSIBILITY_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DETECTION_SENSIBILITY;
+    public $DETECTION_SENSIBILITY_GET_URL = $this->$API_BASE_URI.$this->$API_ENDPOINT_DETECTION_SENSIBILITY_GET;
 
 
 
