@@ -19,9 +19,9 @@ class EzvizClient
     public $DOORBELL_DEVICE_CATEGORY = "BDoorBell";
 
 
-    const EU_API_DOMAIN = "apiieu";
+    public $EU_API_DOMAIN = "apiieu";
     public $API_BASE_TLD = "ezvizlife.com";
-    public $API_BASE_URI = "https://".EU_API_DOMAIN.".".$this->$API_BASE_TLD;
+    public $API_BASE_URI = "https://".$this->EU_API_DOMAIN.".".$this->$API_BASE_TLD;
     public $API_ENDPOINT_LOGIN = "/v3/users/login";
     public $API_ENDPOINT_CLOUDDEVICES = "/api/cloud/v2/cloudDevices/getAll";
     public $API_ENDPOINT_PAGELIST = "/v3/userdevices/v1/devices/pagelist";
@@ -45,8 +45,8 @@ class EzvizClient
 
 
 
-    const DEFAULT_TIMEOUT = 10;
-    const MAX_RETRIES = 3;
+    public $DEFAULT_TIMEOUT = 10;
+    public $MAX_RETRIES = 3;
 
     function get_JsonLastError()
     {
@@ -764,8 +764,12 @@ class EzvizClient
     }
         
 
-    function _login($apiDomain=EU_API_DOMAIN)
+    function _login($apiDomain="")
     {        
+        if ($apiDomain=="")
+        {
+            $apiDomain=$this-> $EU_API_DOMAIN;
+        }
         echo "Login to Ezviz' API at ".$this->$LOGIN_URL."\r\n";
         # Ezviz API sends md5 of password
         $md5pass = md5(utf8_encode($this->password));
@@ -1208,7 +1212,7 @@ class EzvizClient
             # setting fake user-agent header
             $this->_UserAgent = (new userAgent) ->generate(); 
         }       
-        return $this->_login();
+        return $this->_login("");
     }
 
 }
