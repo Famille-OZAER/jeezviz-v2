@@ -812,7 +812,6 @@ class EzvizClient
 
     function _get_pagelist($filter=null, $json_key=null, $max_retries=0)
     {
-        global $PAGELIST_URL;
         echo "Get data from pagelist API.\r\n";
 
         if ($max_retries > MAX_RETRIES)
@@ -828,7 +827,7 @@ class EzvizClient
         $headers=array('sessionId:'.$this->_sessionId);
         try
         {
-            $response_json = $this->QueryAPIGet($PAGELIST_URL, $postData, $this->_timeout, $headers);
+            $response_json = $this->QueryAPIGet($this->$PAGELIST_URL, $postData, $this->_timeout, $headers);
         }
         catch (Exception $e)
         {
@@ -865,7 +864,6 @@ class EzvizClient
 
     function _switch_status($serial, $status_type, $enable, $max_retries=0)
     {
-        global $SWITCH_STATUS_URL;
         #"""Switch status on a device"""
 
         try
@@ -880,7 +878,7 @@ class EzvizClient
             $headers=array("Content-Type: application/x-www-form-urlencoded", 
                 "clientType: 1", 
                 "customNo: 1000001");
-            $response_json = $this->QueryAPIPost($SWITCH_STATUS_URL, $data, $this->_timeout,$headers);
+            $response_json = $this->QueryAPIPost($this->$SWITCH_STATUS_URL, $data, $this->_timeout,$headers);
 
             if (array_key_exists("meta",$response_json))
             {
@@ -950,7 +948,6 @@ class EzvizClient
 
     function detection_sensibility($serial, $sensibility=3, $max_retries=0)
     {
-        global $DETECTION_SENSIBILITY_URL;
         echo "Enable alarm notifications.\r\n";
         if ($max_retries > MAX_RETRIES)
         {
@@ -968,7 +965,7 @@ class EzvizClient
         {
             $headers=array('sessionId:'.$this->_sessionId);
             $data=array('subSerial'=>$serial, 'type'=>'0', 'sessionId'=>$this->_sessionId, 'value'=>$sensibility);
-            $response_json = $this->QueryAPIPost($DETECTION_SENSIBILITY_URL, $data, $timeout=$this->_timeout,$headers);
+            $response_json = $this->QueryAPIPost($this->$DETECTION_SENSIBILITY_URL, $data, $timeout=$this->_timeout,$headers);
         }
         catch (Exception $e)
         {
@@ -989,7 +986,6 @@ class EzvizClient
 
     function get_detection_sensibility($serial, $max_retries=0)
     {
-        global $DETECTION_SENSIBILITY_GET_URL;
         echo "Get detection sensibility.\r\n";
         if ($max_retries > MAX_RETRIES)
         {
@@ -1000,7 +996,7 @@ class EzvizClient
         {
             $headers=array('sessionId:'.$this->_sessionId);
             $data=array('subSerial'=>$serial, 'sessionId'=>$this->_sessionId, 'clientType'=>1);
-            $response_json = $this->QueryAPIPost($DETECTION_SENSIBILITY_GET_URL, $data, $timeout=$this->_timeout,$headers);
+            $response_json = $this->QueryAPIPost($this->$DETECTION_SENSIBILITY_GET_URL, $data, $timeout=$this->_timeout,$headers);
         }
         catch (Exception $e)
         {
@@ -1067,7 +1063,6 @@ class EzvizClient
 
     function data_report($serial, $enable=1, $max_retries=0)
     {
-        global $DATA_REPORT_URL;
         echo "Enable alarm notifications.\r\n";
         if ($max_retries > MAX_RETRIES)
         {
@@ -1087,7 +1082,7 @@ class EzvizClient
                     'sessionId'=>$this->_sessionId);
         try
         {
-            $response_json = $this->QueryAPIPost($DATA_REPORT_URL, $postData, $this->_timeout);
+            $response_json = $this->QueryAPIPost($this->$DATA_REPORT_URL, $postData, $this->_timeout);
         }
         catch (Exception $e)
         {
@@ -1107,7 +1102,6 @@ class EzvizClient
     }
     function ptzControl($command, $serial, $action, $speed=5, $max_retries=0)
     {
-        global $DEVICES_URL,$this->$API_ENDPOINT_PTZCONTROL;
         echo "PTZ Control by API.\r\n";
         if ($max_retries > MAX_RETRIES)
         {
@@ -1127,7 +1121,7 @@ class EzvizClient
         {
             $data=array('command'=>$command, 'action'=>$action, 'channelNo'=>"1", 'speed'=>$speed, 'uuid'=>uniqid(), 'serial'=>$serial);
             $headers=array('sessionId:'.$this->_sessionId, 'clientType:1');
-            $response_json = $this->QueryAPIPut($DEVICES_URL.$serial.$this->$API_ENDPOINT_PTZCONTROL, $data, $timeout=$this->_timeout, $headers);
+            $response_json = $this->QueryAPIPut($this->$DEVICES_URL.$serial.$this->$API_ENDPOINT_PTZCONTROL, $data, $timeout=$this->_timeout, $headers);
         }
         catch (Exception $e) 
         {
