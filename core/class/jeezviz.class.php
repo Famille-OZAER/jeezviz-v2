@@ -18,9 +18,9 @@
 
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
-require_once __DIR__  . '/../../3rdparty/jeezviz/client.php';
-require_once __DIR__  . '/../../3rdparty/jeezviz/camera.php';
-require_once __DIR__  . '/../../3rdparty/jeezviz/userAgent.php';
+require_once __DIR__  . '/../../3rdparty/client.php';
+require_once __DIR__  . '/../../3rdparty/camera.php';
+require_once __DIR__  . '/../../3rdparty/userAgent.php';
 
 /*include_file('3rdparty', 'client', 'php', 'jeezviz');
 include_file('3rdparty', 'camera', 'php', 'jeezviz');
