@@ -88,533 +88,534 @@ class EzvizClient
         }
         switch (intval($code)) {
             case 1310735:
-                log::add('jeezviz', 'debug', "La rotation PTZ de l'équipement atteint la limite supérieure\r\n");
+                return "La rotation PTZ de l'équipement atteint la limite supérieure";
                 break;
             case 2009:
-                log::add('jeezviz', 'debug', "Le réseau de l'appareil est anormal, veuillez vérifier le réseau de l'appareil ou réessayer\r\n");
+                return "Le réseau de l'appareil est anormal, veuillez vérifier le réseau de l'appareil ou réessayer";
                 break;
             case 1310731:
-                log::add('jeezviz', 'debug', "L'appareil est dans un état de protection de la vie privée (fermez l'objectif, puis allez faire fonctionner le PTZ)\r\n");
+                return "L'appareil est dans un état de protection de la vie privée (fermez l'objectif, puis allez faire fonctionner le PTZ)";
                 break;
             case -6:
-                log::add('jeezviz', 'debug', "Erreur de paramètre de demande\r\n");
+                return "Erreur de paramètre de demande";
                 break;
             case 0:
-                #log::add('jeezviz', 'debug', "Operation completed\r\n");
+                return "Operation completed";
                 break;
             case 200:
-                #log::add('jeezviz', 'debug', "Operation completed\r\n");
+                return "Operation completed";
                 break;
             case 400:
-                log::add('jeezviz', 'debug', "Password cannot be empty; login account cannot be empty\r\n");
+                return "Password cannot be empty; login account cannot be empty";
                 break;
             case 405:
-                log::add('jeezviz', 'debug', "The method in the client request is forbidden\r\n");
+                return "The method in the client request is forbidden";
             case 1001:
-                log::add('jeezviz', 'debug', "Invalid user name\r\n");
+                return "Invalid user name";
                 break;
             case 1002:
-                log::add('jeezviz', 'debug', "The user name is occupied\r\n");
+                return "The user name is occupied";
                 break;
             case 1003:
-                log::add('jeezviz', 'debug', "Invalid password\r\n");
+                return "Invalid password";
                 break;
             case 1004:
-                log::add('jeezviz', 'debug', "Duplicated password\r\n");
+                return "Duplicated password";
                 break;
             case 1005:
-                log::add('jeezviz', 'debug', "No more incorrect password attempts are allowed\r\n");
+                return "No more incorrect password attempts are allowed";
                 break;
             case 1006:
-                log::add('jeezviz', 'debug', "The phone number is registered\r\n");
+                return "The phone number is registered";
                 break;
             case 1007:
-                log::add('jeezviz', 'debug', "Unregistered phone number\r\n");
+                return "Unregistered phone number";
                 break;
             case 1008:
-                log::add('jeezviz', 'debug', "Invalid phone number\r\n");
+                return "Invalid phone number";
                 break;
             case 1009:
-                log::add('jeezviz', 'debug', "The user name and phone does not match\r\n");
+                return "The user name and phone does not match";
                 break;
             case 1010:
-                log::add('jeezviz', 'debug', "Getting verification code failed\r\n");
+                return "Getting verification code failed";
                 break;
             case 1011:
-                log::add('jeezviz', 'debug', "Incorrect verification code\r\n");
+                return "Incorrect verification code";
                 break;
             case 1012:
-                log::add('jeezviz', 'debug', "Invalid verification code\r\n");
+                return "Invalid verification code";
                 break;
             case 1013:
-                log::add('jeezviz', 'debug', "The user does not exist\r\n");
+                return "The user does not exist";
                 break;
             case 1014:
-                log::add('jeezviz', 'debug', "Incorrect password or appKey\r\n");
+                return "Incorrect password or appKey";
                 break;
             case 1015:
-                log::add('jeezviz', 'debug', "The user is locked\r\n");
+                return "The user is locked";
                 break;
             case 1021:
-                log::add('jeezviz', 'debug', "Verification parameters exception\r\n");
+                return "Verification parameters exception";
                 break;
             case 1026:
-                log::add('jeezviz', 'debug', "The email is registered\r\n");
+                return "The email is registered";
                 break;
             case 1031:
-                log::add('jeezviz', 'debug', "Unregistered email\r\n");
+                return "Unregistered email";
                 break;
             case 1032:
-                log::add('jeezviz', 'debug', "Invalid email\r\n");
+                return "Invalid email";
                 break;
             case 1041:
-                log::add('jeezviz', 'debug', "No more attempts are allowed to get verification code\r\n");
+                return "No more attempts are allowed to get verification code";
                 break;
             case 1043:
-                log::add('jeezviz', 'debug', "No more incorrect verification code attempts are allowed\r\n");
+                return "No more incorrect verification code attempts are allowed";
                 break;
             case 2000:
-                log::add('jeezviz', 'debug', "The device does not exist\r\n");
+                return "The device does not exist";
                 break;
             case 2001:
-                log::add('jeezviz', 'debug', "The camera does not existThe camera is not registered to Ezviz Cloud. Check the camera network configuration\r\n");
+                return "The camera does not existThe camera is not registered to Ezviz Cloud. Check the camera network configuration";
                 break;
             case 2003:
-                log::add('jeezviz', 'debug', "The device is offlineRefer to Service Center Trouble Shooting Method\r\n");
+                return "The device is offlineRefer to Service Center Trouble Shooting Method";
                 break;
             case 2004:
-                log::add('jeezviz', 'debug', "Device exception\r\n");
+                return "Device exception";
                 break;
             case 2007:
-                log::add('jeezviz', 'debug', "Incorrect device serial No.\r\n");
+                return "Incorrect device serial No.";
                 break;
             case 2009:
-                log::add('jeezviz', 'debug', "The device request timeout\r\n");
+                return "The device request timeout";
                 break;
             case 2030:
-                log::add('jeezviz', 'debug', "The device does not support Ezviz CloudCheck whether the device support Ezviz Cloud. You can also contact our supports: 4007005998\r\n");
+                return "The device does not support Ezviz CloudCheck whether the device support Ezviz Cloud. You can also contact our supports: 4007005998";
                 break;
             case 5000:
-                log::add('jeezviz', 'debug', "The device is added by yourself\r\n");
+                return "The device is added by yourself";
                 break;
             case 5001:
-                log::add('jeezviz', 'debug', "The device is added by others\r\n");
+                return "The device is added by others";
                 break;
             case 5002:
-                log::add('jeezviz', 'debug', "Incorrect device verification code\r\n");
+                return "Incorrect device verification code";
                 break;
             case 7001:
-                log::add('jeezviz', 'debug', "The invitation does not exist\r\n");
+                return "The invitation does not exist";
                 break;
             case 7002:
-                log::add('jeezviz', 'debug', "Verifying the invitation failed\r\n");
+                return "Verifying the invitation failed";
                 break;
             case 7003:
-                log::add('jeezviz', 'debug', "The invited user does not match\r\n");
+                return "The invited user does not match";
                 break;
             case 7004:
-                log::add('jeezviz', 'debug', "Canceling invitation failed\r\n");
+                return "Canceling invitation failed";
                 break;
             case 7005:
-                log::add('jeezviz', 'debug', "Deleting invitation failed\r\n");
+                return "Deleting invitation failed";
                 break;
             case 7006:
-                log::add('jeezviz', 'debug', "You cannot invite yourself\r\n");
+                return "You cannot invite yourself";
                 break;
             case 7007:
-                log::add('jeezviz', 'debug', "Duplicated invitationYou should call the interface for sharing or deleting the sharing. Troubleshooting: Clear all the sharing data in Ezviz Client and add the device again by calling related interface\r\n");
+                return "Duplicated invitationYou should call the interface for sharing or deleting the sharing. Troubleshooting: Clear all the sharing data in Ezviz Client and add the device again by calling related interface";
                 break;
             case 10001:
-                log::add('jeezviz', 'debug', "Parameters errorParameter is empty or the format is incorrect\r\n");
+                return "Parameters errorParameter is empty or the format is incorrect";
                 break;
             case 10002:
-                log::add('jeezviz', 'debug', "accessToken exception or expiredThe accessToken is valid for seven days. It is recommended that you can get the accessToken when the accessToken will be expired or Error Code 10002 appears\r\n");
+                return "accessToken exception or expiredThe accessToken is valid for seven days. It is recommended that you can get the accessToken when the accessToken will be expired or Error Code 10002 appears";
                 break;
             case 10004:
-                log::add('jeezviz', 'debug', "The user does not exist\r\n");
+                return "The user does not exist";
                 break;
             case 10005:
-                log::add('jeezviz', 'debug', "appKey exceptionReturn the error code when appKey is incorrect or appKey status is frozen\r\n");
+                return "appKey exceptionReturn the error code when appKey is incorrect or appKey status is frozen";
                 break;
             case 10006:
-                log::add('jeezviz', 'debug', "The IP is limited\r\n");
+                return "The IP is limited";
                 break;
             case 10007:
-                log::add('jeezviz', 'debug', "No more calling attempts are allowed\r\n");
+                return "No more calling attempts are allowed";
                 break;
             case 10008:
-                log::add('jeezviz', 'debug', "Signature error① For getting the signature type, refer to apidemo and Manual of the Last Version ② The encoding format is UTF-8.\r\n");
+                return "Signature error① For getting the signature type, refer to apidemo and Manual of the Last Version ② The encoding format is UTF-8.";
                 break;
             case 10009:
-                log::add('jeezviz', 'debug', "Signature parameters error\r\n");
+                return "Signature parameters error";
                 break;
             case 10010:
-                log::add('jeezviz', 'debug', "Signature timeoutSynchronize the time by calling the Interface of Synchronizing Server Time .\r\n");
+                return "Signature timeoutSynchronize the time by calling the Interface of Synchronizing Server Time .";
                 break;
             case 10011:
-                log::add('jeezviz', 'debug', "Cloud P2P service is not allowedRefer to Binding Procedure\r\n");
+                return "Cloud P2P service is not allowedRefer to Binding Procedure";
                 break;
             case 10012:
-                log::add('jeezviz', 'debug', "The third-party account is bound with the Ezviz account\r\n");
+                return "The third-party account is bound with the Ezviz account";
                 break;
             case 10013:
-                log::add('jeezviz', 'debug', "The APP has no permission to call this interface\r\n");
+                return "The APP has no permission to call this interface";
                 break;
             case 10014:
-                log::add('jeezviz', 'debug', "The APPKEY corresponding third-party userId is not bound with the phoneThe appKey for getting AccessToken is different from the one set in SDK\r\n");
+                return "The APPKEY corresponding third-party userId is not bound with the phoneThe appKey for getting AccessToken is different from the one set in SDK";
                 break;
             case 10017:
-                log::add('jeezviz', 'debug', "appKey does not existFill in the App key applied in the official website\r\n");
+                return "appKey does not existFill in the App key applied in the official website";
                 break;
             case 10018:
-                log::add('jeezviz', 'debug', "AccessToken does not match with AppkeyCheck whether the appKey for getting AccessToken is the same with the one set in SDK.\r\n");
+                return "AccessToken does not match with AppkeyCheck whether the appKey for getting AccessToken is the same with the one set in SDK.";
                 break;
             case 10019:
-                log::add('jeezviz', 'debug', "Password error\r\n");
+                return "Password error";
                 break;
             case 10020:
-                log::add('jeezviz', 'debug', "The requesting method is required\r\n");
+                return "The requesting method is required";
                 break;
             case 10029:
-                log::add('jeezviz', 'debug', "The call frequency exceeds the upper-limit\r\n");
+                return "The call frequency exceeds the upper-limit";
                 break;
             case 10030:
-                log::add('jeezviz', 'debug', "appKey and appSecret mismatch.\r\n");
+                return "appKey and appSecret mismatch.";
                 break;
             case 10031:
-                log::add('jeezviz', 'debug', "The sub-account or the EZVIZ user has no permission\r\n");
+                return "The sub-account or the EZVIZ user has no permission";
                 break;
             case 10032:
-                log::add('jeezviz', 'debug', "Sub-account not exist\r\n");
+                return "Sub-account not exist";
                 break;
             case 10034:
-                log::add('jeezviz', 'debug', "Sub-account name already exist\r\n");
+                return "Sub-account name already exist";
                 break;
             case 10035:
-                log::add('jeezviz', 'debug', "Getting sub-account AccessToken error\r\n");
+                return "Getting sub-account AccessToken error";
                 break;
             case 10036:
-                log::add('jeezviz', 'debug', "The sub-account is frozen.\r\n");
+                return "The sub-account is frozen.";
                 break;
             case 20001:
-                log::add('jeezviz', 'debug', "The channel does not existCheck whether the camera is added again and the channel parameters are updated\r\n");
+                return "The channel does not existCheck whether the camera is added again and the channel parameters are updated";
                 break;
             case 20002:
-                log::add('jeezviz', 'debug', "The device does not exist①The device does not register to Ezviz. Check the network is connected. ②The device serial No. does not exist.\r\n");
+                return "The device does not exist①The device does not register to Ezviz. Check the network is connected. ②The device serial No. does not exist.";
                 break;
             case 20003:
-                log::add('jeezviz', 'debug', "Parameters exception and you need to upgrade the SDK version\r\n");
+                return "Parameters exception and you need to upgrade the SDK version";
                 break;
             case 20004:
-                log::add('jeezviz', 'debug', "Parameters exception and you need to upgrade the SDK version\r\n");
+                return "Parameters exception and you need to upgrade the SDK version";
                 break;
             case 20005:
-                log::add('jeezviz', 'debug', "You need to perform SDK security authenticationSecurity authentication is deleted\r\n");
+                return "You need to perform SDK security authenticationSecurity authentication is deleted";
                 break;
             case 20006:
-                log::add('jeezviz', 'debug', "Network exception\r\n");
+                return "Network exception";
                 break;
             case 20007:
-                log::add('jeezviz', 'debug', "The device is offlineRefer to Service Center Check Method\r\n");
+                return "The device is offlineRefer to Service Center Check Method";
                 break;
             case 20008:
-                log::add('jeezviz', 'debug', "The device response timeoutThe device response timeout. Check the network is connected and try again\r\n");
+                return "The device response timeoutThe device response timeout. Check the network is connected and try again";
                 break;
             case 20009:
-                log::add('jeezviz', 'debug', "The device cannot be added to child account\r\n");
+                return "The device cannot be added to child account";
                 break;
             case 20010:
-                log::add('jeezviz', 'debug', "The device verification code errorThe verification code is on the device tag. It contains six upper-cases\r\n");
+                return "The device verification code errorThe verification code is on the device tag. It contains six upper-cases";
                 break;
             case 20011:
-                log::add('jeezviz', 'debug', "Adding device failed.Check whether the network is connected.\r\n");
+                return "Adding device failed.Check whether the network is connected.";
                 break;
             case 20012:
-                log::add('jeezviz', 'debug', "Adding the device failed.\r\n");
+                return "Adding the device failed.";
                 break;
             case 20013:
-                log::add('jeezviz', 'debug', "The device has been added by other users.\r\n");
+                return "The device has been added by other users.";
                 break;
             case 20014:
-                log::add('jeezviz', 'debug', "Incorrect device serial No..\r\n");
+                return "Incorrect device serial No..";
                 break;
             case 20015:
-                log::add('jeezviz', 'debug', "The device does not support the function.\r\n");
+                return "The device does not support the function.";
                 break;
             case 20016:
-                log::add('jeezviz', 'debug', "The current device is formatting.\r\n");
+                return "The current device is formatting.";
                 break;
             case 20017:
-                log::add('jeezviz', 'debug', "The device has been added by yourself.\r\n");
+                return "The device has been added by yourself.";
                 break;
             case 20018:
-                log::add('jeezviz', 'debug', "The user does not have this device.Check whether the device belongs to the user.\r\n");
+                return "The user does not have this device.Check whether the device belongs to the user.";
                 break;
             case 20019:
-                log::add('jeezviz', 'debug', "The device does not support cloud storage service.\r\n");
+                return "The device does not support cloud storage service.";
                 break;
             case 20020:
-                log::add('jeezviz', 'debug', "The device is online and is added by yourself.\r\n");
+                return "The device is online and is added by yourself.";
                 break;
             case 20021:
-                log::add('jeezviz', 'debug', "The device is online and is not added by the user.\r\n");
+                return "The device is online and is not added by the user.";
                 break;
             case 20022:
-                log::add('jeezviz', 'debug', "The device is online and is added by other users.\r\n");
+                return "The device is online and is added by other users.";
                 break;
             case 20023:
-                log::add('jeezviz', 'debug', "The device is offline and is not added by the user.\r\n");
+                return "The device is offline and is not added by the user.";
                 break;
             case 20024:
-                log::add('jeezviz', 'debug', "The device is offline and is added by the user.\r\n");
+                return "The device is offline and is added by the user.";
                 break;
             case 20025:
-                log::add('jeezviz', 'debug', "Duplicated sharing.Check whether the sharing exists in the account that added the device.\r\n");
+                return "Duplicated sharing.Check whether the sharing exists in the account that added the device.";
                 break;
             case 20026:
-                log::add('jeezviz', 'debug', "The video does not exist in Video Gallery.\r\n");
+                return "The video does not exist in Video Gallery.";
                 break;
             case 20029:
-                log::add('jeezviz', 'debug', "The device is offline and is added by yourself.\r\n");
+                return "The device is offline and is added by yourself.";
                 break;
             case 20030:
-                log::add('jeezviz', 'debug', "The user does not have the video in this video gallery.\r\n");
+                return "The user does not have the video in this video gallery.";
                 break;
             case 20031:
-                log::add('jeezviz', 'debug', "The terminal binding enabled, and failed to verify device code.Disable the terminal binding,refer to this procedure.\r\n");
+                return "The terminal binding enabled, and failed to verify device code.Disable the terminal binding,refer to this procedure.";
                 break;
             case 20032:
-                log::add('jeezviz', 'debug', "The channel does not exist for this user.\r\n");
+                return "The channel does not exist for this user.";
                 break;
             case 20033:
-                log::add('jeezviz', 'debug', "The video shared by yourself cannot be added to favorites.\r\n");
+                return "The video shared by yourself cannot be added to favorites.";
                 break;
             case 20101:
-                log::add('jeezviz', 'debug', "Share the video to yourself.\r\n");
+                return "Share the video to yourself.";
                 break;
             case 20102:
-                log::add('jeezviz', 'debug', "No corresponding invitation information.\r\n");
+                return "No corresponding invitation information.";
                 break;
             case 20103:
-                log::add('jeezviz', 'debug', "The friend already exists.\r\n");
+                return "The friend already exists.";
                 break;
             case 20104:
-                log::add('jeezviz', 'debug', "The friend does not exist.\r\n");
+                return "The friend does not exist.";
                 break;
             case 20105:
-                log::add('jeezviz', 'debug', "The friend status error.\r\n");
+                return "The friend status error.";
                 break;
             case 20106:
-                log::add('jeezviz', 'debug', "The corresponding group does not exist.\r\n");
+                return "The corresponding group does not exist.";
                 break;
             case 20107:
-                log::add('jeezviz', 'debug', "You cannot add yourself as friend.\r\n");
+                return "You cannot add yourself as friend.";
                 break;
             case 20108:
-                log::add('jeezviz', 'debug', "The current user is not the friend of the added user.\r\n");
+                return "The current user is not the friend of the added user.";
                 break;
             case 20109:
-                log::add('jeezviz', 'debug', "The corresponding sharing does not exist.\r\n");
+                return "The corresponding sharing does not exist.";
                 break;
             case 20110:
-                log::add('jeezviz', 'debug', "The friend group does not belong to the current user.\r\n");
+                return "The friend group does not belong to the current user.";
                 break;
             case 20111:
-                log::add('jeezviz', 'debug', "The friend is not in the status of waiting verification.\r\n");
+                return "The friend is not in the status of waiting verification.";
                 break;
             case 20112:
-                log::add('jeezviz', 'debug', "Adding the user in application as friend failed.\r\n");
+                return "Adding the user in application as friend failed.";
                 break;
             case 20201:
-                log::add('jeezviz', 'debug', "Handling the alarm information failed.\r\n");
+                return "Handling the alarm information failed.";
                 break;
             case 20202:
-                log::add('jeezviz', 'debug', "Handling the leaved message failed.\r\n");
+                return "Handling the leaved message failed.";
                 break;
             case 20301:
-                log::add('jeezviz', 'debug', "The alarm message searched via UUID does not exist.\r\n");
+                return "The alarm message searched via UUID does not exist.";
                 break;
             case 20302:
-                log::add('jeezviz', 'debug', "The picture searched via UUID does not exist.\r\n");
+                return "The picture searched via UUID does not exist.";
                 break;
             case 20303:
-                log::add('jeezviz', 'debug', "The picture searched via FID does not exist.\r\n");
+                return "The picture searched via FID does not exist.";
                 break;
             case 30001:
-                log::add('jeezviz', 'debug', "The user doesn't exist\r\n");
+                return "The user doesn't exist";
                 break;
             case 49999:
-                log::add('jeezviz', 'debug', "Data exception.\r\n");
+                return "Data exception.";
                 break;
             case 50000:
-                log::add('jeezviz', 'debug', "The server exception.\r\n");
+                return "The server exception.";
                 break;
             case 60000:
-                log::add('jeezviz', 'debug', "The device does not support PTZ control.\r\n");
+                return "The device does not support PTZ control.";
                 break;
             case 60001:
-                log::add('jeezviz', 'debug', "The user has no PTZ control permission.\r\n");
+                return "The user has no PTZ control permission.";
                 break;
             case 60002:
-                log::add('jeezviz', 'debug', "The device PTZ has reached the top limit.\r\n");
+                return "The device PTZ has reached the top limit.";
                 break;
             case 60003:
-                log::add('jeezviz', 'debug', "The device PTZ has reached the bottom limit.\r\n");
+                return "The device PTZ has reached the bottom limit.";
                 break;
             case 60004:
-                log::add('jeezviz', 'debug', "The device PTZ has reached the left limit.\r\n");
+                return "The device PTZ has reached the left limit.";
                 break;
             case 60005:
-                log::add('jeezviz', 'debug', "The device PTZ has reached the right limit.\r\n");
+                return "The device PTZ has reached the right limit.";
                 break;
             case 60006:
-                log::add('jeezviz', 'debug', "PTZ control failed.\r\n");
+                return "PTZ control failed.";
                 break;
             case 60007:
-                log::add('jeezviz', 'debug', "No more preset can be added.\r\n");
+                return "No more preset can be added.";
                 break;
             case 60008:
-                log::add('jeezviz', 'debug', "The preset number of C6 has reached the limit. You cannot add more preset.\r\n");
+                return "The preset number of C6 has reached the limit. You cannot add more preset.";
                 break;
             case 60009:
-                log::add('jeezviz', 'debug', "The preset is calling.\r\n");
+                return "The preset is calling.";
                 break;
             case 60010:
-                log::add('jeezviz', 'debug', "The preset is the current position.\r\n");
+                return "The preset is the current position.";
                 break;
             case 60011:
-                log::add('jeezviz', 'debug', "The preset does not exist.\r\n");
+                return "The preset does not exist.";
                 break;
             case 60012:
-                log::add('jeezviz', 'debug', "Unknown error.\r\n");
+                return "Unknown error.";
                 break;
             case 60013:
-                log::add('jeezviz', 'debug', "The version is the latest one.\r\n");
+                return "The version is the latest one.";
                 break;
             case 60014:
-                log::add('jeezviz', 'debug', "The device is upgrading.\r\n");
+                return "The device is upgrading.";
                 break;
             case 60015:
-                log::add('jeezviz', 'debug', "The device is rebooting.\r\n");
+                return "The device is rebooting.";
                 break;
             case 60016:
-                log::add('jeezviz', 'debug', "The encryption is disabled.\r\n");
+                return "The encryption is disabled.";
                 break;
             case 60017:
-                log::add('jeezviz', 'debug', "Capturing failed.\r\n");
+                return "Capturing failed.";
                 break;
             case 60018:
-                log::add('jeezviz', 'debug', "Upgrading device failed.\r\n");
+                return "Upgrading device failed.";
                 break;
             case 60019:
-                log::add('jeezviz', 'debug', "The encryption is enabled.\r\n");
+                return "The encryption is enabled.";
                 break;
             case 60020:
-                log::add('jeezviz', 'debug', "The command is not supported.Check whether the device support the command.\r\n");
+                return "The command is not supported.Check whether the device support the command.";
                 break;
             case 60021:
-                log::add('jeezviz', 'debug', "It is current arming/disarming status.\r\n");
+                return "It is current arming/disarming status.";
                 break;
             case 60022:
-                log::add('jeezviz', 'debug', "It is current status.It is current open or closed status.\r\n");
+                return "It is current status.It is current open or closed status.";
                 break;
             case 60023:
-                log::add('jeezviz', 'debug', "Subscription failed.\r\n");
+                return "Subscription failed.";
                 break;
             case 60024:
-                log::add('jeezviz', 'debug', "Canceling subscription failed.\r\n");
+                return "Canceling subscription failed.";
                 break;
             case 60025:
-                log::add('jeezviz', 'debug', "Setting people counting failed.\r\n");
+                return "Setting people counting failed.";
                 break;
             case 60026:
-                log::add('jeezviz', 'debug', "The device is in privacy mask status.\r\n");
+                return "The device is in privacy mask status.";
                 break;
             case 60027:
-                log::add('jeezviz', 'debug', "The device is mirroring.\r\n");
+                return "The device is mirroring.";
                 break;
             case 60028:
-                log::add('jeezviz', 'debug', "The device is controlling PTZ.\r\n");
+                return "The device is controlling PTZ.";
                 break;
             case 60029:
-                log::add('jeezviz', 'debug', "The device is in two-way audio status.\r\n");
+                return "The device is in two-way audio status.";
                 break;
             case 60030:
-                log::add('jeezviz', 'debug', "No more incorrect card password attempts are allowed. Try again after 24 hours.\r\n");
+                return "No more incorrect card password attempts are allowed. Try again after 24 hours.";
                 break;
             case 60031:
-                log::add('jeezviz', 'debug', "Card password information does not exist.\r\n");
+                return "Card password information does not exist.";
                 break;
             case 60032:
-                log::add('jeezviz', 'debug', "Incorrect card password status or the password is expired.\r\n");
+                return "Incorrect card password status or the password is expired.";
                 break;
             case 60033:
-                log::add('jeezviz', 'debug', "The card password is not for sale. You can only buy the corresponding device.\r\n");
+                return "The card password is not for sale. You can only buy the corresponding device.";
                 break;
             case 60035:
-                log::add('jeezviz', 'debug', "Buying cloud storage server failed.\r\n");
+                return "Buying cloud storage server failed.";
                 break;
             case 60040:
-                log::add('jeezviz', 'debug', "The added devices are not in the same LAN with the parent device.\r\n");
+                return "The added devices are not in the same LAN with the parent device.";
                 break;
             case 60041:
-                log::add('jeezviz', 'debug', "The added devices are not in the same LAN with the parent device.\r\n");
+                return "The added devices are not in the same LAN with the parent device.";
                 break;
             case 60042:
-                log::add('jeezviz', 'debug', "Incorrect password for added device.\r\n");
+                return "Incorrect password for added device.";
                 break;
             case 60043:
-                log::add('jeezviz', 'debug', "No more devices can be added.\r\n");
+                return "No more devices can be added.";
                 break;
             case 60044:
-                log::add('jeezviz', 'debug', "Network connection for the added device timeout.\r\n");
+                return "Network connection for the added device timeout.";
                 break;
             case 60045:
-                log::add('jeezviz', 'debug', "The added device IP conflicts with the one of other channel.\r\n");
+                return "The added device IP conflicts with the one of other channel.";
                 break;
             case 60046:
-                log::add('jeezviz', 'debug', "The added device IP conflicts with the one of parent device.\r\n");
+                return "The added device IP conflicts with the one of parent device.";
                 break;
             case 60047:
-                log::add('jeezviz', 'debug', "The stream type is not supported.\r\n");
+                return "The stream type is not supported.";
                 break;
             case 60048:
-                log::add('jeezviz', 'debug', "The bandwidth exceeds the system accessing bandwidth.\r\n");
+                return "The bandwidth exceeds the system accessing bandwidth.";
                 break;
             case 60049:
-                log::add('jeezviz', 'debug', "Invalid IP or port.\r\n");
+                return "Invalid IP or port.";
                 break;
             case 60050:
-                log::add('jeezviz', 'debug', "The added device is not supported. You should upgrade the device.\r\n");
+                return "The added device is not supported. You should upgrade the device.";
                 break;
             case 60051:
-                log::add('jeezviz', 'debug', "The added device is not supported.\r\n");
+                return "The added device is not supported.";
                 break;
             case 60052:
-                log::add('jeezviz', 'debug', "Incorrect channel No. for added device.\r\n");
+                return "Incorrect channel No. for added device.";
                 break;
             case 60053:
-                log::add('jeezviz', 'debug', "The resolution of added device is not supported.\r\n");
+                return "The resolution of added device is not supported.";
                 break;
             case 60054:
-                log::add('jeezviz', 'debug', "The account for added device is locked.\r\n");
+                return "The account for added device is locked.";
                 break;
             case 60055:
-                log::add('jeezviz', 'debug', "Getting stream for the added device error.\r\n");
+                return "Getting stream for the added device error.";
                 break;
             case 60056:
-                log::add('jeezviz', 'debug', "Deleting device failed.\r\n");
+                return "Deleting device failed.";
                 break;
             case 60057:
-                log::add('jeezviz', 'debug', "The deleted device has no linkage.Check whether there's linkage between IPC and NVR.\r\n");
+                return "The deleted device has no linkage.Check whether there's linkage between IPC and NVR.";
                 break;
             case 60060:
-                log::add('jeezviz', 'debug', "The device does not bind.\r\n");
+                return "The device does not bind.";
                 break;
             default:
-                log::add('jeezviz', 'debug', "Error code ".$code." not found\r\n");
+                return "Error code ".$code." not found";
                 var_dump($response_json);
         }
+        return $Error;
     }
 
     function QueryAPIPost($URL, $postData=null, $timeout=DEFAULT_TIMEOUT, $headers=null)
@@ -652,9 +653,13 @@ class EzvizClient
             curl_close($ch);
             // Decode the response
             $response_json = json_decode($response, TRUE);    
-            log::add('jeezviz', 'debug', var_dump($response_json));
+            log::add('jeezviz', 'debug', $response_json);
             $this->get_JsonLastError();
-            $this->get_EZVIZ_Result_Message($response_json);           
+            $msgRetour=$this->get_EZVIZ_Result_Message($response_json);
+            if($msgRetour != "Operation completed")
+            {
+                echo $msgRetour;
+            }           
             return $response_json;
 			//return true;
         } catch(Exception $e) {
@@ -693,8 +698,12 @@ class EzvizClient
             curl_close($ch);
             // Decode the response
             $response_json = json_decode($response, TRUE);    
-            $this->get_JsonLastError();        
-            $this->get_EZVIZ_Result_Message($response_json);
+            $this->get_JsonLastError();                    
+            $msgRetour=$this->get_EZVIZ_Result_Message($response_json);
+            if($msgRetour != "Operation completed")
+            {
+                echo $msgRetour;
+            }  
             return $response_json;
         } catch(Exception $e) {
             log::add('jeezviz', 'debug', $e);
@@ -735,7 +744,11 @@ class EzvizClient
             // Decode the response
             $response_json = json_decode($response, TRUE);    
             $this->get_JsonLastError();        
-            $this->get_EZVIZ_Result_Message($response_json);
+            $msgRetour=$this->get_EZVIZ_Result_Message($response_json);
+            if($msgRetour != "Operation completed")
+            {
+                echo $msgRetour;
+            }  
             return $response_json;
         } catch(Exception $e) {
             log::add('jeezviz', 'debug', $e);
