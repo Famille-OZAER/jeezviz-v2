@@ -246,7 +246,7 @@ class EzvizClient
                 log::add('jeezviz', 'debug', "Signature error① For getting the signature type, refer to apidemo and Manual of the Last Version ② The encoding format is UTF-8.\r\n");
                 break;
             case 10009:
-                log::add('jeezviz', 'debug', "Signature parameters error\r\n";
+                log::add('jeezviz', 'debug', "Signature parameters error\r\n");
                 break;
             case 10010:
                 log::add('jeezviz', 'debug', "Signature timeoutSynchronize the time by calling the Interface of Synchronizing Server Time .\r\n");
@@ -537,7 +537,7 @@ class EzvizClient
                 log::add('jeezviz', 'debug', "The device is controlling PTZ.\r\n");
                 break;
             case 60029:
-                log::add('jeezviz', 'debug', "The device is in two-way audio status.\r\n";
+                log::add('jeezviz', 'debug', "The device is in two-way audio status.\r\n");
                 break;
             case 60030:
                 log::add('jeezviz', 'debug', "No more incorrect card password attempts are allowed. Try again after 24 hours.\r\n");
@@ -626,8 +626,6 @@ class EzvizClient
             if ($ch === false) {
                 throw new Exception('failed to initialize');
             }
-            #var_dump($postData);
-            #var_dump($headers);
             if ($postData!=null)
             {
                 $postData1 = http_build_query($postData);  
@@ -647,7 +645,6 @@ class EzvizClient
             ));           
             // Send the request
             $response = curl_exec($ch);
-            #var_dump($response);
             // Check for errors
             if ($response === false) {
                 throw new Exception(curl_error($ch), curl_errno($ch));
@@ -655,7 +652,7 @@ class EzvizClient
             curl_close($ch);
             // Decode the response
             $response_json = json_decode($response, TRUE);    
-            var_dump($response_json);
+            log::add('jeezviz', 'debug', var_dump($response_json));
             $this->get_JsonLastError();
             $this->get_EZVIZ_Result_Message($response_json);           
             return $response_json;
@@ -674,9 +671,6 @@ class EzvizClient
             if ($ch === false) {
                 throw new Exception('failed to initialize');
             }
-            #var_dump($postData);
-            #var_dump($headers);
-
             $postData1 = http_build_query($postData);
             
             #CURLOPT_URL => $URL."?".$postData1,
@@ -692,7 +686,6 @@ class EzvizClient
 
             // Send the request
             $response = curl_exec($ch);
-            #var_dump($response);
             // Check for errors
             if ($response === false) {
                 throw new Exception(curl_error($ch), curl_errno($ch));
@@ -700,7 +693,6 @@ class EzvizClient
             curl_close($ch);
             // Decode the response
             $response_json = json_decode($response, TRUE);    
-            #var_dump($response_json);
             $this->get_JsonLastError();        
             $this->get_EZVIZ_Result_Message($response_json);
             return $response_json;
@@ -718,8 +710,6 @@ class EzvizClient
             if ($ch === false) {
                 throw new Exception('failed to initialize');
             }
-            #var_dump($postData);
-            #var_dump($headers);
 
             $postData1 = http_build_query($postData);
             
@@ -737,7 +727,6 @@ class EzvizClient
             
             // Send the request
             $response = curl_exec($ch);
-            #var_dump($response);
             // Check for errors
             if ($response === false) {
                 throw new Exception(curl_error($ch), curl_errno($ch));
@@ -745,7 +734,6 @@ class EzvizClient
             curl_close($ch);
             // Decode the response
             $response_json = json_decode($response, TRUE);    
-            #var_dump($response_json);
             $this->get_JsonLastError();        
             $this->get_EZVIZ_Result_Message($response_json);
             return $response_json;
@@ -861,7 +849,6 @@ class EzvizClient
                 return $this->_get_pagelist($max_retries+1);
             }
         }
-        #var_dump($response_json);
         if ($json_key === null)
         {
             $json_result = $response_json;
@@ -876,7 +863,6 @@ class EzvizClient
             log::add('jeezviz', 'debug', "Impossible to load the devices, here is the returned response: ".$response_json);
         }
         
-        #var_dump($json_result);
         return $json_result;
     }
 

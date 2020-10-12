@@ -198,7 +198,7 @@ class jeezvizCmd extends cmd {
              break;
            case "GETSTATUS":
              log::add('jeezviz', 'debug', "GETSTATUS");
-             var_dump($EzvizCamera->status());
+             log::add('jeezviz', 'debug', var_dump($EzvizCamera->status()));
              break;
            case "MOVEUP":
              log::add('jeezviz', 'debug', "MOVEUP");
