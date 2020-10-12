@@ -54,25 +54,25 @@ class EzvizClient
         $lastError=json_last_error();
         switch ($lastError) {
             case JSON_ERROR_NONE:
-                #echo " - Aucune erreur\r\n";
+                #log::add('jeezviz', 'debug', " - Aucune erreur\r\n";
             break;
             case JSON_ERROR_DEPTH:
-                echo " - Profondeur maximale atteinte\r\n";
+                log::add('jeezviz', 'debug', " - Profondeur maximale atteinte\r\n");
             break;
             case JSON_ERROR_STATE_MISMATCH:
-                echo " - Inadéquation des modes ou underflow\r\n";
+                log::add('jeezviz', 'debug', " - Inadéquation des modes ou underflow\r\n");
             break;
             case JSON_ERROR_CTRL_CHAR:
-                echo " - Erreur lors du contrôle des caractères\r\n";
+                log::add('jeezviz', 'debug', " - Erreur lors du contrôle des caractères\r\n");
             break;
             case JSON_ERROR_SYNTAX:
-                echo " - Erreur de syntaxe ; JSON malformé\r\n";
+                log::add('jeezviz', 'debug', " - Erreur de syntaxe ; JSON malformé\r\n");
             break;
             case JSON_ERROR_UTF8:
-                echo " - Caractères UTF-8 malformés, probablement une erreur d\'encodage\r\n";
+                log::add('jeezviz', 'debug', " - Caractères UTF-8 malformés, probablement une erreur d\'encodage\r\n");
             break;
             default:
-                echo " - Erreur inconnue\r\n";
+                log::add('jeezviz', 'debug', " - Erreur inconnue\r\n");
             break;
         }
     }
@@ -88,531 +88,531 @@ class EzvizClient
         }
         switch (intval($code)) {
             case 1310735:
-                echo "La rotation PTZ de l'équipement atteint la limite supérieure\r\n";
+                log::add('jeezviz', 'debug', "La rotation PTZ de l'équipement atteint la limite supérieure\r\n");
                 break;
             case 2009:
-                echo "Le réseau de l'appareil est anormal, veuillez vérifier le réseau de l'appareil ou réessayer\r\n";
+                log::add('jeezviz', 'debug', "Le réseau de l'appareil est anormal, veuillez vérifier le réseau de l'appareil ou réessayer\r\n");
                 break;
             case 1310731:
-                echo "L'appareil est dans un état de protection de la vie privée (fermez l'objectif, puis allez faire fonctionner le PTZ)\r\n";
+                log::add('jeezviz', 'debug', "L'appareil est dans un état de protection de la vie privée (fermez l'objectif, puis allez faire fonctionner le PTZ)\r\n");
                 break;
             case -6:
-                echo "Erreur de paramètre de demande\r\n";
+                log::add('jeezviz', 'debug', "Erreur de paramètre de demande\r\n");
                 break;
             case 0:
-                #echo "Operation completed\r\n";
+                #log::add('jeezviz', 'debug', "Operation completed\r\n");
                 break;
             case 200:
-                #echo "Operation completed\r\n";
+                #log::add('jeezviz', 'debug', "Operation completed\r\n");
                 break;
             case 400:
-                echo "Password cannot be empty; login account cannot be empty\r\n";
+                log::add('jeezviz', 'debug', "Password cannot be empty; login account cannot be empty\r\n");
                 break;
             case 405:
-                echo "The method in the client request is forbidden\r\n";
+                log::add('jeezviz', 'debug', "The method in the client request is forbidden\r\n");
             case 1001:
-                echo "Invalid user name\r\n";
+                log::add('jeezviz', 'debug', "Invalid user name\r\n");
                 break;
             case 1002:
-                echo "The user name is occupied\r\n";
+                log::add('jeezviz', 'debug', "The user name is occupied\r\n");
                 break;
             case 1003:
-                echo "Invalid password\r\n";
+                log::add('jeezviz', 'debug', "Invalid password\r\n");
                 break;
             case 1004:
-                echo "Duplicated password\r\n";
+                log::add('jeezviz', 'debug', "Duplicated password\r\n");
                 break;
             case 1005:
-                echo "No more incorrect password attempts are allowed\r\n";
+                log::add('jeezviz', 'debug', "No more incorrect password attempts are allowed\r\n");
                 break;
             case 1006:
-                echo "The phone number is registered\r\n";
+                log::add('jeezviz', 'debug', "The phone number is registered\r\n");
                 break;
             case 1007:
-                echo "Unregistered phone number\r\n";
+                log::add('jeezviz', 'debug', "Unregistered phone number\r\n");
                 break;
             case 1008:
-                echo "Invalid phone number\r\n";
+                log::add('jeezviz', 'debug', "Invalid phone number\r\n");
                 break;
             case 1009:
-                echo "The user name and phone does not match\r\n";
+                log::add('jeezviz', 'debug', "The user name and phone does not match\r\n");
                 break;
             case 1010:
-                echo "Getting verification code failed\r\n";
+                log::add('jeezviz', 'debug', "Getting verification code failed\r\n");
                 break;
             case 1011:
-                echo "Incorrect verification code\r\n";
+                log::add('jeezviz', 'debug', "Incorrect verification code\r\n");
                 break;
             case 1012:
-                echo "Invalid verification code\r\n";
+                log::add('jeezviz', 'debug', "Invalid verification code\r\n");
                 break;
             case 1013:
-                echo "The user does not exist\r\n";
+                log::add('jeezviz', 'debug', "The user does not exist\r\n");
                 break;
             case 1014:
-                echo "Incorrect password or appKey\r\n";
+                log::add('jeezviz', 'debug', "Incorrect password or appKey\r\n");
                 break;
             case 1015:
-                echo "The user is locked\r\n";
+                log::add('jeezviz', 'debug', "The user is locked\r\n");
                 break;
             case 1021:
-                echo "Verification parameters exception\r\n";
+                log::add('jeezviz', 'debug', "Verification parameters exception\r\n");
                 break;
             case 1026:
-                echo "The email is registered\r\n";
+                log::add('jeezviz', 'debug', "The email is registered\r\n");
                 break;
             case 1031:
-                echo "Unregistered email\r\n";
+                log::add('jeezviz', 'debug', "Unregistered email\r\n");
                 break;
             case 1032:
-                echo "Invalid email\r\n";
+                log::add('jeezviz', 'debug', "Invalid email\r\n");
                 break;
             case 1041:
-                echo "No more attempts are allowed to get verification code\r\n";
+                log::add('jeezviz', 'debug', "No more attempts are allowed to get verification code\r\n");
                 break;
             case 1043:
-                echo "No more incorrect verification code attempts are allowed\r\n";
+                log::add('jeezviz', 'debug', "No more incorrect verification code attempts are allowed\r\n");
                 break;
             case 2000:
-                echo "The device does not exist\r\n";
+                log::add('jeezviz', 'debug', "The device does not exist\r\n");
                 break;
             case 2001:
-                echo "The camera does not existThe camera is not registered to Ezviz Cloud. Check the camera network configuration\r\n";
+                log::add('jeezviz', 'debug', "The camera does not existThe camera is not registered to Ezviz Cloud. Check the camera network configuration\r\n");
                 break;
             case 2003:
-                echo "The device is offlineRefer to Service Center Trouble Shooting Method\r\n";
+                log::add('jeezviz', 'debug', "The device is offlineRefer to Service Center Trouble Shooting Method\r\n");
                 break;
             case 2004:
-                echo "Device exception\r\n";
+                log::add('jeezviz', 'debug', "Device exception\r\n");
                 break;
             case 2007:
-                echo "Incorrect device serial No.\r\n";
+                log::add('jeezviz', 'debug', "Incorrect device serial No.\r\n");
                 break;
             case 2009:
-                echo "The device request timeout\r\n";
+                log::add('jeezviz', 'debug', "The device request timeout\r\n");
                 break;
             case 2030:
-                echo "The device does not support Ezviz CloudCheck whether the device support Ezviz Cloud. You can also contact our supports: 4007005998\r\n";
+                log::add('jeezviz', 'debug', "The device does not support Ezviz CloudCheck whether the device support Ezviz Cloud. You can also contact our supports: 4007005998\r\n");
                 break;
             case 5000:
-                echo "The device is added by yourself\r\n";
+                log::add('jeezviz', 'debug', "The device is added by yourself\r\n");
                 break;
             case 5001:
-                echo "The device is added by others\r\n";
+                log::add('jeezviz', 'debug', "The device is added by others\r\n");
                 break;
             case 5002:
-                echo "Incorrect device verification code\r\n";
+                log::add('jeezviz', 'debug', "Incorrect device verification code\r\n");
                 break;
             case 7001:
-                echo "The invitation does not exist\r\n";
+                log::add('jeezviz', 'debug', "The invitation does not exist\r\n");
                 break;
             case 7002:
-                echo "Verifying the invitation failed\r\n";
+                log::add('jeezviz', 'debug', "Verifying the invitation failed\r\n");
                 break;
             case 7003:
-                echo "The invited user does not match\r\n";
+                log::add('jeezviz', 'debug', "The invited user does not match\r\n");
                 break;
             case 7004:
-                echo "Canceling invitation failed\r\n";
+                log::add('jeezviz', 'debug', "Canceling invitation failed\r\n");
                 break;
             case 7005:
-                echo "Deleting invitation failed\r\n";
+                log::add('jeezviz', 'debug', "Deleting invitation failed\r\n");
                 break;
             case 7006:
-                echo "You cannot invite yourself\r\n";
+                log::add('jeezviz', 'debug', "You cannot invite yourself\r\n");
                 break;
             case 7007:
-                echo "Duplicated invitationYou should call the interface for sharing or deleting the sharing. Troubleshooting: Clear all the sharing data in Ezviz Client and add the device again by calling related interface\r\n";
+                log::add('jeezviz', 'debug', "Duplicated invitationYou should call the interface for sharing or deleting the sharing. Troubleshooting: Clear all the sharing data in Ezviz Client and add the device again by calling related interface\r\n");
                 break;
             case 10001:
-                echo "Parameters errorParameter is empty or the format is incorrect\r\n";
+                log::add('jeezviz', 'debug', "Parameters errorParameter is empty or the format is incorrect\r\n");
                 break;
             case 10002:
-                echo "accessToken exception or expiredThe accessToken is valid for seven days. It is recommended that you can get the accessToken when the accessToken will be expired or Error Code 10002 appears\r\n";
+                log::add('jeezviz', 'debug', "accessToken exception or expiredThe accessToken is valid for seven days. It is recommended that you can get the accessToken when the accessToken will be expired or Error Code 10002 appears\r\n");
                 break;
             case 10004:
-                echo "The user does not exist\r\n";
+                log::add('jeezviz', 'debug', "The user does not exist\r\n");
                 break;
             case 10005:
-                echo "appKey exceptionReturn the error code when appKey is incorrect or appKey status is frozen\r\n";
+                log::add('jeezviz', 'debug', "appKey exceptionReturn the error code when appKey is incorrect or appKey status is frozen\r\n");
                 break;
             case 10006:
-                echo "The IP is limited\r\n";
+                log::add('jeezviz', 'debug', "The IP is limited\r\n");
                 break;
             case 10007:
-                echo "No more calling attempts are allowed\r\n";
+                log::add('jeezviz', 'debug', "No more calling attempts are allowed\r\n");
                 break;
             case 10008:
-                echo "Signature error① For getting the signature type, refer to apidemo and Manual of the Last Version ② The encoding format is UTF-8.\r\n";
+                log::add('jeezviz', 'debug', "Signature error① For getting the signature type, refer to apidemo and Manual of the Last Version ② The encoding format is UTF-8.\r\n");
                 break;
             case 10009:
-                echo "Signature parameters error\r\n";
+                log::add('jeezviz', 'debug', "Signature parameters error\r\n";
                 break;
             case 10010:
-                echo "Signature timeoutSynchronize the time by calling the Interface of Synchronizing Server Time .\r\n";
+                log::add('jeezviz', 'debug', "Signature timeoutSynchronize the time by calling the Interface of Synchronizing Server Time .\r\n");
                 break;
             case 10011:
-                echo "Cloud P2P service is not allowedRefer to Binding Procedure\r\n";
+                log::add('jeezviz', 'debug', "Cloud P2P service is not allowedRefer to Binding Procedure\r\n");
                 break;
             case 10012:
-                echo "The third-party account is bound with the Ezviz account\r\n";
+                log::add('jeezviz', 'debug', "The third-party account is bound with the Ezviz account\r\n");
                 break;
             case 10013:
-                echo "The APP has no permission to call this interface\r\n";
+                log::add('jeezviz', 'debug', "The APP has no permission to call this interface\r\n");
                 break;
             case 10014:
-                echo "The APPKEY corresponding third-party userId is not bound with the phoneThe appKey for getting AccessToken is different from the one set in SDK\r\n";
+                log::add('jeezviz', 'debug', "The APPKEY corresponding third-party userId is not bound with the phoneThe appKey for getting AccessToken is different from the one set in SDK\r\n");
                 break;
             case 10017:
-                echo "appKey does not existFill in the App key applied in the official website\r\n";
+                log::add('jeezviz', 'debug', "appKey does not existFill in the App key applied in the official website\r\n");
                 break;
             case 10018:
-                echo "AccessToken does not match with AppkeyCheck whether the appKey for getting AccessToken is the same with the one set in SDK.\r\n";
+                log::add('jeezviz', 'debug', "AccessToken does not match with AppkeyCheck whether the appKey for getting AccessToken is the same with the one set in SDK.\r\n");
                 break;
             case 10019:
-                echo "Password error\r\n";
+                log::add('jeezviz', 'debug', "Password error\r\n");
                 break;
             case 10020:
-                echo "The requesting method is required\r\n";
+                log::add('jeezviz', 'debug', "The requesting method is required\r\n");
                 break;
             case 10029:
-                echo "The call frequency exceeds the upper-limit\r\n";
+                log::add('jeezviz', 'debug', "The call frequency exceeds the upper-limit\r\n");
                 break;
             case 10030:
-                echo "appKey and appSecret mismatch.\r\n";
+                log::add('jeezviz', 'debug', "appKey and appSecret mismatch.\r\n");
                 break;
             case 10031:
-                echo "The sub-account or the EZVIZ user has no permission\r\n";
+                log::add('jeezviz', 'debug', "The sub-account or the EZVIZ user has no permission\r\n");
                 break;
             case 10032:
-                echo "Sub-account not exist\r\n";
+                log::add('jeezviz', 'debug', "Sub-account not exist\r\n");
                 break;
             case 10034:
-                echo "Sub-account name already exist\r\n";
+                log::add('jeezviz', 'debug', "Sub-account name already exist\r\n");
                 break;
             case 10035:
-                echo "Getting sub-account AccessToken error\r\n";
+                log::add('jeezviz', 'debug', "Getting sub-account AccessToken error\r\n");
                 break;
             case 10036:
-                echo "The sub-account is frozen.\r\n";
+                log::add('jeezviz', 'debug', "The sub-account is frozen.\r\n");
                 break;
             case 20001:
-                echo "The channel does not existCheck whether the camera is added again and the channel parameters are updated\r\n";
+                log::add('jeezviz', 'debug', "The channel does not existCheck whether the camera is added again and the channel parameters are updated\r\n");
                 break;
             case 20002:
-                echo "The device does not exist①The device does not register to Ezviz. Check the network is connected. ②The device serial No. does not exist.\r\n";
+                log::add('jeezviz', 'debug', "The device does not exist①The device does not register to Ezviz. Check the network is connected. ②The device serial No. does not exist.\r\n");
                 break;
             case 20003:
-                echo "Parameters exception and you need to upgrade the SDK version\r\n";
+                log::add('jeezviz', 'debug', "Parameters exception and you need to upgrade the SDK version\r\n");
                 break;
             case 20004:
-                echo "Parameters exception and you need to upgrade the SDK version\r\n";
+                log::add('jeezviz', 'debug', "Parameters exception and you need to upgrade the SDK version\r\n");
                 break;
             case 20005:
-                echo "You need to perform SDK security authenticationSecurity authentication is deleted\r\n";
+                log::add('jeezviz', 'debug', "You need to perform SDK security authenticationSecurity authentication is deleted\r\n");
                 break;
             case 20006:
-                echo "Network exception\r\n";
+                log::add('jeezviz', 'debug', "Network exception\r\n");
                 break;
             case 20007:
-                echo "The device is offlineRefer to Service Center Check Method\r\n";
+                log::add('jeezviz', 'debug', "The device is offlineRefer to Service Center Check Method\r\n");
                 break;
             case 20008:
-                echo "The device response timeoutThe device response timeout. Check the network is connected and try again\r\n";
+                log::add('jeezviz', 'debug', "The device response timeoutThe device response timeout. Check the network is connected and try again\r\n");
                 break;
             case 20009:
-                echo "The device cannot be added to child account\r\n";
+                log::add('jeezviz', 'debug', "The device cannot be added to child account\r\n");
                 break;
             case 20010:
-                echo "The device verification code errorThe verification code is on the device tag. It contains six upper-cases\r\n";
+                log::add('jeezviz', 'debug', "The device verification code errorThe verification code is on the device tag. It contains six upper-cases\r\n");
                 break;
             case 20011:
-                echo "Adding device failed.Check whether the network is connected.\r\n";
+                log::add('jeezviz', 'debug', "Adding device failed.Check whether the network is connected.\r\n");
                 break;
             case 20012:
-                echo "Adding the device failed.\r\n";
+                log::add('jeezviz', 'debug', "Adding the device failed.\r\n");
                 break;
             case 20013:
-                echo "The device has been added by other users.\r\n";
+                log::add('jeezviz', 'debug', "The device has been added by other users.\r\n");
                 break;
             case 20014:
-                echo "Incorrect device serial No..\r\n";
+                log::add('jeezviz', 'debug', "Incorrect device serial No..\r\n");
                 break;
             case 20015:
-                echo "The device does not support the function.\r\n";
+                log::add('jeezviz', 'debug', "The device does not support the function.\r\n");
                 break;
             case 20016:
-                echo "The current device is formatting.\r\n";
+                log::add('jeezviz', 'debug', "The current device is formatting.\r\n");
                 break;
             case 20017:
-                echo "The device has been added by yourself.\r\n";
+                log::add('jeezviz', 'debug', "The device has been added by yourself.\r\n");
                 break;
             case 20018:
-                echo "The user does not have this device.Check whether the device belongs to the user.\r\n";
+                log::add('jeezviz', 'debug', "The user does not have this device.Check whether the device belongs to the user.\r\n");
                 break;
             case 20019:
-                echo "The device does not support cloud storage service.\r\n";
+                log::add('jeezviz', 'debug', "The device does not support cloud storage service.\r\n");
                 break;
             case 20020:
-                echo "The device is online and is added by yourself.\r\n";
+                log::add('jeezviz', 'debug', "The device is online and is added by yourself.\r\n");
                 break;
             case 20021:
-                echo "The device is online and is not added by the user.\r\n";
+                log::add('jeezviz', 'debug', "The device is online and is not added by the user.\r\n");
                 break;
             case 20022:
-                echo "The device is online and is added by other users.\r\n";
+                log::add('jeezviz', 'debug', "The device is online and is added by other users.\r\n");
                 break;
             case 20023:
-                echo "The device is offline and is not added by the user.\r\n";
+                log::add('jeezviz', 'debug', "The device is offline and is not added by the user.\r\n");
                 break;
             case 20024:
-                echo "The device is offline and is added by the user.\r\n";
+                log::add('jeezviz', 'debug', "The device is offline and is added by the user.\r\n");
                 break;
             case 20025:
-                echo "Duplicated sharing.Check whether the sharing exists in the account that added the device.\r\n";
+                log::add('jeezviz', 'debug', "Duplicated sharing.Check whether the sharing exists in the account that added the device.\r\n");
                 break;
             case 20026:
-                echo "The video does not exist in Video Gallery.\r\n";
+                log::add('jeezviz', 'debug', "The video does not exist in Video Gallery.\r\n");
                 break;
             case 20029:
-                echo "The device is offline and is added by yourself.\r\n";
+                log::add('jeezviz', 'debug', "The device is offline and is added by yourself.\r\n");
                 break;
             case 20030:
-                echo "The user does not have the video in this video gallery.\r\n";
+                log::add('jeezviz', 'debug', "The user does not have the video in this video gallery.\r\n");
                 break;
             case 20031:
-                echo "The terminal binding enabled, and failed to verify device code.Disable the terminal binding,refer to this procedure.\r\n";
+                log::add('jeezviz', 'debug', "The terminal binding enabled, and failed to verify device code.Disable the terminal binding,refer to this procedure.\r\n");
                 break;
             case 20032:
-                echo "The channel does not exist for this user.\r\n";
+                log::add('jeezviz', 'debug', "The channel does not exist for this user.\r\n");
                 break;
             case 20033:
-                echo "The video shared by yourself cannot be added to favorites.\r\n";
+                log::add('jeezviz', 'debug', "The video shared by yourself cannot be added to favorites.\r\n");
                 break;
             case 20101:
-                echo "Share the video to yourself.\r\n";
+                log::add('jeezviz', 'debug', "Share the video to yourself.\r\n");
                 break;
             case 20102:
-                echo "No corresponding invitation information.\r\n";
+                log::add('jeezviz', 'debug', "No corresponding invitation information.\r\n");
                 break;
             case 20103:
-                echo "The friend already exists.\r\n";
+                log::add('jeezviz', 'debug', "The friend already exists.\r\n");
                 break;
             case 20104:
-                echo "The friend does not exist.\r\n";
+                log::add('jeezviz', 'debug', "The friend does not exist.\r\n");
                 break;
             case 20105:
-                echo "The friend status error.\r\n";
+                log::add('jeezviz', 'debug', "The friend status error.\r\n");
                 break;
             case 20106:
-                echo "The corresponding group does not exist.\r\n";
+                log::add('jeezviz', 'debug', "The corresponding group does not exist.\r\n");
                 break;
             case 20107:
-                echo "You cannot add yourself as friend.\r\n";
+                log::add('jeezviz', 'debug', "You cannot add yourself as friend.\r\n");
                 break;
             case 20108:
-                echo "The current user is not the friend of the added user.\r\n";
+                log::add('jeezviz', 'debug', "The current user is not the friend of the added user.\r\n");
                 break;
             case 20109:
-                echo "The corresponding sharing does not exist.\r\n";
+                log::add('jeezviz', 'debug', "The corresponding sharing does not exist.\r\n");
                 break;
             case 20110:
-                echo "The friend group does not belong to the current user.\r\n";
+                log::add('jeezviz', 'debug', "The friend group does not belong to the current user.\r\n");
                 break;
             case 20111:
-                echo "The friend is not in the status of waiting verification.\r\n";
+                log::add('jeezviz', 'debug', "The friend is not in the status of waiting verification.\r\n");
                 break;
             case 20112:
-                echo "Adding the user in application as friend failed.\r\n";
+                log::add('jeezviz', 'debug', "Adding the user in application as friend failed.\r\n");
                 break;
             case 20201:
-                echo "Handling the alarm information failed.\r\n";
+                log::add('jeezviz', 'debug', "Handling the alarm information failed.\r\n");
                 break;
             case 20202:
-                echo "Handling the leaved message failed.\r\n";
+                log::add('jeezviz', 'debug', "Handling the leaved message failed.\r\n");
                 break;
             case 20301:
-                echo "The alarm message searched via UUID does not exist.\r\n";
+                log::add('jeezviz', 'debug', "The alarm message searched via UUID does not exist.\r\n");
                 break;
             case 20302:
-                echo "The picture searched via UUID does not exist.\r\n";
+                log::add('jeezviz', 'debug', "The picture searched via UUID does not exist.\r\n");
                 break;
             case 20303:
-                echo "The picture searched via FID does not exist.\r\n";
+                log::add('jeezviz', 'debug', "The picture searched via FID does not exist.\r\n");
                 break;
             case 30001:
-                echo "The user doesn't exist\r\n";
+                log::add('jeezviz', 'debug', "The user doesn't exist\r\n");
                 break;
             case 49999:
-                echo "Data exception.\r\n";
+                log::add('jeezviz', 'debug', "Data exception.\r\n");
                 break;
             case 50000:
-                echo "The server exception.\r\n";
+                log::add('jeezviz', 'debug', "The server exception.\r\n");
                 break;
             case 60000:
-                echo "The device does not support PTZ control.\r\n";
+                log::add('jeezviz', 'debug', "The device does not support PTZ control.\r\n");
                 break;
             case 60001:
-                echo "The user has no PTZ control permission.\r\n";
+                log::add('jeezviz', 'debug', "The user has no PTZ control permission.\r\n");
                 break;
             case 60002:
-                echo "The device PTZ has reached the top limit.\r\n";
+                log::add('jeezviz', 'debug', "The device PTZ has reached the top limit.\r\n");
                 break;
             case 60003:
-                echo "The device PTZ has reached the bottom limit.\r\n";
+                log::add('jeezviz', 'debug', "The device PTZ has reached the bottom limit.\r\n");
                 break;
             case 60004:
-                echo "The device PTZ has reached the left limit.\r\n";
+                log::add('jeezviz', 'debug', "The device PTZ has reached the left limit.\r\n");
                 break;
             case 60005:
-                echo "The device PTZ has reached the right limit.\r\n";
+                log::add('jeezviz', 'debug', "The device PTZ has reached the right limit.\r\n");
                 break;
             case 60006:
-                echo "PTZ control failed.\r\n";
+                log::add('jeezviz', 'debug', "PTZ control failed.\r\n");
                 break;
             case 60007:
-                echo "No more preset can be added.\r\n";
+                log::add('jeezviz', 'debug', "No more preset can be added.\r\n");
                 break;
             case 60008:
-                echo "The preset number of C6 has reached the limit. You cannot add more preset.\r\n";
+                log::add('jeezviz', 'debug', "The preset number of C6 has reached the limit. You cannot add more preset.\r\n");
                 break;
             case 60009:
-                echo "The preset is calling.\r\n";
+                log::add('jeezviz', 'debug', "The preset is calling.\r\n");
                 break;
             case 60010:
-                echo "The preset is the current position.\r\n";
+                log::add('jeezviz', 'debug', "The preset is the current position.\r\n");
                 break;
             case 60011:
-                echo "The preset does not exist.\r\n";
+                log::add('jeezviz', 'debug', "The preset does not exist.\r\n");
                 break;
             case 60012:
-                echo "Unknown error.\r\n";
+                log::add('jeezviz', 'debug', "Unknown error.\r\n");
                 break;
             case 60013:
-                echo "The version is the latest one.\r\n";
+                log::add('jeezviz', 'debug', "The version is the latest one.\r\n");
                 break;
             case 60014:
-                echo "The device is upgrading.\r\n";
+                log::add('jeezviz', 'debug', "The device is upgrading.\r\n");
                 break;
             case 60015:
-                echo "The device is rebooting.\r\n";
+                log::add('jeezviz', 'debug', "The device is rebooting.\r\n");
                 break;
             case 60016:
-                echo "The encryption is disabled.\r\n";
+                log::add('jeezviz', 'debug', "The encryption is disabled.\r\n");
                 break;
             case 60017:
-                echo "Capturing failed.\r\n";
+                log::add('jeezviz', 'debug', "Capturing failed.\r\n");
                 break;
             case 60018:
-                echo "Upgrading device failed.\r\n";
+                log::add('jeezviz', 'debug', "Upgrading device failed.\r\n");
                 break;
             case 60019:
-                echo "The encryption is enabled.\r\n";
+                log::add('jeezviz', 'debug', "The encryption is enabled.\r\n");
                 break;
             case 60020:
-                echo "The command is not supported.Check whether the device support the command.\r\n";
+                log::add('jeezviz', 'debug', "The command is not supported.Check whether the device support the command.\r\n");
                 break;
             case 60021:
-                echo "It is current arming/disarming status.\r\n";
+                log::add('jeezviz', 'debug', "It is current arming/disarming status.\r\n");
                 break;
             case 60022:
-                echo "It is current status.It is current open or closed status.\r\n";
+                log::add('jeezviz', 'debug', "It is current status.It is current open or closed status.\r\n");
                 break;
             case 60023:
-                echo "Subscription failed.\r\n";
+                log::add('jeezviz', 'debug', "Subscription failed.\r\n");
                 break;
             case 60024:
-                echo "Canceling subscription failed.\r\n";
+                log::add('jeezviz', 'debug', "Canceling subscription failed.\r\n");
                 break;
             case 60025:
-                echo "Setting people counting failed.\r\n";
+                log::add('jeezviz', 'debug', "Setting people counting failed.\r\n");
                 break;
             case 60026:
-                echo "The device is in privacy mask status.\r\n";
+                log::add('jeezviz', 'debug', "The device is in privacy mask status.\r\n");
                 break;
             case 60027:
-                echo "The device is mirroring.\r\n";
+                log::add('jeezviz', 'debug', "The device is mirroring.\r\n");
                 break;
             case 60028:
-                echo "The device is controlling PTZ.\r\n";
+                log::add('jeezviz', 'debug', "The device is controlling PTZ.\r\n");
                 break;
             case 60029:
-                echo "The device is in two-way audio status.\r\n";
+                log::add('jeezviz', 'debug', "The device is in two-way audio status.\r\n";
                 break;
             case 60030:
-                echo "No more incorrect card password attempts are allowed. Try again after 24 hours.\r\n";
+                log::add('jeezviz', 'debug', "No more incorrect card password attempts are allowed. Try again after 24 hours.\r\n");
                 break;
             case 60031:
-                echo "Card password information does not exist.\r\n";
+                log::add('jeezviz', 'debug', "Card password information does not exist.\r\n");
                 break;
             case 60032:
-                echo "Incorrect card password status or the password is expired.\r\n";
+                log::add('jeezviz', 'debug', "Incorrect card password status or the password is expired.\r\n");
                 break;
             case 60033:
-                echo "The card password is not for sale. You can only buy the corresponding device.\r\n";
+                log::add('jeezviz', 'debug', "The card password is not for sale. You can only buy the corresponding device.\r\n");
                 break;
             case 60035:
-                echo "Buying cloud storage server failed.\r\n";
+                log::add('jeezviz', 'debug', "Buying cloud storage server failed.\r\n");
                 break;
             case 60040:
-                echo "The added devices are not in the same LAN with the parent device.\r\n";
+                log::add('jeezviz', 'debug', "The added devices are not in the same LAN with the parent device.\r\n");
                 break;
             case 60041:
-                echo "The added devices are not in the same LAN with the parent device.\r\n";
+                log::add('jeezviz', 'debug', "The added devices are not in the same LAN with the parent device.\r\n");
                 break;
             case 60042:
-                echo "Incorrect password for added device.\r\n";
+                log::add('jeezviz', 'debug', "Incorrect password for added device.\r\n");
                 break;
             case 60043:
-                echo "No more devices can be added.\r\n";
+                log::add('jeezviz', 'debug', "No more devices can be added.\r\n");
                 break;
             case 60044:
-                echo "Network connection for the added device timeout.\r\n";
+                log::add('jeezviz', 'debug', "Network connection for the added device timeout.\r\n");
                 break;
             case 60045:
-                echo "The added device IP conflicts with the one of other channel.\r\n";
+                log::add('jeezviz', 'debug', "The added device IP conflicts with the one of other channel.\r\n");
                 break;
             case 60046:
-                echo "The added device IP conflicts with the one of parent device.\r\n";
+                log::add('jeezviz', 'debug', "The added device IP conflicts with the one of parent device.\r\n");
                 break;
             case 60047:
-                echo "The stream type is not supported.\r\n";
+                log::add('jeezviz', 'debug', "The stream type is not supported.\r\n");
                 break;
             case 60048:
-                echo "The bandwidth exceeds the system accessing bandwidth.\r\n";
+                log::add('jeezviz', 'debug', "The bandwidth exceeds the system accessing bandwidth.\r\n");
                 break;
             case 60049:
-                echo "Invalid IP or port.\r\n";
+                log::add('jeezviz', 'debug', "Invalid IP or port.\r\n");
                 break;
             case 60050:
-                echo "The added device is not supported. You should upgrade the device.\r\n";
+                log::add('jeezviz', 'debug', "The added device is not supported. You should upgrade the device.\r\n");
                 break;
             case 60051:
-                echo "The added device is not supported.\r\n";
+                log::add('jeezviz', 'debug', "The added device is not supported.\r\n");
                 break;
             case 60052:
-                echo "Incorrect channel No. for added device.\r\n";
+                log::add('jeezviz', 'debug', "Incorrect channel No. for added device.\r\n");
                 break;
             case 60053:
-                echo "The resolution of added device is not supported.\r\n";
+                log::add('jeezviz', 'debug', "The resolution of added device is not supported.\r\n");
                 break;
             case 60054:
-                echo "The account for added device is locked.\r\n";
+                log::add('jeezviz', 'debug', "The account for added device is locked.\r\n");
                 break;
             case 60055:
-                echo "Getting stream for the added device error.\r\n";
+                log::add('jeezviz', 'debug', "Getting stream for the added device error.\r\n");
                 break;
             case 60056:
-                echo "Deleting device failed.\r\n";
+                log::add('jeezviz', 'debug', "Deleting device failed.\r\n");
                 break;
             case 60057:
-                echo "The deleted device has no linkage.Check whether there's linkage between IPC and NVR.\r\n";
+                log::add('jeezviz', 'debug', "The deleted device has no linkage.Check whether there's linkage between IPC and NVR.\r\n");
                 break;
             case 60060:
-                echo "The device does not bind.\r\n";
+                log::add('jeezviz', 'debug', "The device does not bind.\r\n");
                 break;
             default:
-                echo "Error code ".$code." not found\r\n";
+                log::add('jeezviz', 'debug', "Error code ".$code." not found\r\n");
                 var_dump($response_json);
         }
     }
@@ -621,7 +621,7 @@ class EzvizClient
     {
         try {
             // Setup cURL
-            #echo $URL."\r\n";
+            log::add('jeezviz', 'debug', $URL."\r\n");
             $ch = curl_init();
             if ($ch === false) {
                 throw new Exception('failed to initialize');
@@ -661,7 +661,7 @@ class EzvizClient
             return $response_json;
 			//return true;
         } catch(Exception $e) {
-            echo $e;
+            log::add('jeezviz', 'debug', $e);
             trigger_error(sprintf('Curl failed with error #%d: %s',$e->getCode(), $e->getMessage()),E_USER_ERROR);
         }
     }
@@ -669,7 +669,7 @@ class EzvizClient
     {
         try {
             // Setup cURL
-            #echo $URL."\r\n";
+            log::add('jeezviz', 'debug', $URL."\r\n");
             $ch = curl_init();
             if ($ch === false) {
                 throw new Exception('failed to initialize');
@@ -681,7 +681,7 @@ class EzvizClient
             
             #CURLOPT_URL => $URL."?".$postData1,
             $uri=$URL."?".$postData1;
-            #echo $uri."\r\n";
+            log::add('jeezviz', 'debug', $uri."\r\n");
             curl_setopt_array($ch, array(
                 CURLOPT_URL=>$uri,
                 CURLOPT_RETURNTRANSFER => TRUE,
@@ -705,7 +705,7 @@ class EzvizClient
             $this->get_EZVIZ_Result_Message($response_json);
             return $response_json;
         } catch(Exception $e) {
-            echo $e;
+            log::add('jeezviz', 'debug', $e);
             trigger_error(sprintf('Curl failed with error #%d: %s',$e->getCode(), $e->getMessage()),E_USER_ERROR);
         }
     }
@@ -713,7 +713,7 @@ class EzvizClient
     {
         try {
             // Setup cURL
-            #echo $URL."\r\n";
+            log::add('jeezviz', 'debug', $URL."\r\n");
             $ch = curl_init();
             if ($ch === false) {
                 throw new Exception('failed to initialize');
@@ -725,7 +725,7 @@ class EzvizClient
             
             #CURLOPT_URL => $URL."?".$postData1,
             $uri=$URL."?".$postData1;
-            #echo $uri."\r\n";
+            log::add('jeezviz', 'debug', $uri."\r\n");
             curl_setopt_array($ch, array(
                 CURLOPT_URL=>$uri,
                 CURLOPT_RETURNTRANSFER => TRUE,
@@ -750,7 +750,7 @@ class EzvizClient
             $this->get_EZVIZ_Result_Message($response_json);
             return $response_json;
         } catch(Exception $e) {
-            echo $e;
+            log::add('jeezviz', 'debug', $e);
             trigger_error(sprintf('Curl failed with error #%d: %s',$e->getCode(), $e->getMessage()),E_USER_ERROR);
         }
     }
@@ -783,7 +783,7 @@ class EzvizClient
         $this->SWITCH_STATUS_URL = $this->API_BASE_URI.$this->API_ENDPOINT_SWITCH_STATUS;
         $this->DETECTION_SENSIBILITY_URL = $this->API_BASE_URI.$this->API_ENDPOINT_DETECTION_SENSIBILITY;
         $this->DETECTION_SENSIBILITY_GET_URL = $this->API_BASE_URI.$this->API_ENDPOINT_DETECTION_SENSIBILITY_GET;
-        echo "Login to Ezviz' API at ".$this->LOGIN_URL."\r\n";
+        log::add('jeezviz', 'debug', "Login to Ezviz' API at ".$this->LOGIN_URL);
         # Ezviz API sends md5 of password
         $md5pass = md5(utf8_encode($this->password));
         log::add('jeezviz', 'debug', 'md5pass : '.$md5pass);
@@ -800,7 +800,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            echo "Can not login to API\r\n";
+            log::add('jeezviz', 'debug', "Can not login to API\r\n");
         }
         
         # if the apidomain is not proper
@@ -811,7 +811,7 @@ class EzvizClient
         
         if ($response_json["meta"]["code"] != 200)
         {
-			echo var_dump($response_json);
+			log::add('jeezviz', 'debug', var_dump($response_json));
             return false;
         }
         # let's parse the answer, session is in {.."loginSession":{"sessionId":"xxx...}
@@ -819,27 +819,27 @@ class EzvizClient
         {
             $sessionId = $response_json["loginSession"]["sessionId"];
             $this->_sessionId = $sessionId;
-            echo "Login successfull sessionId =".$sessionId."\r\n";
+            log::add('jeezviz', 'debug', "Login successfull sessionId =".$sessionId."\r\n");
         }
         catch (Exception $e)
         {          
-            echo $e;
+            log::add('jeezviz', 'debug', $e);
         }
         return True;
     }
 
     function _get_pagelist($filter=null, $json_key=null, $max_retries=0)
     {
-        echo "Get data from pagelist API.\r\n";
+        log::add('jeezviz', 'debug', "Get data from pagelist API.\r\n");
 
         if ($max_retries > $this->MAX_RETRIES)
         {
-            echo "Can't gather proper data. Max retries exceeded.";
+            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
         }
 
         if ($filter === null)
         {
-            echo "Trying to call get_pagelist without filter";
+            log::add('jeezviz', 'debug', "Trying to call get_pagelist without filter");
         }
         $postData=array('filter'=>$filter);
         $headers=array('sessionId:'.$this->_sessionId);
@@ -849,7 +849,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            echo "Could not access Ezviz' API: " + $e;
+            log::add('jeezviz', 'debug', "Could not access Ezviz' API: " + $e);
         }
         if (array_key_exists("meta",$response_json))
         { 
@@ -857,7 +857,7 @@ class EzvizClient
             {
                 # session is wrong, need to relogin
                 $this->login();
-                echo "Got 401, relogging (max retries: ".$max_retries.")";
+                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: ".$max_retries.")");
                 return $this->_get_pagelist($max_retries+1);
             }
         }
@@ -873,7 +873,7 @@ class EzvizClient
 
         if (!$json_result)
         {
-            echo "Impossible to load the devices, here is the returned response: ".$response_json;
+            log::add('jeezviz', 'debug', "Impossible to load the devices, here is the returned response: ".$response_json);
         }
         
         #var_dump($json_result);
@@ -904,14 +904,14 @@ class EzvizClient
                 {
                     # session is wrong, need to relogin
                     $this->login();
-                    echo "Got 401, relogging (max retries: $max_retries)";
+                    log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                     return $this->_switch_status($serial, $type, $enable, $max_retries+1);
                 }
             }
         }            
         catch (Exception $e)
         {
-            echo "Could not access Ezviz' API: ".$e;
+            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
         }
         return True;
     }
@@ -919,7 +919,7 @@ class EzvizClient
 
     function _switch_devices_privacy($enable=0)
     {
-        echo "Switch privacy status on ALL devices (batch)\r\n";
+        log::add('jeezviz', 'debug', "Switch privacy status on ALL devices (batch)\r\n");
 
         #  enable=1 means privacy is ON
 
@@ -966,16 +966,16 @@ class EzvizClient
 
     function detection_sensibility($serial, $sensibility=3, $max_retries=0)
     {
-        echo "Enable alarm notifications.\r\n";
+        log::add('jeezviz', 'debug', "Enable alarm notifications.\r\n");
         if ($max_retries > $this->MAX_RETRIES)
         {
-            echo "Can't gather proper data. Max retries exceeded.";
+            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
         }
             
 
         if (!in_array($sensibility,array(0,1,2,3,4,5,6)))
         {
-            echo "Unproper sensibility (should be within 1 to 6).";
+            log::add('jeezviz', 'debug', "Unproper sensibility (should be within 1 to 6).");
         }
             
 
@@ -987,7 +987,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            echo "Could not access Ezviz' API: ".$e;
+            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
         }
         if (array_key_exists("meta",$response_json))
         {
@@ -995,7 +995,7 @@ class EzvizClient
             {
                 # session is wrong, need to re-log-in
                 $this->login();
-                echo "Got 401, relogging (max retries: $max_retries)";
+                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->detection_sensibility($serial, $enable, $max_retries+1);
             }
         }
@@ -1004,10 +1004,10 @@ class EzvizClient
 
     function get_detection_sensibility($serial, $max_retries=0)
     {
-        echo "Get detection sensibility.\r\n";
+        log::add('jeezviz', 'debug', "Get detection sensibility.\r\n");
         if ($max_retries > $this->MAX_RETRIES)
         {
-            echo "Can't gather proper data. Max retries exceeded.";
+            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
         }
 
         try
@@ -1018,7 +1018,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            echo "Could not access Ezviz' API: ".$e;
+            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
         }
         if (array_key_exists("meta",$response_json))
         {
@@ -1026,14 +1026,14 @@ class EzvizClient
             {
                 # session is wrong, need to re-log-in
                 $this->login();
-                echo "Got 401, relogging (max retries: $max_retries)";
+                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->get_detection_sensibility($serial, $enable, $max_retries+1);
             }
         }
         
         if ($response_json['resultCode'] != '0')
         {
-            # raise echo "Could not get detection sensibility: Got %s : %s)",str(req.status_code), str(req.text))
+            log::add('jeezviz', 'debug', "Could not get detection sensibility: Got %s : %s)",str(req.status_code), str(req.text));
             return 'Unknown';
         }
         else
@@ -1044,15 +1044,15 @@ class EzvizClient
 
     function alarm_sound($serial, $soundType, $enable=1, $max_retries=0)
     {
-        echo "Enable alarm sound by API.\r\n";
+        log::add('jeezviz', 'debug', "Enable alarm sound by API.\r\n");
         if ($max_retries > $this->MAX_RETRIES)
         {
-            echo "Can't gather proper data. Max retries exceeded.";
+            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
         }
 
         if (!in_array( array(0,1,2),$soundType))
         {
-            echo "Invalid soundType, should be 0,1,2: ".$soundType;
+            log::add('jeezviz', 'debug', "Invalid soundType, should be 0,1,2: ".$soundType);
         }
         
         try
@@ -1063,7 +1063,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            echo "Could not access Ezviz' API: ".$e;
+            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
         }
         if (array_key_exists("meta",$response_json))
         {
@@ -1071,7 +1071,7 @@ class EzvizClient
             {
                 # session is wrong, need to re-log-in
                 $this->login();
-                echo "Got 401, relogging (max retries: $max_retries)";
+                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->alarm_sound($serial, $enable, $soundType, $max_retries+1);
             }   
         }    
@@ -1081,15 +1081,15 @@ class EzvizClient
 
     function data_report($serial, $enable=1, $max_retries=0)
     {
-        echo "Enable alarm notifications.\r\n";
+        log::add('jeezviz', 'debug', "Enable alarm notifications.\r\n");
         if ($max_retries > $this->MAX_RETRIES)
         {
-            echo "Can't gather proper data. Max retries exceeded.";
+            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
         }            
 
         # operationType = 2 if disable, and 1 if enable
         $operationType = 2 - int($enable);
-        echo "enable: {".$enable."}, operationType: {".$operationType."}";
+        log::add('jeezviz', 'debug', "enable: {".$enable."}, operationType: {".$operationType."}");
         $infoDetail=json_encode(array("operationType" =>$operationType, "detail"=>'0', "deviceSerial"=>$serial.",2"));
         $postData=array('clientType'=>'1', 
                     'infoDetail'=>$infoDetail, 
@@ -1104,7 +1104,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            echo "Could not access Ezviz' API: ".$e;
+            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
         }
         if (array_key_exists("meta",$response_json))
         {
@@ -1112,7 +1112,7 @@ class EzvizClient
             {
                 # session is wrong, need to re-log-in
                 $this->login();
-                echo "Got 401, relogging (max retries: $max_retries)";
+                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->data_report($serial, $enable, $max_retries+1);
             }
         }
@@ -1120,19 +1120,19 @@ class EzvizClient
     }
     function ptzControl($command, $serial, $action, $speed=5, $max_retries=0)
     {
-        echo "PTZ Control by API.\r\n";
+        log::add('jeezviz', 'debug', "PTZ Control by API.\r\n");
         if ($max_retries > $this->MAX_RETRIES)
         {
-            echo "Can't gather proper data. Max retries exceeded.";            
+            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");            
         }
 
         if ($command === null)
         {
-            echo "Trying to call ptzControl without command";
+            log::add('jeezviz', 'debug', "Trying to call ptzControl without command");
         }
         if ($action === null)
         {
-            echo "Trying to call ptzControl without action";
+            log::add('jeezviz', 'debug', "Trying to call ptzControl without action");
         }
 
         try
@@ -1143,7 +1143,7 @@ class EzvizClient
         }
         catch (Exception $e) 
         {
-            echo "Could not access Ezviz' API: ".$e;
+            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
         }
         if (array_key_exists("meta",$response_json))
         {
@@ -1151,7 +1151,7 @@ class EzvizClient
             {
                 # session is wrong, need to re-log-in
                 $this->login();
-                echo "Got 401, relogging (max retries: $max_retries)";
+                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->ptzControl($max_retries+1);
             }
         }
