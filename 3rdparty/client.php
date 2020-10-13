@@ -1236,6 +1236,7 @@ class EzvizClient
     {
         if ($this->_sessionId === null)
         {
+            log::add('jeezviz', 'debug', 'Pas de token connu, authentification');   
             # setting fake user-agent header
             $this->_UserAgent = (new userAgent) ->generate(); 
             return $this->_login("");
@@ -1243,7 +1244,12 @@ class EzvizClient
         #On ne se réauthentifie que si la dernière authent est supérieure à 10 minutes
         if  ($this->_sessionId === null || $this->_sessionId == "" || $this->lastLogon === null || $this->lastLogon > (time() - (60*10)))
         {
+            log::add('jeezviz', 'debug', 'Token périmé, authentification');   
             return $this->_login("");            
+        }
+        else
+        {            
+            log::add('jeezviz', 'debug', 'Token encore valide');        
         }
         return true;
     }
