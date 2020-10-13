@@ -763,17 +763,13 @@ class EzvizClient
         
         $this->account =config::byKey('identifiant', 'jeezviz');
         $this->password = config::byKey('motdepasse', 'jeezviz');
-        log::add('jeezviz', 'debug', 'identifiant : '.$identifiant);
-        //log::add('jeezviz', 'debug', 'motdepasse : '.$motdepasse);
-        if ($sessionId ==  null)
-        {
-            $this->_sessionId = $sessionId;
-        }
-        else
-        {
-            $this->_sessionId = config::byKey('sessionId', 'jeezviz');
-            $this->lastLogin = config::byKey('lastLogin', 'jeezviz');;
-        }
+        log::add('jeezviz', 'debug', 'identifiant : '.$this->account);
+        //log::add('jeezviz', 'debug', 'motdepasse : '.$this->password);        
+        $this->_sessionId = config::byKey('sessionId', 'jeezviz');
+        $this->lastLogin = config::byKey('lastLogin', 'jeezviz');
+        log::add('jeezviz', 'debug', '_sessionId : '.$this->_sessionId);
+        log::add('jeezviz', 'debug', 'lastLogin : '.$this->lastLogin);
+        
         $this->_timeout = $timeout;
         $this->_CLOUD = $cloud;
         $this->_CONNECTION = $connection;
