@@ -796,6 +796,29 @@ class EzvizClient
         $this->SWITCH_STATUS_URL = $this->API_BASE_URI.$this->API_ENDPOINT_SWITCH_STATUS;
         $this->DETECTION_SENSIBILITY_URL = $this->API_BASE_URI.$this->API_ENDPOINT_DETECTION_SENSIBILITY;
         $this->DETECTION_SENSIBILITY_GET_URL = $this->API_BASE_URI.$this->API_ENDPOINT_DETECTION_SENSIBILITY_GET;
+
+
+        if ($this->_sessionId === null)
+        {
+            log::add('jeezviz', 'debug', 'Pas de token connu, authentification');   
+            # setting fake user-agent header
+            $this->_UserAgent = (new userAgent) ->generate();
+        }       
+        #On ne se réauthentifie que si la dernière authent est supérieure à 10 minutes
+        log::add('jeezviz', 'debug', '$this->_sessionId : '.$this->_sessionId);   
+        log::add('jeezviz', 'debug', '$this->lastLogin : '.$this->lastLogin );   
+        log::add('jeezviz', 'debug', '(time() - (60*10)) : '.(time() - (60*10)));   
+        if  ($this->lastLogin === null || $this->lastLogin < (time() - (60*10)))
+        {
+            log::add('jeezviz', 'debug', 'Token périmé, authentification');        
+        }
+        else
+        {            
+            log::add('jeezviz', 'debug', 'Token encore valide');   
+            return True;     
+        }
+
+
         log::add('jeezviz', 'debug', "Login to Ezviz' API at ".$this->LOGIN_URL);
         # Ezviz API sends md5 of password
         $md5pass = md5(utf8_encode($this->password));
@@ -1232,28 +1255,8 @@ class EzvizClient
         return $this->_switch_status($serial, $status_type, $enable);
     }
     function login()
-    {
-        if ($this->_sessionId === null)
-        {
-            log::add('jeezviz', 'debug', 'Pas de token connu, authentification');   
-            # setting fake user-agent header
-            $this->_UserAgent = (new userAgent) ->generate(); 
-            return $this->_login("");
-        }       
-        #On ne se réauthentifie que si la dernière authent est supérieure à 10 minutes
-        log::add('jeezviz', 'debug', '$this->_sessionId : '.$this->_sessionId);   
-        log::add('jeezviz', 'debug', '$this->lastLogin : '.$this->lastLogin );   
-        log::add('jeezviz', 'debug', '(time() - (60*10)) : '.(time() - (60*10)));   
-        if  ($this->lastLogin === null || $this->lastLogin < (time() - (60*10)))
-        {
-            log::add('jeezviz', 'debug', 'Token périmé, authentification');   
-            return $this->_login("");            
-        }
-        else
-        {            
-            log::add('jeezviz', 'debug', 'Token encore valide');        
-        }
-        return true;
+    {        
+        return $this->_login();
     }
 
 }
