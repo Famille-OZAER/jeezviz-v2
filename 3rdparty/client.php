@@ -1238,7 +1238,7 @@ class EzvizClient
             return $this->_login("");
         }       
         #On ne se réauthentifie que si la dernière authent est supérieure à 10 minutes
-        if  ($this->_sessionId === null || $this->_sessionId == "" || $this->lastLogon === null || $this->lastLogon > (time() - (60*10)))
+        if  ($this->_sessionId === null || $this->_sessionId == "" || $this->lastLogon === null || $this->lastLogon < (time() - (60*10)))
         {
             log::add('jeezviz', 'debug', 'Token périmé, authentification');   
             return $this->_login("");            
