@@ -653,7 +653,7 @@ class EzvizClient
                 log::add('jeezviz', 'debug', "Echec de la requête");
                 log::add('jeezviz', 'debug', curl_error($ch));
                 log::add('jeezviz', 'debug', curl_errno($ch));
-                echo "Une erreur est survenue, vérifiez les logs";
+                //echo "Une erreur est survenue, vérifiez les logs";
             }
             curl_close($ch);
             // Decode the response
