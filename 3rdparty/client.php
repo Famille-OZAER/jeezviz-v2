@@ -650,7 +650,10 @@ class EzvizClient
             $response = curl_exec($ch);
             // Check for errors
             if ($response === false) {
-                throw new Exception(curl_error($ch), curl_errno($ch));
+                log::add('jeezviz', 'debug', "Echec de la requête");
+                log::add('jeezviz', 'debug', curl_error($ch));
+                log::add('jeezviz', 'debug', curl_errno($ch));
+                echo "Une erreur est survenue, vérifiez les logs";
             }
             curl_close($ch);
             // Decode the response
