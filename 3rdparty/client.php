@@ -6,6 +6,8 @@ class EzvizClient
 {
     public $account;
     public $password;
+    public $sessionID;
+    public $lastLogon;
     # public _user_id;
     # public _user_reference;
     public $_session;
@@ -755,12 +757,23 @@ class EzvizClient
             trigger_error(sprintf('Curl failed with error #%d: %s',$e->getCode(), $e->getMessage()),E_USER_ERROR);
         }
     }
-    function __construct($account, $password, $sessionId=null, $timeout=DEFAULT_TIMEOUT, $cloud=null, $connection=null)
+    function __construct($timeout=DEFAULT_TIMEOUT, $cloud=null, $connection=null)
     {
         #"""Initialize the client object."""
-        $this->account = $account;
-        $this->password = $password;
-        $this->_sessionId = $sessionId;
+        
+        $this->account =config::byKey('identifiant', 'jeezviz');
+        $this->password = config::byKey('motdepasse', 'jeezviz');
+        log::add('jeezviz', 'debug', 'identifiant : '.$identifiant);
+        //log::add('jeezviz', 'debug', 'motdepasse : '.$motdepasse);
+        if ($sessionId ==  null)
+        {
+            $this->_sessionId = $sessionId;
+        }
+        else
+        {
+            $this->_sessionId = config::byKey('sessionId', 'jeezviz');
+            $this->lastLogin = config::byKey('lastLogin', 'jeezviz');;
+        }
         $this->_timeout = $timeout;
         $this->_CLOUD = $cloud;
         $this->_CONNECTION = $connection;
@@ -820,6 +833,8 @@ class EzvizClient
         {
             $sessionId = $response_json["loginSession"]["sessionId"];
             $this->_sessionId = $sessionId;
+            config::save("sessionId", $sessionId, 'jeezviz');
+            config::save("lastLogin", time(), 'jeezviz');
             log::add('jeezviz', 'debug', "Login successfull sessionId =".$sessionId."\r\n");
         }
         catch (Exception $e)
@@ -1219,13 +1234,18 @@ class EzvizClient
     }
     function login()
     {
-        #"""Set http session."""
         if ($this->_sessionId === null)
         {
             # setting fake user-agent header
             $this->_UserAgent = (new userAgent) ->generate(); 
+            return $this->_login("");
         }       
-        return $this->_login("");
+        #On ne se réauthentifie que si la dernière authent est supérieure à 10 minutes
+        if  ($this->_sessionId === null || $this->_sessionId == "" || $this->lastLogon === null || $this->lastLogon > (time() - (60*10)))
+        {
+            return $this->_login("");            
+        }
+        return true;
     }
 
 }

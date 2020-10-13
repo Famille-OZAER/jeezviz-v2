@@ -172,14 +172,10 @@ class jeezvizCmd extends cmd {
 
          $jeezvizObj = jeezviz::byId($this->getEqlogic_id());
          $serial=$jeezvizObj->getConfiguration('serial');
-         $identifiant=config::byKey('identifiant', 'jeezviz');
-         $motdepasse=config::byKey('motdepasse', 'jeezviz');
          
          log::add('jeezviz', 'debug', 'Serial : '.$serial);         
-         log::add('jeezviz', 'debug', 'identifiant : '.$identifiant);
-         //log::add('jeezviz', 'debug', 'motdepasse : '.$motdepasse);
 
-         $EzvizClient = new EzvizClient($identifiant, $motdepasse);
+         $EzvizClient = new EzvizClient();
          $EzvizClient->login();
          #$EzvizClient->get_PAGE_LIST();
          $EzvizCamera = new EzvizCamera($EzvizClient, $serial);
