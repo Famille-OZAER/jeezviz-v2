@@ -776,6 +776,7 @@ class EzvizClient
         $this->_timeout = $timeout;
         $this->_CLOUD = $cloud;
         $this->_CONNECTION = $connection;
+        $this->login();
     }
         
 

@@ -36,11 +36,14 @@ class jeezviz extends eqLogic {
     
     /*     * ***********************Methode static*************************** */
 
-    /*
-     * Fonction exécutée automatiquement toutes les minutes par Jeedom
+    
+     // Fonction exécutée automatiquement toutes les minutes par Jeedom
       public static function cron() {
+         $EzvizClient = new EzvizClient();
+         $retour=$EzvizClient->get_PAGE_LIST();
+         log::add("jeezviz","debug",var_dump($retour));
       }
-     */
+     
 
     /*     * *********************Méthodes d'instance************************* */
     
@@ -176,7 +179,6 @@ class jeezvizCmd extends cmd {
          log::add('jeezviz', 'debug', 'Serial : '.$serial);         
 
          $EzvizClient = new EzvizClient();
-         $EzvizClient->login();
          #$EzvizClient->get_PAGE_LIST();
          $EzvizCamera = new EzvizCamera($EzvizClient, $serial);
          
