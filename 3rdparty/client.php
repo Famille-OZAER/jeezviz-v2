@@ -1241,7 +1241,7 @@ class EzvizClient
         log::add('jeezviz', 'debug', '$this->_sessionId : '.$this->_sessionId);   
         log::add('jeezviz', 'debug', '$this->lastLogin : '.$this->lastLogin );   
         log::add('jeezviz', 'debug', '(time() - (60*10)) : '.(time() - (60*10)));   
-        if  ($this->_sessionId === null || $this->_sessionId == "" || $this->lastLogin === null || $this->lastLogin < (time() - (60*10)))
+        if  ($this->lastLogin === null || $this->lastLogin < (time() - (60*10)))
         {
             log::add('jeezviz', 'debug', 'Token périmé, authentification');   
             return $this->_login("");            
