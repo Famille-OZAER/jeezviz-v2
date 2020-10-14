@@ -72,7 +72,7 @@ class EzvizCamera
         }
 
         $this->_switch = $switches;
-        log::add('jeezviz', 'debug', var_dump($switches));
+        //log::add('jeezviz', 'debug', var_dump($switches));
         # load detection sensibility
         $this->_detection_sensibility = $this->_client->get_detection_sensibility($this->_serial);
 

@@ -39,9 +39,13 @@ class jeezviz extends eqLogic {
     
      // Fonction exécutée automatiquement toutes les minutes par Jeedom
       public static function cron() {
-         $EzvizClient = new EzvizClient();
-         $retour=$EzvizClient->get_PAGE_LIST();
-         log::add("jeezviz","debug",var_dump($retour));
+         log::add("jeezviz","debug","================ Debut cron ================");
+         $refreshCmd = $this->getCmd('action', 'refresh');
+         if (is_object($refreshCmd))
+         {
+            $refreshCmd->execute();
+         }
+         log::add("jeezviz","debug","================ Fin cron ================");
       }
      
 
@@ -65,58 +69,72 @@ class jeezviz extends eqLogic {
  // Fonction exécutée automatiquement après la mise à jour de l'équipement 
     public function postUpdate() {
       log::add('jeezviz', 'debug', '============ Début postUpdate ==========');
-      $getDataCmd = $this->getCmd(null, 'state');
-      if (!is_object($getDataCmd))
-      {
-         // Création de la commande
-         $cmd = new jeezvizCmd();
-         // Nom affiché
-         $cmd->setName('Etat');
-         // Identifiant de la commande
-         $cmd->setLogicalId('state');
-         // Identifiant de l'équipement
-         $cmd->setEqLogic_id($this->getId());
-         // Type de la commande
-         $cmd->setType('info');
-         $cmd->setIsHistorized(1);
-         // Sous-type de la commande
-         $cmd->setSubType('binary');
-         // Visibilité de la commande
-         $cmd->setIsVisible(1);
-         // Sauvegarde de la commande
-         $cmd->save();
-      }
-      $directions=array("refresh" => "Rafraichir", 
+      $defaultActions=array("refresh" => "Rafraichir", 
                   "moveup" => "Haut", 
                   "movedown" => "Bas", 
                   "moveleft" => "Gauche", 
                   "moveright" => "Droite", 
                   "privacyOn" => "Mode Privé On", 
                   "privacyOff" => "Mode Privé Off");
-
-      foreach ($directions as $key => $value) {
-         $getDataCmd = $this->getCmd(null, $key);
-         if (!is_object($getDataCmd))
-         {
-            // Création de la commande
-            $cmd = new jeezvizCmd();
-            // Nom affiché
-            $cmd->setName($value);
-            // Identifiant de la commande
-            $cmd->setLogicalId($key);
-            // Identifiant de l'équipement
-            $cmd->setEqLogic_id($this->getId());
-            // Type de la commande
-            $cmd->setType('action');
-            $cmd->setSubType('other');
-            // Visibilité de la commande
-            $cmd->setIsVisible(1);
-            // Sauvegarde de la commande
-            $cmd->save();
-         }
+      $defaultBinariesInfos=array("hik" => "Hikvision",                              
+                        "offlineNotify" => "Notification de déconnection",
+                        "status" => "Etat")
+      $defaultNumericInfos=array("casPort" => "Port CAS",
+                        "offlineTimestamp" => "Déconnectée depuis (Timestamp)")
+      $defaultOtherInfos=array("name" => "Nom",
+                        "deviceSerial" => "Numéro de série",
+                        "fullSerial" => "Numéro de série complet",
+                        "deviceType" => "Type d'équipement",
+                        "devicePicPrefix" => "Url de l'Image",
+                        "version" => "Version",
+                        "supportExt" => "Extension supportées",
+                        "userDeviceCreateTime" => "Date de création",
+                        "casIp" => "IP CAS",
+                        "channelNumber" => "Canal",
+                        "deviceCategory" => "Catégorie",
+                        "deviceSubCategory" => "Sous Catégorie",
+                        "ezDeviceCapability" => "EzDeviceCapability",
+                        "customType" => "Custom Type",
+                        "offlineTime" => "Déconnectée depuis",
+                        "accessPlatform" => "Accès plateforme",
+                        "deviceDomain" => "Domaine",
+                        "instructionBook" => "Mode d'emploi");
+                        
+      foreach ($defaultActions as $key => $value) {
+         createCmd($value, $key, 'action', 'other');
+      }
+      foreach ($defaultBinariesInfos as $key => $value) {
+         createCmd($value, $key, 'info', 'binary');
+      }
+      foreach ($defaultNumericInfos as $key => $value) {
+         createCmd($value, $key, 'info', 'numeric');
+      }
+      foreach ($defaultOtherInfos as $key => $value) {
+         createCmd($value, $key, 'info', 'other');
       }
     }
-
+    private function createCmd($cmdName, $logicalID, $type, $subType)
+    {
+      $getDataCmd = $this->getCmd(null, $logicalID);
+      if (!is_object($getDataCmd))
+      {
+         // Création de la commande
+         $cmd = new jeezvizCmd();
+         // Nom affiché
+         $cmd->setName($cmdName);
+         // Identifiant de la commande
+         $cmd->setLogicalId($logicalID);
+         // Identifiant de l'équipement
+         $cmd->setEqLogic_id($this->getId());
+         // Type de la commande
+         $cmd->setType($type);
+         $cmd->setSubType($subType);
+         // Visibilité de la commande
+         $cmd->setIsVisible(1);
+         // Sauvegarde de la commande
+         $cmd->save();
+      }
+    }
  // Fonction exécutée automatiquement avant la sauvegarde (création ou mise à jour) de l'équipement 
     public function preSave() {
         
@@ -166,9 +184,6 @@ class jeezvizCmd extends cmd {
             return;
          }
          
-         if (strtoupper($this->getLogicalId()) == "REFRESH") {
-            return;
-         }
          log::add('jeezviz', 'debug', 'Fonction execute démarrée');
          log::add('jeezviz', 'debug', 'EqLogic_Id : '.$this->getEqlogic_id());
          log::add('jeezviz', 'debug', 'Name : '.$this->getName());
@@ -185,6 +200,7 @@ class jeezvizCmd extends cmd {
          switch (strtoupper($this->getLogicalId()))
          {
            case "REFRESH":
+            $this->Refresh($EzvizCamera);
             break;
            case "PRIVACYON":
              log::add('jeezviz', 'debug', "PRIVACYON");
@@ -215,13 +231,25 @@ class jeezvizCmd extends cmd {
              $EzvizCamera->move("right");
              break;
          }
-
-
-
          log::add('jeezviz', 'debug', '============ Fin execute ==========');
 
       }
-
+      private function Refresh($EzvizCamera)
+      {
+         log::add('jeezviz', 'debug', '============ Début refresh ==========');
+         $retour=$EzvizCamera->load();
+         $arr = json_decode($retour, $true);
+         foreach($arr as $key => $value) {
+            log::add('jeezviz', 'debug', 'Recherche de la commande '.$key);
+            $infoCmd = $jeezvizObj->getCmd('info', $key);
+            if (is_object($infoCmd))
+            { 
+               log::add('jeezviz', 'debug', 'Mise à jour de la commande '.$key.' à '.$value);
+               $infoCmd->event($value);
+            }
+         }
+         log::add('jeezviz', 'debug', '============ Fin refresh ==========');
+      }
       public function postSave() {
          $jeezvizObj = jeezviz::byId($this->getEqlogic_id());
          $refreshCmd = $jeezvizObj->getCmd('action', 'refresh');
