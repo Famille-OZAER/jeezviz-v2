@@ -40,10 +40,13 @@ class jeezviz extends eqLogic {
      // Fonction exécutée automatiquement toutes les minutes par Jeedom
       public static function cron() {
          log::add("jeezviz","debug","================ Debut cron ================");
-         $refreshCmd = $this->getCmd('action', 'refresh');
-         if (is_object($refreshCmd))
-         {
-            $refreshCmd->execute();
+         $allEqlogic = eqLogic::byType('jeezviz');
+         foreach ($allEqlogic as $eqLogic){
+            $refreshCmd = $eqLogic->getCmd('action', 'refresh');
+            if (is_object($refreshCmd))
+            {
+               $refreshCmd->execute();
+            }
          }
          log::add("jeezviz","debug","================ Fin cron ================");
       }
@@ -78,9 +81,9 @@ class jeezviz extends eqLogic {
                   "privacyOff" => "Mode Privé Off");
       $defaultBinariesInfos=array("hik" => "Hikvision",                              
                         "offlineNotify" => "Notification de déconnection",
-                        "status" => "Etat")
+                        "status" => "Etat");
       $defaultNumericInfos=array("casPort" => "Port CAS",
-                        "offlineTimestamp" => "Déconnectée depuis (Timestamp)")
+                        "offlineTimestamp" => "Déconnectée depuis (Timestamp)");
       $defaultOtherInfos=array("name" => "Nom",
                         "deviceSerial" => "Numéro de série",
                         "fullSerial" => "Numéro de série complet",
@@ -101,19 +104,19 @@ class jeezviz extends eqLogic {
                         "instructionBook" => "Mode d'emploi");
                         
       foreach ($defaultActions as $key => $value) {
-         createCmd($value, $key, 'action', 'other');
+         $this->createCmd($value, $key, 'action', 'other');
       }
       foreach ($defaultBinariesInfos as $key => $value) {
-         createCmd($value, $key, 'info', 'binary');
+         $this->createCmd($value, $key, 'info', 'binary');
       }
       foreach ($defaultNumericInfos as $key => $value) {
-         createCmd($value, $key, 'info', 'numeric');
+         $this->createCmd($value, $key, 'info', 'numeric');
       }
       foreach ($defaultOtherInfos as $key => $value) {
-         createCmd($value, $key, 'info', 'other');
+         $this->createCmd($value, $key, 'info', 'string');
       }
     }
-    private function createCmd($cmdName, $logicalID, $type, $subType)
+    public function createCmd($cmdName, $logicalID, $type, $subType)
     {
       $getDataCmd = $this->getCmd(null, $logicalID);
       if (!is_object($getDataCmd))
@@ -234,7 +237,7 @@ class jeezvizCmd extends cmd {
          log::add('jeezviz', 'debug', '============ Fin execute ==========');
 
       }
-      private function Refresh($EzvizCamera)
+      public function RefreshCamera($EzvizCamera)
       {
          log::add('jeezviz', 'debug', '============ Début refresh ==========');
          $retour=$EzvizCamera->load();
@@ -251,12 +254,12 @@ class jeezvizCmd extends cmd {
          log::add('jeezviz', 'debug', '============ Fin refresh ==========');
       }
       public function postSave() {
-         $jeezvizObj = jeezviz::byId($this->getEqlogic_id());
+         /*$jeezvizObj = jeezviz::byId($this->getEqlogic_id());
          $refreshCmd = $jeezvizObj->getCmd('action', 'refresh');
          if (is_object($refreshCmd))
          {
             $refreshCmd->execute();
-         }
+         }*/
       }
     /*     * **********************Getteur Setteur*************************** */
 }

@@ -615,7 +615,6 @@ class EzvizClient
                 break;
             default:
                 return "Error code ".$code." not found";
-                var_dump($response_json);
         }
         return $Error;
     }
@@ -780,7 +779,7 @@ class EzvizClient
     }
         
 
-    function _login($apiDomain="")
+    function _login($force=false, $apiDomain="")
     {        
         if ($apiDomain=="")
         {
@@ -809,7 +808,7 @@ class EzvizClient
         log::add('jeezviz', 'debug', '$this->_sessionId : '.$this->_sessionId);   
         log::add('jeezviz', 'debug', '$this->lastLogin : '.$this->lastLogin );   
         log::add('jeezviz', 'debug', '(time() - (60*10)) : '.(time() - (60*10)));   
-        if  ($this->lastLogin === null || $this->lastLogin < (time() - (60*10)))
+        if  ($force==true || $this->lastLogin === null || $this->lastLogin < (time() - (60*10)))
         {
             log::add('jeezviz', 'debug', 'Token périmé, authentification');        
         }
@@ -818,7 +817,6 @@ class EzvizClient
             log::add('jeezviz', 'debug', 'Token encore valide');   
             return True;     
         }
-
 
         log::add('jeezviz', 'debug', "Login to Ezviz' API at ".$this->LOGIN_URL);
         # Ezviz API sends md5 of password
@@ -895,7 +893,7 @@ class EzvizClient
             if ($response_json["meta"]["code"] == 401)
             {
                 # session is wrong, need to relogin
-                $this->login();
+                $this->login(true);
                 log::add('jeezviz', 'debug', "Got 401, relogging (max retries: ".$max_retries.")");
                 return $this->_get_pagelist($max_retries+1);
             }
@@ -940,7 +938,7 @@ class EzvizClient
                 if ($response_json["meta"]["code"] == 401)
                 {
                     # session is wrong, need to relogin
-                    $this->login();
+                    $this->login(true);
                     log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                     return $this->_switch_status($serial, $type, $enable, $max_retries+1);
                 }
@@ -1031,7 +1029,7 @@ class EzvizClient
             if ($response_json["meta"]["code"] == 401)
             {
                 # session is wrong, need to re-log-in
-                $this->login();
+                $this->login(true);
                 log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->detection_sensibility($serial, $enable, $max_retries+1);
             }
@@ -1062,7 +1060,7 @@ class EzvizClient
             if ($response_json["meta"]["code"] == 401)
             {
                 # session is wrong, need to re-log-in
-                $this->login();
+                $this->login(true);
                 log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->get_detection_sensibility($serial, $enable, $max_retries+1);
             }
@@ -1070,7 +1068,7 @@ class EzvizClient
         
         if ($response_json['resultCode'] != '0')
         {
-            log::add('jeezviz', 'debug', "Could not get detection sensibility: Got %s : %s)",str(req.status_code), str(req.text));
+            //log::add('jeezviz', 'debug', "Could not get detection sensibility : ".var_dump($response_json['resultCode']).")");
             return 'Unknown';
         }
         else
@@ -1107,7 +1105,7 @@ class EzvizClient
             if ($response_json["meta"]["code"] == 401)
             {
                 # session is wrong, need to re-log-in
-                $this->login();
+                $this->login(true);
                 log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->alarm_sound($serial, $enable, $soundType, $max_retries+1);
             }   
@@ -1148,7 +1146,7 @@ class EzvizClient
             if ($response_json["meta"]["code"] == 401)
             {
                 # session is wrong, need to re-log-in
-                $this->login();
+                $this->login(true);
                 log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->data_report($serial, $enable, $max_retries+1);
             }
@@ -1187,7 +1185,7 @@ class EzvizClient
             if ($response_json["meta"]["code"] == 401)
             {
                 # session is wrong, need to re-log-in
-                $this->login();
+                $this->login(true);
                 log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->ptzControl($max_retries+1);
             }
@@ -1255,9 +1253,9 @@ class EzvizClient
         #"""Switch status of a device."""
         return $this->_switch_status($serial, $status_type, $enable);
     }
-    function login()
+    function login($force=false)
     {        
-        return $this->_login();
+        return $this->_login($force);
     }
 
 }
