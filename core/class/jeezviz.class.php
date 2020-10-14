@@ -203,7 +203,7 @@ class jeezvizCmd extends cmd {
          switch (strtoupper($this->getLogicalId()))
          {
            case "REFRESH":
-            $this->Refresh($EzvizCamera);
+            $this->RefreshCamera($EzvizCamera);
             break;
            case "PRIVACYON":
              log::add('jeezviz', 'debug', "PRIVACYON");
