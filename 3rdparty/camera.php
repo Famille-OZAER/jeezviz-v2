@@ -91,7 +91,7 @@ class EzvizCamera
             log::add('jeezviz', 'debug', $e);
         }
         $this->_loaded = 1;
-        return True;
+        return $this;
     }
 
 
