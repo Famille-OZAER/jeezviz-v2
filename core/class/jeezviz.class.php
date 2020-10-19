@@ -22,55 +22,25 @@ require_once __DIR__  . '/../../3rdparty/client.php';
 require_once __DIR__  . '/../../3rdparty/camera.php';
 require_once __DIR__  . '/../../3rdparty/userAgent.php';
 
-/*include_file('3rdparty', 'client', 'php', 'jeezviz');
-include_file('3rdparty', 'camera', 'php', 'jeezviz');
-include_file('3rdparty', 'userAgent', 'php', 'jeezviz');*/
 class jeezviz extends eqLogic {
-    /*     * *************************Attributs****************************** */
-    
-  /*
-   * Permet de définir les possibilités de personnalisation du widget (en cas d'utilisation de la fonction 'toHtml' par exemple)
-   * Tableau multidimensionnel - exemple: array('custom' => true, 'custom::layout' => false)
-	public static $_widgetPossibility = array();
-   */
-    
+   
     /*     * ***********************Methode static*************************** */
 
-    
-     // Fonction exécutée automatiquement toutes les minutes par Jeedom
-      public static function cron() {
-         log::add("jeezviz","debug","================ Debut cron ================");
-         $allEqlogic = eqLogic::byType('jeezviz');
-         foreach ($allEqlogic as $eqLogic){
-            $refreshCmd = $eqLogic->getCmd('action', 'refresh');
-            if (is_object($refreshCmd))
-            {
-               $refreshCmd->execute();
-            }
+   public static function cron5() {
+      log::add("jeezviz","debug","================ Debut cron ================");
+      $allEqlogic = eqLogic::byType('jeezviz');
+      foreach ($allEqlogic as $eqLogic){
+         $refreshCmd = $eqLogic->getCmd('action', 'refresh');
+         if (is_object($refreshCmd))
+         {
+            $refreshCmd->execute();
          }
-         log::add("jeezviz","debug","================ Fin cron ================");
       }
-     
+      log::add("jeezviz","debug","================ Fin cron ================");
+   }
+   
 
-    /*     * *********************Méthodes d'instance************************* */
-    
- // Fonction exécutée automatiquement avant la création de l'équipement 
-    public function preInsert() {
-        
-    }
-
- // Fonction exécutée automatiquement après la création de l'équipement 
-    public function postInsert() {
-        
-    }
-
- // Fonction exécutée automatiquement avant la mise à jour de l'équipement 
-    public function preUpdate() {
-        
-    }
-
- // Fonction exécutée automatiquement après la mise à jour de l'équipement 
-    public function postUpdate() {
+   public function postUpdate() {
       log::add('jeezviz', 'debug', '============ Début postUpdate ==========');
       $defaultActions=array("refresh" => "Rafraichir", 
                   "moveup" => "Haut", 
@@ -115,9 +85,9 @@ class jeezviz extends eqLogic {
       foreach ($defaultOtherInfos as $key => $value) {
          $this->createCmd($value, $key, 'info', 'string');
       }
-    }
-    public function createCmd($cmdName, $logicalID, $type, $subType)
-    {
+   }
+   public function createCmd($cmdName, $logicalID, $type, $subType)
+   {
       $getDataCmd = $this->getCmd(null, $logicalID);
       if (!is_object($getDataCmd))
       {
@@ -137,131 +107,105 @@ class jeezviz extends eqLogic {
          // Sauvegarde de la commande
          $cmd->save();
       }
-    }
- // Fonction exécutée automatiquement avant la sauvegarde (création ou mise à jour) de l'équipement 
-    public function preSave() {
-        
-    }
-
- // Fonction exécutée automatiquement après la sauvegarde (création ou mise à jour) de l'équipement 
-    public function postSave() {
-        
-    }
-
- // Fonction exécutée automatiquement avant la suppression de l'équipement 
-    public function preRemove() {
-        
-    }
-
- // Fonction exécutée automatiquement après la suppression de l'équipement 
-    public function postRemove() {
-        
-    }
-
-    /*     * **********************Getteur Setteur*************************** */
+   }
 }
 
 class jeezvizCmd extends cmd {
-    /*     * *************************Attributs****************************** */
-    
-    /*
-      public static $_widgetPossibility = array();
-    */
-    
-    /*     * ***********************Methode static*************************** */
 
-
-    /*     * *********************Methode d'instance************************* */
-
-    /*
-     * Non obligatoire permet de demander de ne pas supprimer les commandes même si elles ne sont pas dans la nouvelle configuration de l'équipement envoyé en JS
-      public function dontRemoveCmd() {
-      return true;
+   public function execute($_options = array()) {
+      log::add('jeezviz', 'debug', '============ Début execute ==========');
+      if ($this->getType() != 'action') {
+         return;
       }
-     */
+      
+      log::add('jeezviz', 'debug', 'Fonction execute démarrée');
+      log::add('jeezviz', 'debug', 'EqLogic_Id : '.$this->getEqlogic_id());
+      log::add('jeezviz', 'debug', 'Name : '.$this->getName());
 
-  // Exécution d'une commande  
-      public function execute($_options = array()) {
-         log::add('jeezviz', 'debug', '============ Début execute ==========');
-         if ($this->getType() != 'action') {
-            return;
-         }
-         
-         log::add('jeezviz', 'debug', 'Fonction execute démarrée');
-         log::add('jeezviz', 'debug', 'EqLogic_Id : '.$this->getEqlogic_id());
-         log::add('jeezviz', 'debug', 'Name : '.$this->getName());
+      $jeezvizObj = jeezviz::byId($this->getEqlogic_id());
+      $serial=$jeezvizObj->getConfiguration('serial');
+      
+      log::add('jeezviz', 'debug', 'Serial : '.$serial);         
 
-         $jeezvizObj = jeezviz::byId($this->getEqlogic_id());
-         $serial=$jeezvizObj->getConfiguration('serial');
-         
-         log::add('jeezviz', 'debug', 'Serial : '.$serial);         
-
-         $EzvizClient = new EzvizClient();
-         #$EzvizClient->get_PAGE_LIST();
-         $EzvizCamera = new EzvizCamera($EzvizClient, $serial);
-         
-         switch (strtoupper($this->getLogicalId()))
-         {
-           case "REFRESH":
-            $this->RefreshCamera($EzvizCamera);
-            break;
-           case "PRIVACYON":
-             log::add('jeezviz', 'debug', "PRIVACYON");
-             $EzvizCamera->switch_privacy_mode(1);
-             break;
-           case "PRIVACYOFF":
-             log::add('jeezviz', 'debug', "PRIVACYOFF");    
-             $EzvizCamera->switch_privacy_mode(0);
-             break;
-           case "GETSTATUS":
-             log::add('jeezviz', 'debug', "GETSTATUS");
-             log::add('jeezviz', 'debug', var_dump($EzvizCamera->status()));
-             break;
-           case "MOVEUP":
-             log::add('jeezviz', 'debug', "MOVEUP");
-             $EzvizCamera->move("up");
-             break;
-           case "MOVEDOWN":
-             log::add('jeezviz', 'debug', "MOVEDOWN");
-             $EzvizCamera->move("down");
-             break;
-           case "MOVELEFT":
-             log::add('jeezviz', 'debug', "MOVELEFT");
-             $EzvizCamera->move("left");
-             break;
-           case "MOVERIGHT":
-             log::add('jeezviz', 'debug', "MOVERIGHT");
-             $EzvizCamera->move("right");
-             break;
-         }
-         log::add('jeezviz', 'debug', '============ Fin execute ==========');
-
-      }
-      public function RefreshCamera($EzvizCamera)
+      $EzvizClient = new EzvizClient();
+      #$EzvizClient->get_PAGE_LIST();
+      $EzvizCamera = new EzvizCamera($EzvizClient, $serial);
+      
+      switch (strtoupper($this->getLogicalId()))
       {
-         log::add('jeezviz', 'debug', '============ Début refresh ==========');
-         $retour=$EzvizCamera->load();
-         $arr = json_decode($retour, $true);
-         foreach($arr as $key => $value) {
-            log::add('jeezviz', 'debug', 'Recherche de la commande '.$key);
-            $infoCmd = $jeezvizObj->getCmd('info', $key);
-            if (is_object($infoCmd))
-            { 
-               log::add('jeezviz', 'debug', 'Mise à jour de la commande '.$key.' à '.$value);
-               $infoCmd->event($value);
-            }
+         case "REFRESH":
+         $this->RefreshCamera($EzvizCamera);
+         break;
+         case "PRIVACYON":
+            log::add('jeezviz', 'debug', "PRIVACYON");
+            $EzvizCamera->switch_privacy_mode(1);
+            break;
+         case "PRIVACYOFF":
+            log::add('jeezviz', 'debug', "PRIVACYOFF");    
+            $EzvizCamera->switch_privacy_mode(0);
+            break;
+         case "GETSTATUS":
+            log::add('jeezviz', 'debug', "GETSTATUS");
+            log::add('jeezviz', 'debug', var_dump($EzvizCamera->status()));
+            break;
+         case "MOVEUP":
+            log::add('jeezviz', 'debug', "MOVEUP");
+            $EzvizCamera->move("up");
+            break;
+         case "MOVEDOWN":
+            log::add('jeezviz', 'debug', "MOVEDOWN");
+            $EzvizCamera->move("down");
+            break;
+         case "MOVELEFT":
+            log::add('jeezviz', 'debug', "MOVELEFT");
+            $EzvizCamera->move("left");
+            break;
+         case "MOVERIGHT":
+            log::add('jeezviz', 'debug', "MOVERIGHT");
+            $EzvizCamera->move("right");
+            break;
+      }
+      log::add('jeezviz', 'debug', '============ Fin execute ==========');
+
+   }
+   public function RefreshCamera($EzvizCamera)
+   {
+      log::add('jeezviz', 'debug', '============ Début refresh ==========');
+      $retour=$EzvizCamera->load();
+      $jeezvizObj = jeezviz::byId($this->getEqlogic_id());
+      foreach($retour as $key => $value) {
+         $this->SaveCmdInfo($jeezvizObj, $key, $value);
+      }
+      log::add('jeezviz', 'debug', '============ Fin refresh ==========');
+   }
+   public function SaveCmdInfo($jeezvizObj, $key, $value){
+      log::add('jeezviz', 'debug', 'Vérification de la clef '.$key);
+      if (is_array($value))
+      {
+         foreach($value as $key1 => $value1) {                    
+      $this->SaveCmdInfo($jeezvizObj, $key1, $value1);
+         }          
+      }
+      else
+      {
+         log::add('jeezviz', 'debug', 'Recherche de la commande '.$key);
+         $infoCmd = $jeezvizObj->getCmd('info', $key);
+         if (is_object($infoCmd))
+         { 
+         log::add('jeezviz', 'debug', 'Mise à jour de la commande '.$key.' à '.$value);
+         $infoCmd->event($value);
          }
-         log::add('jeezviz', 'debug', '============ Fin refresh ==========');
       }
-      public function postSave() {
-         /*$jeezvizObj = jeezviz::byId($this->getEqlogic_id());
-         $refreshCmd = $jeezvizObj->getCmd('action', 'refresh');
-         if (is_object($refreshCmd))
-         {
-            $refreshCmd->execute();
-         }*/
-      }
-    /*     * **********************Getteur Setteur*************************** */
+   }
+      
+   public function postSave() {
+      /*$jeezvizObj = jeezviz::byId($this->getEqlogic_id());
+      $refreshCmd = $jeezvizObj->getCmd('action', 'refresh');
+      if (is_object($refreshCmd))
+      {
+         $refreshCmd->execute();
+      }*/
+   }
 }
 
 
