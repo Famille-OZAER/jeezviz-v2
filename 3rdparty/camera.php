@@ -68,7 +68,7 @@ class EzvizCamera
         $switches = array();
         foreach ($page_list['switchStatusInfos'][$this->_serial] as $switch)
         {
-            $switches[$switch['type']] = $switch;
+            $switches[$switch['type']] = $switch; 
         }
 
         $this->_switch = $switches;
