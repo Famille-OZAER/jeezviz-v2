@@ -9,8 +9,8 @@
 	"hasDependency" : false,
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://ozaer.github.com/jeezviz/#language#/changelog",
-	"documentation" : "https://ozaer.github.com/jeezviz/#language#/changelog",
+	"changelog" : "https://famille-ozaer.github.io/jeezviz/#language#/",
+	"documentation" : "https://famille-ozaer.github.io/jeezviz/#language#/",
 	"link" : {
 		"forum":"Lien vers le forum",
 		"video" : "Lien vers une video"
