@@ -134,8 +134,8 @@ class jeezvizCmd extends cmd {
       switch (strtoupper($this->getLogicalId()))
       {
          case "REFRESH":
-         $this->RefreshCamera($EzvizCamera);
-         break;
+            $this->RefreshCamera($EzvizCamera);
+            break;
          case "PRIVACYON":
             log::add('jeezviz', 'debug', "PRIVACYON");
             $EzvizCamera->switch_privacy_mode(1);
