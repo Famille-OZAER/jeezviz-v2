@@ -43,6 +43,7 @@ class jeedom_com():
 		logging.debug('Init request module v%s' % (str(requests.__version__),))
 
 	def send_changes_async(self):
+		logging.debug('send_changes_async')
 		try:
 			if len(self.changes) == 0:
 				resend_changes = threading.Timer(self.cycle, self.send_changes_async)
@@ -71,6 +72,7 @@ class jeedom_com():
 			resend_changes.start() 
 		
 	def add_changes(self, key, value):
+		logging.debug('add_changes')
 		if key.find('::') != -1:
 			tmp_changes = {}
 			changes = value
@@ -85,6 +87,7 @@ class jeedom_com():
 			self.changes[key] = value
 
 	def send_change_immediate(self, change):
+		logging.debug('send_change_immediate')
 		try:
 			logging.debug('Send to jeedom :  %s' % (str(change),))
 			r = requests.post(self.url + '?apikey=' + self.apikey, json=change, timeout=(0.5, 120), verify=False)
@@ -94,12 +97,15 @@ class jeedom_com():
 			logging.error('Error on send request to jeedom %s' % (str(error),))
 
 	def set_change(self,changes):
+		logging.debug('set_change')
 		self.changes = changes
 
 	def get_change(self):
+		logging.debug('get_change')
 		return self.changes
 
 	def merge_dict(self, d1, d2):
+		logging.debug('merge_dict')
 		for k, v2 in d2.items():
 			v1 = d1.get(k)  # returns None if v1 has no value for this key
 			if (isinstance(v1, collections.Mapping) and
@@ -109,6 +115,7 @@ class jeedom_com():
 				d1[k] = v2
 
 	def test(self):
+		logging.debug('test')
 		try:
 			response = requests.get(self.url + '?apikey=' + self.apikey, verify=False)
 			if response.status_code != requests.codes.ok:
