@@ -1151,6 +1151,10 @@ class EzvizClient
                     log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
                     return $this->data_report($serial, $enable, $max_retries+1);
                 }
+                else
+                {
+                    log::add('jeezviz', 'debug', var_dump($response_json));
+                }
             }
             return True;
         } catch (Exception $e) {
