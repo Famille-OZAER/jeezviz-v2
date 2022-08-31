@@ -1,1 +1,1 @@
-Consulter le log html : [Link text Here](https://link-url-here.org)
+Consulter le log html : [Changelog](https://famille-ozaer.github.io/jeezviz/fr_FR/changelog.html)
