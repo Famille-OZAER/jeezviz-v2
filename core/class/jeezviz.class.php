@@ -40,8 +40,8 @@ class jeezviz extends eqLogic {
    }
    
 
-   public function postUpdate() {
-      log::add('jeezviz', 'debug', '============ Début postUpdate ==========');
+   public function postSave() {
+      log::add('jeezviz', 'debug', '============ Début postSave ==========');
       $defaultActions=array("refresh" => "Rafraichir", 
                   "moveup" => "Haut", 
                   "movedown" => "Bas", 
@@ -50,7 +50,7 @@ class jeezviz extends eqLogic {
                   "privacyOn" => "Mode Privé On", 
                   "privacyOff" => "Mode Privé Off", 
                   "alarmNotifyOn" => "Activer les notications", 
-                  "alarmNotifyOff" => "désactiver les notications");
+                  "alarmNotifyOff" => "Désactiver les notications");
       $defaultBinariesInfos=array("hik" => "Hikvision",                              
                         "offlineNotify" => "Notification de déconnection",
                         "status" => "Etat");
