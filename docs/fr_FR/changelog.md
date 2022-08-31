@@ -7,3 +7,6 @@
 >31/08/2022
 > - Ajout de log en debug
 > - Correction du lien vers le changelog
+
+>28/09/2020
+> - Version initiale
