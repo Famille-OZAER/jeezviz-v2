@@ -954,7 +954,7 @@ class EzvizClient
         return True;
     }
    
-    function _switch_alarm($serial, $enable, $max_retries=0)
+    function switch_alarm($serial, $enable, $max_retries=0)
     {
         #"""Switch alarm on a device"""
 
