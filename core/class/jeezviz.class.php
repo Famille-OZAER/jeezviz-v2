@@ -49,8 +49,8 @@ class jeezviz extends eqLogic {
                   "moveright" => "Droite", 
                   "privacyOn" => "Mode Privé On", 
                   "privacyOff" => "Mode Privé Off", 
-                  "alarmNotifyOn" => "Activer les notications", 
-                  "alarmNotifyOff" => "Désactiver les notications");
+                  "alarmNotifyOn" => "Activer les notifications", 
+                  "alarmNotifyOff" => "Désactiver les notifications");
       $defaultBinariesInfos=array("hik" => "Hikvision",                              
                         "offlineNotify" => "Notification de déconnection",
                         "status" => "Etat");
