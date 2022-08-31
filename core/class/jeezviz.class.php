@@ -151,19 +151,21 @@ class jeezvizCmd extends cmd {
             break;
          case "ALARMNOTIFYON":
             log::add('jeezviz', 'debug', "ALARMNOTIFYON");
+            #$EzvizCamera->alarm_notify(1);    
             $EzvizCamera->alarm_notify(1);
             break;
          case "ALARMNOTIFYOFF":
             log::add('jeezviz', 'debug', "ALARMNOTIFYOFF");    
+            #$EzvizCamera->alarm_notify(0);
             $EzvizCamera->alarm_notify(0);
             break;
          case "ALARMNOTIFYINTENSE":
             log::add('jeezviz', 'debug', "ALARMNOTIFYINTENSE");    
-            $EzvizCamera->alarm_sound(0);
+            $EzvizCamera->alarm_sound(1);
             break;          
          case "ALARMNOTIFYLOGICIEL":
             log::add('jeezviz', 'debug', "ALARMNOTIFYLOGICIEL");    
-            $EzvizCamera->alarm_sound(1);
+            $EzvizCamera->alarm_sound(0);
             break;         
          case "ALARMNOTIFYSILENCE":
             log::add('jeezviz', 'debug', "ALARMNOTIFYSILENCE");    

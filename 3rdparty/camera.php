@@ -3,6 +3,7 @@
 # seems to be some internal reference. 21 = sleep mode
 #const TYPE_PRIVACY_MODE = 21;
 const TYPE_PRIVACY_MODE = 7;
+const TYPE_ALARM_NOTIFY = 7;
 const TYPE_AUDIO = 22;
 const TYPE_STATE_LED = 3;
 const TYPE_IR_LED = 10;
@@ -144,7 +145,8 @@ class EzvizCamera
     function alarm_notify($enable)
     {
         log::add('jeezviz', 'debug', "Enable/Disable camera notification when movement is detected.\r\n");
-        return $this->_client->data_report($this->_serial, $enable);
+        #return $this->_client->data_report($this->_serial, $enable);
+        return $this->_client->switch_alarm($this->_serial, $enable);
     }
 
     function alarm_sound($sound_type)
