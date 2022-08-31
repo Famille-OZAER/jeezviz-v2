@@ -144,8 +144,7 @@ class EzvizCamera
     function alarm_notify($enable)
     {
         log::add('jeezviz', 'debug', "Enable/Disable camera notification when movement is detected.\r\n");
-        #return $this->_client->data_report($this->_serial, $enable);
-        return $this->_client->alarm_sound($this->_serial, 0, $enable);
+        return $this->_client->data_report($this->_serial, $enable);
     }
 
     function alarm_sound($sound_type)

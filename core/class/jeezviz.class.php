@@ -50,7 +50,10 @@ class jeezviz extends eqLogic {
                   "privacyOn" => "Mode Privé On", 
                   "privacyOff" => "Mode Privé Off", 
                   "alarmNotifyOn" => "Activer les notifications", 
-                  "alarmNotifyOff" => "Désactiver les notifications");
+                  "alarmNotifyOff" => "Désactiver les notifications",
+                  "alarmNotifyIntense" => "Notifications : intences",
+                  "alarmNotifyLogiciel" => "Notifications : Rappels léger",
+                  "alarmNotifySilence" => "Notifications : Silence");
       $defaultBinariesInfos=array("hik" => "Hikvision",                              
                         "offlineNotify" => "Notification de déconnection",
                         "status" => "Etat");
@@ -153,6 +156,18 @@ class jeezvizCmd extends cmd {
          case "ALARMNOTIFYOFF":
             log::add('jeezviz', 'debug', "ALARMNOTIFYOFF");    
             $EzvizCamera->alarm_notify(0);
+            break;
+         case "ALARMNOTIFYINTENSE":
+            log::add('jeezviz', 'debug', "ALARMNOTIFYINTENSE");    
+            $EzvizCamera->alarm_sound(0);
+            break;          
+         case "ALARMNOTIFYLOGICIEL":
+            log::add('jeezviz', 'debug', "ALARMNOTIFYLOGICIEL");    
+            $EzvizCamera->alarm_sound(1);
+            break;         
+         case "ALARMNOTIFYSILENCE":
+            log::add('jeezviz', 'debug', "ALARMNOTIFYSILENCE");    
+            $EzvizCamera->alarm_sound(2);
             break;
          case "GETSTATUS":
             log::add('jeezviz', 'debug', "GETSTATUS");

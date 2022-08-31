@@ -1092,9 +1092,9 @@ class EzvizClient
         
         try
         {
-            $data=array('enable'=>$enable, 'soundType'=>$soundType, 'voiceId'=>'0', 'deviceSerial'=>$serial);
+            $data=array('enable'=>$enable, 'soundType'=>$soundType, 'voiceId'=>'0', 'deviceSerial'=>$serial);            
             $headers=array('sessionId:'.$this->_sessionId);
-            $response_json = $this->QueryAPIPut($DEVICES_URL + $serial + $this->API_ENDPOINT_ALARM_SOUND, $data, $timeout=$this->_timeout, $headers);
+            $response_json = $this->QueryAPIPut($this->DEVICES_URL.$serial.$this->API_ENDPOINT_ALARM_SOUND, $data, $timeout=$this->_timeout, $headers);
         }
         catch (Exception $e)
         {
