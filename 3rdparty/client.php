@@ -921,7 +921,11 @@ class EzvizClient
     function _switch_status($serial, $status_type, $enable, $max_retries=0)
     {
         #"""Switch status on a device"""
-
+        
+        if ($max_retries > $this->MAX_RETRIES)
+        {
+            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
+        }
         try
         {
             $data=array('sessionId'=>$this->_sessionId,
@@ -958,6 +962,10 @@ class EzvizClient
     {
         #"""Switch alarm on a device"""
 
+        if ($max_retries > $this->MAX_RETRIES)
+        {
+            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
+        }
         try
         {
             $data=array('enable'=>$enable);
