@@ -960,8 +960,8 @@ class EzvizClient
    
     function switch_alarm($serial, $enable, $max_retries=0)
     {
-        #"""Switch alarm on a device"""
-
+        #"""Enable alarm notifications."""
+      
         if ($max_retries > $this->MAX_RETRIES)
         {
             log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
@@ -1071,7 +1071,7 @@ class EzvizClient
                 # session is wrong, need to re-log-in
                 $this->login(true);
                 log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
-                return $this->detection_sensibility($serial, $enable, $max_retries+1);
+                return $this->detection_sensibility($serial, $sensibility, $max_retries+1);
             }
         }
         return True;
