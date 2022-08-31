@@ -1116,42 +1116,47 @@ class EzvizClient
 
     function data_report($serial, $enable=1, $max_retries=0)
     {
-        log::add('jeezviz', 'debug', "Enable alarm notifications.\r\n");
-        if ($max_retries > $this->MAX_RETRIES)
-        {
-            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
-        }            
-
-        # operationType = 2 if disable, and 1 if enable
-        $operationType = 2 - int($enable);
-        log::add('jeezviz', 'debug', "enable: {".$enable."}, operationType: {".$operationType."}");
-        $infoDetail=json_encode(array("operationType" =>$operationType, "detail"=>'0', "deviceSerial"=>$serial.",2"));
-        $postData=array('clientType'=>'1', 
-                    'infoDetail'=>$infoDetail, 
-                    'infoType'=>'3', 
-                    'netType'=>'WIFI', 
-                    'reportData'=>null, 
-                    'requestType'=>'0', 
-                    'sessionId'=>$this->_sessionId);
-        try
-        {
-            $response_json = $this->QueryAPIPost($this->DATA_REPORT_URL, $postData, $this->_timeout);
-        }
-        catch (Exception $e)
-        {
-            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
-        }
-        if (array_key_exists("meta",$response_json))
-        {
-            if ($response_json["meta"]["code"] == 401)
+        try {
+            log::add('jeezviz', 'debug', "Enable alarm notifications.\r\n");
+            if ($max_retries > $this->MAX_RETRIES)
             {
-                # session is wrong, need to re-log-in
-                $this->login(true);
-                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
-                return $this->data_report($serial, $enable, $max_retries+1);
+                log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
+            }            
+
+            # operationType = 2 if disable, and 1 if enable
+            $operationType = 2 - intval($enable);
+            log::add('jeezviz', 'debug', "enable: {".$enable."}, operationType: {".$operationType."}");
+            $infoDetail=json_encode(array("operationType" =>$operationType, "detail"=>'0', "deviceSerial"=>$serial.",2"));
+            $postData=array('clientType'=>'1', 
+                        'infoDetail'=>$infoDetail, 
+                        'infoType'=>'3', 
+                        'netType'=>'WIFI', 
+                        'reportData'=>null, 
+                        'requestType'=>'0', 
+                        'sessionId'=>$this->_sessionId);
+            try
+            {
+                $response_json = $this->QueryAPIPost($this->DATA_REPORT_URL, $postData, $this->_timeout);
             }
+            catch (Exception $e)
+            {
+                log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
+            }
+            if (array_key_exists("meta",$response_json))
+            {
+                if ($response_json["meta"]["code"] == 401)
+                {
+                    # session is wrong, need to re-log-in
+                    $this->login(true);
+                    log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
+                    return $this->data_report($serial, $enable, $max_retries+1);
+                }
+            }
+            return True;
+        } catch (Exception $e) {
+            log::add('jeezviz', 'debug', $e->getMessage());
         }
-        return True;
+        
     }
     function ptzControl($command, $serial, $action, $speed=5, $max_retries=0)
     {
