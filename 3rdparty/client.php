@@ -34,7 +34,7 @@ class EzvizClient
     public $API_ENDPOINT_DATA_REPORT = "/api/other/data/report";
     public $API_ENDPOINT_DETECTION_SENSIBILITY = "/api/device/configAlgorithm";
     public $API_ENDPOINT_DETECTION_SENSIBILITY_GET = "/api/device/queryAlgorithmConfig";
-
+    public $API_ENDPOINT_SWITCH_SOUND_ALARM = "/sendAlarm";
     
     public $API_BASE_URI;
     public $LOGIN_URL;
@@ -960,17 +960,11 @@ class EzvizClient
 
         try
         {
-            $data=array('sessionId'=>$this->_sessionId,
-                'enablePlan'=>$enable, 
-                'serial'=>$serial, 
-                'channel'=>'0', 
-                'netType'=>'WIFI', 
-                'defenceType' => 'Global', 
-                'clientType'=>'1');
+            $data=array('enable'=>$enable);
             $headers=array("Content-Type: application/x-www-form-urlencoded", 
                 "clientType: 1", 
                 "customNo: 1000001");
-            $response_json = $this->QueryAPIPost($this->SWITCH_STATUS_URL, $data, $this->_timeout,$headers);
+            $response_json = $this->QueryAPIPost($this->DEVICES_URL.$serial."/0".$this->API_ENDPOINT_SWITCH_SOUND_ALARM, $data, $this->_timeout,$headers);
 
             if (array_key_exists("meta",$response_json))
             {
@@ -979,7 +973,7 @@ class EzvizClient
                     # session is wrong, need to relogin
                     $this->login(true);
                     log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
-                    return $this->_switch_status($serial, $status_type, $enable, $max_retries+1);
+                    return $this->switch_alarm($serial, $enable, $max_retries+1);
                 }
             }
         }            
