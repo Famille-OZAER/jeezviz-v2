@@ -51,8 +51,8 @@ class jeezvizv2 extends eqLogic {
                   "privacy_Off" => "Mode Privé Off", 
                   "audio_On" => "Activer le son", 
                   "audio_Off" => "Désactiver le son", 
-                  "ir_On" => "Allumer les led infrarouge", 
-                  "ir_Off" => "Eteindre led infrarouge", 
+                  "ir_On" => "Allumer les led infrarouges", 
+                  "ir_Off" => "Eteindre led infrarouges", 
                   //"state_On" => "Allumer", --> Effet non connu
                   //"state_Off" => "Eteindre",  --> Effet non connu
                   "sleep_On" => "Mettre en veille", 
