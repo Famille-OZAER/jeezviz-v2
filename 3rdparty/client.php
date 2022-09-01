@@ -58,25 +58,25 @@ class EzvizClient
         $lastError=json_last_error();
         switch ($lastError) {
             case JSON_ERROR_NONE:
-                #log::add('jeezviz', 'debug', " - Aucune erreur\r\n";
+                #log::add('jeezviz-v2', 'debug', " - Aucune erreur\r\n";
             break;
             case JSON_ERROR_DEPTH:
-                log::add('jeezviz', 'debug', " - Profondeur maximale atteinte\r\n");
+                log::add('jeezviz-v2', 'debug', " - Profondeur maximale atteinte\r\n");
             break;
             case JSON_ERROR_STATE_MISMATCH:
-                log::add('jeezviz', 'debug', " - Inadéquation des modes ou underflow\r\n");
+                log::add('jeezviz-v2', 'debug', " - Inadéquation des modes ou underflow\r\n");
             break;
             case JSON_ERROR_CTRL_CHAR:
-                log::add('jeezviz', 'debug', " - Erreur lors du contrôle des caractères\r\n");
+                log::add('jeezviz-v2', 'debug', " - Erreur lors du contrôle des caractères\r\n");
             break;
             case JSON_ERROR_SYNTAX:
-                log::add('jeezviz', 'debug', " - Erreur de syntaxe ; JSON malformé\r\n");
+                log::add('jeezviz-v2', 'debug', " - Erreur de syntaxe ; JSON malformé\r\n");
             break;
             case JSON_ERROR_UTF8:
-                log::add('jeezviz', 'debug', " - Caractères UTF-8 malformés, probablement une erreur d\'encodage\r\n");
+                log::add('jeezviz-v2', 'debug', " - Caractères UTF-8 malformés, probablement une erreur d\'encodage\r\n");
             break;
             default:
-                log::add('jeezviz', 'debug', " - Erreur inconnue\r\n");
+                log::add('jeezviz-v2', 'debug', " - Erreur inconnue\r\n");
             break;
         }
     }
@@ -625,7 +625,7 @@ class EzvizClient
     {
         try {
             // Setup cURL
-            log::add('jeezviz', 'debug', $URL."\r\n");
+            log::add('jeezviz-v2', 'debug', $URL."\r\n");
             $ch = curl_init();
             if ($ch === false) {
                 throw new Exception('failed to initialize');
@@ -651,15 +651,15 @@ class EzvizClient
             $response = curl_exec($ch);
             // Check for errors
             if ($response === false) {
-                log::add('jeezviz', 'debug', "Echec de la requête");
-                log::add('jeezviz', 'debug', curl_error($ch));
-                log::add('jeezviz', 'debug', curl_errno($ch));
+                log::add('jeezviz-v2', 'debug', "Echec de la requête");
+                log::add('jeezviz-v2', 'debug', curl_error($ch));
+                log::add('jeezviz-v2', 'debug', curl_errno($ch));
                 //echo "Une erreur est survenue, vérifiez les logs";
             }
             curl_close($ch);
             // Decode the response
             $response_json = json_decode($response, TRUE);    
-            log::add('jeezviz', 'debug', $response_json);
+            log::add('jeezviz-v2', 'debug', $response_json);
             $this->get_JsonLastError();
             $msgRetour=$this->get_EZVIZ_Result_Message($response_json);
             if($msgRetour != "Operation completed")
@@ -669,7 +669,7 @@ class EzvizClient
             return $response_json;
 			//return true;
         } catch(Exception $e) {
-            log::add('jeezviz', 'debug', $e);
+            log::add('jeezviz-v2', 'debug', $e);
             trigger_error(sprintf('Curl failed with error #%d: %s',$e->getCode(), $e->getMessage()),E_USER_ERROR);
         }
     }
@@ -677,7 +677,7 @@ class EzvizClient
     {
         try {
             // Setup cURL
-            log::add('jeezviz', 'debug', $URL."\r\n");
+            log::add('jeezviz-v2', 'debug', $URL."\r\n");
             $ch = curl_init();
             if ($ch === false) {
                 throw new Exception('failed to initialize');
@@ -686,7 +686,7 @@ class EzvizClient
             
             #CURLOPT_URL => $URL."?".$postData1,
             $uri=$URL."?".$postData1;
-            log::add('jeezviz', 'debug', $uri."\r\n");
+            log::add('jeezviz-v2', 'debug', $uri."\r\n");
             curl_setopt_array($ch, array(
                 CURLOPT_URL=>$uri,
                 CURLOPT_RETURNTRANSFER => TRUE,
@@ -712,7 +712,7 @@ class EzvizClient
             }  
             return $response_json;
         } catch(Exception $e) {
-            log::add('jeezviz', 'debug', $e);
+            log::add('jeezviz-v2', 'debug', $e);
             trigger_error(sprintf('Curl failed with error #%d: %s',$e->getCode(), $e->getMessage()),E_USER_ERROR);
         }
     }
@@ -720,7 +720,7 @@ class EzvizClient
     {
         try {
             // Setup cURL
-            log::add('jeezviz', 'debug', $URL."\r\n");
+            log::add('jeezviz-v2', 'debug', $URL."\r\n");
             $ch = curl_init();
             if ($ch === false) {
                 throw new Exception('failed to initialize');
@@ -730,7 +730,7 @@ class EzvizClient
             
             #CURLOPT_URL => $URL."?".$postData1,
             $uri=$URL."?".$postData1;
-            log::add('jeezviz', 'debug', $uri."\r\n");
+            log::add('jeezviz-v2', 'debug', $uri."\r\n");
             curl_setopt_array($ch, array(
                 CURLOPT_URL=>$uri,
                 CURLOPT_RETURNTRANSFER => TRUE,
@@ -757,7 +757,7 @@ class EzvizClient
             }  
             return $response_json;
         } catch(Exception $e) {
-            log::add('jeezviz', 'debug', $e);
+            log::add('jeezviz-v2', 'debug', $e);
             trigger_error(sprintf('Curl failed with error #%d: %s',$e->getCode(), $e->getMessage()),E_USER_ERROR);
         }
     }
@@ -765,14 +765,14 @@ class EzvizClient
     {
         #"""Initialize the client object."""
         
-        $this->account =config::byKey('identifiant', 'jeezviz');
-        $this->password = config::byKey('motdepasse', 'jeezviz');
-        log::add('jeezviz', 'debug', 'identifiant : '.$this->account);
-        //log::add('jeezviz', 'debug', 'motdepasse : '.$this->password);        
-        $this->_sessionId = config::byKey('sessionId', 'jeezviz');
-        $this->lastLogin = config::byKey('lastLogin', 'jeezviz');
-        log::add('jeezviz', 'debug', '_sessionId : '.$this->_sessionId);
-        log::add('jeezviz', 'debug', 'lastLogin : '.$this->lastLogin);
+        $this->account =config::byKey('identifiant', 'jeezviz-v2');
+        $this->password = config::byKey('motdepasse', 'jeezviz-v2');
+        log::add('jeezviz-v2', 'debug', 'identifiant : '.$this->account);
+        //log::add('jeezviz-v2', 'debug', 'motdepasse : '.$this->password);        
+        $this->_sessionId = config::byKey('sessionId', 'jeezviz-v2');
+        $this->lastLogin = config::byKey('lastLogin', 'jeezviz-v2');
+        log::add('jeezviz-v2', 'debug', '_sessionId : '.$this->_sessionId);
+        log::add('jeezviz-v2', 'debug', 'lastLogin : '.$this->lastLogin);
         
         $this->_timeout = $timeout;
         $this->_CLOUD = $cloud;
@@ -803,28 +803,28 @@ class EzvizClient
 
         if ($this->_sessionId === null)
         {
-            log::add('jeezviz', 'debug', 'Pas de token connu, authentification');   
+            log::add('jeezviz-v2', 'debug', 'Pas de token connu, authentification');   
             # setting fake user-agent header
             $this->_UserAgent = (new userAgent) ->generate();
         }       
         #On ne se réauthentifie que si la dernière authent est supérieure à 10 minutes
-        log::add('jeezviz', 'debug', '$this->_sessionId : '.$this->_sessionId);   
-        log::add('jeezviz', 'debug', '$this->lastLogin : '.$this->lastLogin );   
-        log::add('jeezviz', 'debug', '(time() - (60*10)) : '.(time() - (60*10)));   
+        log::add('jeezviz-v2', 'debug', '$this->_sessionId : '.$this->_sessionId);   
+        log::add('jeezviz-v2', 'debug', '$this->lastLogin : '.$this->lastLogin );   
+        log::add('jeezviz-v2', 'debug', '(time() - (60*10)) : '.(time() - (60*10)));   
         if  ($force==true || $this->lastLogin === null || $this->lastLogin < (time() - (60*10)))
         {
-            log::add('jeezviz', 'debug', 'Token périmé, authentification');        
+            log::add('jeezviz-v2', 'debug', 'Token périmé, authentification');        
         }
         else
         {            
-            log::add('jeezviz', 'debug', 'Token encore valide');   
+            log::add('jeezviz-v2', 'debug', 'Token encore valide');   
             return True;     
         }
 
-        log::add('jeezviz', 'debug', "Login to Ezviz' API at ".$this->LOGIN_URL);
+        log::add('jeezviz-v2', 'debug', "Login to Ezviz' API at ".$this->LOGIN_URL);
         # Ezviz API sends md5 of password
         $md5pass = md5(utf8_encode($this->password));
-        log::add('jeezviz', 'debug', 'md5pass : '.$md5pass);
+        log::add('jeezviz-v2', 'debug', 'md5pass : '.$md5pass);
         $postData = array("account"=>$this->account, 
                         "password"=>$md5pass, 
                         "featureCode"=>"92c579faa0902cbfcfcc4fc004ef67e7"
@@ -838,7 +838,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            log::add('jeezviz', 'debug', "Can not login to API\r\n");
+            log::add('jeezviz-v2', 'debug', "Can not login to API\r\n");
         }
         
         # if the apidomain is not proper
@@ -849,7 +849,7 @@ class EzvizClient
         
         if ($response_json["meta"]["code"] != 200)
         {
-			log::add('jeezviz', 'debug', var_dump($response_json));
+			log::add('jeezviz-v2', 'debug', var_dump($response_json));
             return false;
         }
         # let's parse the answer, session is in {.."loginSession":{"sessionId":"xxx...}
@@ -857,29 +857,29 @@ class EzvizClient
         {
             $sessionId = $response_json["loginSession"]["sessionId"];
             $this->_sessionId = $sessionId;
-            config::save("sessionId", $sessionId, 'jeezviz');
-            config::save("lastLogin", time(), 'jeezviz');
-            log::add('jeezviz', 'debug', "Login successfull sessionId =".$sessionId."\r\n");
+            config::save("sessionId", $sessionId, 'jeezviz-v2');
+            config::save("lastLogin", time(), 'jeezviz-v2');
+            log::add('jeezviz-v2', 'debug', "Login successfull sessionId =".$sessionId."\r\n");
         }
         catch (Exception $e)
         {          
-            log::add('jeezviz', 'debug', $e);
+            log::add('jeezviz-v2', 'debug', $e);
         }
         return True;
     }
 
     function _get_pagelist($filter=null, $json_key=null, $max_retries=0)
     {
-        log::add('jeezviz', 'debug', "Get data from pagelist API.\r\n");
+        log::add('jeezviz-v2', 'debug', "Get data from pagelist API.\r\n");
 
         if ($max_retries > $this->MAX_RETRIES)
         {
-            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
+            log::add('jeezviz-v2', 'debug', "Can't gather proper data. Max retries exceeded.");
         }
 
         if ($filter === null)
         {
-            log::add('jeezviz', 'debug', "Trying to call get_pagelist without filter");
+            log::add('jeezviz-v2', 'debug', "Trying to call get_pagelist without filter");
         }
         $postData=array('filter'=>$filter);
         $headers=array('sessionId:'.$this->_sessionId);
@@ -889,7 +889,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            log::add('jeezviz', 'debug', "Could not access Ezviz' API: " + $e);
+            log::add('jeezviz-v2', 'debug', "Could not access Ezviz' API: " + $e);
         }
         if (array_key_exists("meta",$response_json))
         { 
@@ -897,7 +897,7 @@ class EzvizClient
             {
                 # session is wrong, need to relogin
                 $this->login(true);
-                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: ".$max_retries.")");
+                log::add('jeezviz-v2', 'debug', "Got 401, relogging (max retries: ".$max_retries.")");
                 return $this->_get_pagelist($max_retries+1);
             }
         }
@@ -912,7 +912,7 @@ class EzvizClient
 
         if (!$json_result)
         {
-            log::add('jeezviz', 'debug', "Impossible to load the devices, here is the returned response: ".$response_json);
+            log::add('jeezviz-v2', 'debug', "Impossible to load the devices, here is the returned response: ".$response_json);
         }
         
         return $json_result;
@@ -924,7 +924,7 @@ class EzvizClient
         
         if ($max_retries > $this->MAX_RETRIES)
         {
-            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
+            log::add('jeezviz-v2', 'debug', "Can't gather proper data. Max retries exceeded.");
         }
         try
         {
@@ -946,14 +946,14 @@ class EzvizClient
                 {
                     # session is wrong, need to relogin
                     $this->login(true);
-                    log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
+                    log::add('jeezviz-v2', 'debug', "Got 401, relogging (max retries: $max_retries)");
                     return $this->_switch_status($serial, $status_type, $enable, $max_retries+1);
                 }
             }
         }            
         catch (Exception $e)
         {
-            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
+            log::add('jeezviz-v2', 'debug', "Could not access Ezviz' API: ".$e);
         }
         return True;
     }
@@ -964,7 +964,7 @@ class EzvizClient
       
         if ($max_retries > $this->MAX_RETRIES)
         {
-            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
+            log::add('jeezviz-v2', 'debug', "Can't gather proper data. Max retries exceeded.");
         }
         try
         {
@@ -980,21 +980,21 @@ class EzvizClient
                 {
                     # session is wrong, need to relogin
                     $this->login(true);
-                    log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
+                    log::add('jeezviz-v2', 'debug', "Got 401, relogging (max retries: $max_retries)");
                     return $this->switch_alarm($serial, $enable, $max_retries+1);
                 }
             }
         }            
         catch (Exception $e)
         {
-            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
+            log::add('jeezviz-v2', 'debug', "Could not access Ezviz' API: ".$e);
         }
         return True;
     }    
 
     function _switch_devices_privacy($enable=0)
     {
-        log::add('jeezviz', 'debug', "Switch privacy status on ALL devices (batch)\r\n");
+        log::add('jeezviz-v2', 'debug', "Switch privacy status on ALL devices (batch)\r\n");
 
         #  enable=1 means privacy is ON
 
@@ -1041,16 +1041,16 @@ class EzvizClient
 
     function detection_sensibility($serial, $sensibility=3, $max_retries=0)
     {
-        log::add('jeezviz', 'debug', "Enable alarm notifications.\r\n");
+        log::add('jeezviz-v2', 'debug', "Enable alarm notifications.\r\n");
         if ($max_retries > $this->MAX_RETRIES)
         {
-            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
+            log::add('jeezviz-v2', 'debug', "Can't gather proper data. Max retries exceeded.");
         }
             
 
         if (!in_array($sensibility,array(0,1,2,3,4,5,6)))
         {
-            log::add('jeezviz', 'debug', "Unproper sensibility (should be within 1 to 6).");
+            log::add('jeezviz-v2', 'debug', "Unproper sensibility (should be within 1 to 6).");
         }
             
 
@@ -1062,7 +1062,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
+            log::add('jeezviz-v2', 'debug', "Could not access Ezviz' API: ".$e);
         }
         if (array_key_exists("meta",$response_json))
         {
@@ -1070,7 +1070,7 @@ class EzvizClient
             {
                 # session is wrong, need to re-log-in
                 $this->login(true);
-                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
+                log::add('jeezviz-v2', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->detection_sensibility($serial, $sensibility, $max_retries+1);
             }
         }
@@ -1079,10 +1079,10 @@ class EzvizClient
 
     function get_detection_sensibility($serial, $max_retries=0)
     {
-        log::add('jeezviz', 'debug', "Get detection sensibility.\r\n");
+        log::add('jeezviz-v2', 'debug', "Get detection sensibility.\r\n");
         if ($max_retries > $this->MAX_RETRIES)
         {
-            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
+            log::add('jeezviz-v2', 'debug', "Can't gather proper data. Max retries exceeded.");
         }
 
         try
@@ -1093,7 +1093,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
+            log::add('jeezviz-v2', 'debug', "Could not access Ezviz' API: ".$e);
         }
         if (array_key_exists("meta",$response_json))
         {
@@ -1101,14 +1101,14 @@ class EzvizClient
             {
                 # session is wrong, need to re-log-in
                 $this->login(true);
-                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
+                log::add('jeezviz-v2', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->get_detection_sensibility($serial, $enable, $max_retries+1);
             }
         }
         
         if ($response_json['resultCode'] != '0')
         {
-            //log::add('jeezviz', 'debug', "Could not get detection sensibility : ".var_dump($response_json['resultCode']).")");
+            //log::add('jeezviz-v2', 'debug', "Could not get detection sensibility : ".var_dump($response_json['resultCode']).")");
             return 'Unknown';
         }
         else
@@ -1119,15 +1119,15 @@ class EzvizClient
 
     function alarm_sound($serial, $soundType, $enable=1, $max_retries=0)
     {
-        log::add('jeezviz', 'debug', "Enable alarm sound by API.\r\n");
+        log::add('jeezviz-v2', 'debug', "Enable alarm sound by API.\r\n");
         if ($max_retries > $this->MAX_RETRIES)
         {
-            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
+            log::add('jeezviz-v2', 'debug', "Can't gather proper data. Max retries exceeded.");
         }
 
         if (!in_array( array(0,1,2),$soundType))
         {
-            log::add('jeezviz', 'debug', "Invalid soundType, should be 0,1,2: ".$soundType);
+            log::add('jeezviz-v2', 'debug', "Invalid soundType, should be 0,1,2: ".$soundType);
         }
         
         try
@@ -1138,7 +1138,7 @@ class EzvizClient
         }
         catch (Exception $e)
         {
-            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
+            log::add('jeezviz-v2', 'debug', "Could not access Ezviz' API: ".$e);
         }
         if (array_key_exists("meta",$response_json))
         {
@@ -1146,7 +1146,7 @@ class EzvizClient
             {
                 # session is wrong, need to re-log-in
                 $this->login(true);
-                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
+                log::add('jeezviz-v2', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->alarm_sound($serial, $enable, $soundType, $max_retries+1);
             }   
         }    
@@ -1157,15 +1157,15 @@ class EzvizClient
     function data_report($serial, $enable=1, $max_retries=0)
     {
         try {
-            log::add('jeezviz', 'debug', "Enable alarm notifications.\r\n");
+            log::add('jeezviz-v2', 'debug', "Enable alarm notifications.\r\n");
             if ($max_retries > $this->MAX_RETRIES)
             {
-                log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");
+                log::add('jeezviz-v2', 'debug', "Can't gather proper data. Max retries exceeded.");
             }            
 
             # operationType = 2 if disable, and 1 if enable
             $operationType = 2 - intval($enable);
-            log::add('jeezviz', 'debug', "enable: {".$enable."}, operationType: {".$operationType."}");
+            log::add('jeezviz-v2', 'debug', "enable: {".$enable."}, operationType: {".$operationType."}");
             $infoDetail=json_encode(array("operationType" =>$operationType, "detail"=>'0', "deviceSerial"=>$serial.",2"));
             $postData=array('clientType'=>'1', 
                         'infoDetail'=>$infoDetail, 
@@ -1180,7 +1180,7 @@ class EzvizClient
             }
             catch (Exception $e)
             {
-                log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
+                log::add('jeezviz-v2', 'debug', "Could not access Ezviz' API: ".$e);
             }
             if (array_key_exists("meta",$response_json))
             {
@@ -1188,35 +1188,35 @@ class EzvizClient
                 {
                     # session is wrong, need to re-log-in
                     $this->login(true);
-                    log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
+                    log::add('jeezviz-v2', 'debug', "Got 401, relogging (max retries: $max_retries)");
                     return $this->data_report($serial, $enable, $max_retries+1);
                 }
                 else
                 {
-                    log::add('jeezviz', 'debug', var_dump($response_json));
+                    log::add('jeezviz-v2', 'debug', var_dump($response_json));
                 }
             }
             return True;
         } catch (Exception $e) {
-            log::add('jeezviz', 'debug', $e->getMessage());
+            log::add('jeezviz-v2', 'debug', $e->getMessage());
         }
         
     }
     function ptzControl($command, $serial, $action, $speed=5, $max_retries=0)
     {
-        log::add('jeezviz', 'debug', "PTZ Control by API.\r\n");
+        log::add('jeezviz-v2', 'debug', "PTZ Control by API.\r\n");
         if ($max_retries > $this->MAX_RETRIES)
         {
-            log::add('jeezviz', 'debug', "Can't gather proper data. Max retries exceeded.");            
+            log::add('jeezviz-v2', 'debug', "Can't gather proper data. Max retries exceeded.");            
         }
 
         if ($command === null)
         {
-            log::add('jeezviz', 'debug', "Trying to call ptzControl without command");
+            log::add('jeezviz-v2', 'debug', "Trying to call ptzControl without command");
         }
         if ($action === null)
         {
-            log::add('jeezviz', 'debug', "Trying to call ptzControl without action");
+            log::add('jeezviz-v2', 'debug', "Trying to call ptzControl without action");
         }
 
         try
@@ -1227,7 +1227,7 @@ class EzvizClient
         }
         catch (Exception $e) 
         {
-            log::add('jeezviz', 'debug', "Could not access Ezviz' API: ".$e);
+            log::add('jeezviz-v2', 'debug', "Could not access Ezviz' API: ".$e);
         }
         if (array_key_exists("meta",$response_json))
         {
@@ -1235,7 +1235,7 @@ class EzvizClient
             {
                 # session is wrong, need to re-log-in
                 $this->login(true);
-                log::add('jeezviz', 'debug', "Got 401, relogging (max retries: $max_retries)");
+                log::add('jeezviz-v2', 'debug', "Got 401, relogging (max retries: $max_retries)");
                 return $this->ptzControl($max_retries+1);
             }
         }

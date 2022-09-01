@@ -1,6 +1,6 @@
 {
-	"id" : "jeezviz",
-	"name" : "jeezviz",
+	"id" : "jeezviz-v2",
+	"name" : "jeezviz-v2",
 	"description" : "Plugin de pilotage des caméras et visiophones EZVIZ",
 	"licence" : "MIT",
 	"author" : "OOZAER",

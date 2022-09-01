@@ -2,7 +2,7 @@
 if (!isConnect('admin')) {
 	throw new Exception('{{401 - Accès non autorisé}}');
 }
-$plugin = plugin::byId('jeezviz');
+$plugin = plugin::byId('jeezviz-v2');
 sendVarToJS('eqType', $plugin->getId());
 $eqLogics = eqLogic::byType($plugin->getId());
 ?>
@@ -123,6 +123,6 @@ $eqLogics = eqLogic::byType($plugin->getId());
 </div>
 
 <!-- Inclusion du fichier javascript du plugin (dossier, nom_du_fichier, extension_du_fichier, nom_du_plugin) -->
-<?php include_file('desktop', 'jeezviz', 'js', 'jeezviz');?>
+<?php include_file('desktop', 'jeezviz-v2', 'js', 'jeezviz-v2');?>
 <!-- Inclusion du fichier javascript du core - NE PAS MODIFIER NI SUPPRIMER -->
 <?php include_file('core', 'plugin.template', 'js');?>
