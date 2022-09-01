@@ -132,9 +132,9 @@ class jeezvizv2Cmd extends cmd {
       
       log::add('jeezvizv2', 'debug', 'Serial : '.$serial);         
 
-      $EzvizClient = new EzvizClient();
-      #$EzvizClient->get_PAGE_LIST();
-      $EzvizCamera = new EzvizCamera($EzvizClient, $serial);
+      $EzvizV2Client = new EzvizV2Client();
+      #$EzvizV2Client->get_PAGE_LIST();
+      $EzvizCamera = new EzvizCamera($EzvizV2Client, $serial);
       
       switch (strtoupper($this->getLogicalId()))
       {

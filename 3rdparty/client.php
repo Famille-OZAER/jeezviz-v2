@@ -2,7 +2,7 @@
 require_once __DIR__."/userAgent.php";
 require_once __DIR__."/camera.php";
 
-class EzvizClient
+class EzvizV2Client
 {
     public $account;
     public $password;
