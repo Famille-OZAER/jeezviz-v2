@@ -1,6 +1,6 @@
 {
-	"id" : "jeezviz-v2",
-	"name" : "jeezviz-v2",
+	"id" : "jeezvizv2",
+	"name" : "jeezvizv2",
 	"description" : "Plugin de pilotage des caméras et visiophones EZVIZ",
 	"licence" : "MIT",
 	"author" : "OOZAER",
@@ -9,8 +9,8 @@
 	"hasDependency" : false, 
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://famille-ozaer.github.io/jeezviz-v2/#language#/changelog.html",
-	"documentation" : "https://famille-ozaer.github.io/jeezviz-v2/#language#/index.md" ,
+	"changelog" : "https://famille-ozaer.github.io/jeezvizv2/#language#/changelog.html",
+	"documentation" : "https://famille-ozaer.github.io/jeezvizv2/#language#/index.md" ,
 	"link" : { 
 		"forum":"Lien vers le forum",
 		"video" : "Lien vers une video"

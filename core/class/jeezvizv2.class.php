@@ -22,13 +22,13 @@ require_once __DIR__  . '/../../3rdparty/client.php';
 require_once __DIR__  . '/../../3rdparty/camera.php';
 require_once __DIR__  . '/../../3rdparty/userAgent.php';
 
-class jeezviz-v2 extends eqLogic {
+class jeezvizv2 extends eqLogic {
    
     /*     * ***********************Methode static*************************** */
 
    public static function cron5() {
-      log::add("jeezviz-v2","debug","================ Debut cron ================");
-      $allEqlogic = eqLogic::byType('jeezviz-v2');
+      log::add("jeezvizv2","debug","================ Debut cron ================");
+      $allEqlogic = eqLogic::byType('jeezvizv2');
       foreach ($allEqlogic as $eqLogic){
          $refreshCmd = $eqLogic->getCmd('action', 'refresh');
          if (is_object($refreshCmd))
@@ -36,12 +36,12 @@ class jeezviz-v2 extends eqLogic {
             $refreshCmd->execute();
          }
       }
-      log::add("jeezviz-v2","debug","================ Fin cron ================");
+      log::add("jeezvizv2","debug","================ Fin cron ================");
    }
    
 
    public function postSave() {
-      log::add('jeezviz-v2', 'debug', '============ Début postSave ==========');
+      log::add('jeezvizv2', 'debug', '============ Début postSave ==========');
       $defaultActions=array("refresh" => "Rafraichir", 
                   "moveup" => "Haut", 
                   "movedown" => "Bas", 
@@ -115,22 +115,22 @@ class jeezviz-v2 extends eqLogic {
    }
 }
 
-class jeezviz-v2Cmd extends cmd {
+class jeezvizv2Cmd extends cmd {
 
    public function execute($_options = array()) {
-      log::add('jeezviz-v2', 'debug', '============ Début execute ==========');
+      log::add('jeezvizv2', 'debug', '============ Début execute ==========');
       if ($this->getType() != 'action') {
          return;
       }
       
-      log::add('jeezviz-v2', 'debug', 'Fonction execute démarrée');
-      log::add('jeezviz-v2', 'debug', 'EqLogic_Id : '.$this->getEqlogic_id());
-      log::add('jeezviz-v2', 'debug', 'Name : '.$this->getName());
+      log::add('jeezvizv2', 'debug', 'Fonction execute démarrée');
+      log::add('jeezvizv2', 'debug', 'EqLogic_Id : '.$this->getEqlogic_id());
+      log::add('jeezvizv2', 'debug', 'Name : '.$this->getName());
 
-      $jeezvizObj = jeezviz-v2::byId($this->getEqlogic_id());
+      $jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
       $serial=$jeezvizObj->getConfiguration('serial');
       
-      log::add('jeezviz-v2', 'debug', 'Serial : '.$serial);         
+      log::add('jeezvizv2', 'debug', 'Serial : '.$serial);         
 
       $EzvizClient = new EzvizClient();
       #$EzvizClient->get_PAGE_LIST();
@@ -142,71 +142,71 @@ class jeezviz-v2Cmd extends cmd {
             $this->RefreshCamera($EzvizCamera);
             break;
          case "PRIVACYON":
-            log::add('jeezviz-v2', 'debug', "PRIVACYON");
+            log::add('jeezvizv2', 'debug', "PRIVACYON");
             $EzvizCamera->switch_privacy_mode(1);
             break;
          case "PRIVACYOFF":
-            log::add('jeezviz-v2', 'debug', "PRIVACYOFF");    
+            log::add('jeezvizv2', 'debug', "PRIVACYOFF");    
             $EzvizCamera->switch_privacy_mode(0);
             break;
          case "ALARMNOTIFYON":
-            log::add('jeezviz-v2', 'debug', "ALARMNOTIFYON");
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFYON");
             #$EzvizCamera->alarm_notify(1);    
             $EzvizCamera->alarm_notify(1);
             break;
          case "ALARMNOTIFYOFF":
-            log::add('jeezviz-v2', 'debug', "ALARMNOTIFYOFF");    
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFYOFF");    
             #$EzvizCamera->alarm_notify(0);
             $EzvizCamera->alarm_notify(0);
             break;
          case "ALARMNOTIFYINTENSE":
-            log::add('jeezviz-v2', 'debug', "ALARMNOTIFYINTENSE");    
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFYINTENSE");    
             $EzvizCamera->alarm_sound(1);
             break;          
          case "ALARMNOTIFYLOGICIEL":
-            log::add('jeezviz-v2', 'debug', "ALARMNOTIFYLOGICIEL");    
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFYLOGICIEL");    
             $EzvizCamera->alarm_sound(0);
             break;         
          case "ALARMNOTIFYSILENCE":
-            log::add('jeezviz-v2', 'debug', "ALARMNOTIFYSILENCE");    
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFYSILENCE");    
             $EzvizCamera->alarm_sound(2);
             break;
          case "GETSTATUS":
-            log::add('jeezviz-v2', 'debug', "GETSTATUS");
-            log::add('jeezviz-v2', 'debug', var_dump($EzvizCamera->status()));
+            log::add('jeezvizv2', 'debug', "GETSTATUS");
+            log::add('jeezvizv2', 'debug', var_dump($EzvizCamera->status()));
             break;
          case "MOVEUP":
-            log::add('jeezviz-v2', 'debug', "MOVEUP");
+            log::add('jeezvizv2', 'debug', "MOVEUP");
             $EzvizCamera->move("up");
             break;
          case "MOVEDOWN":
-            log::add('jeezviz-v2', 'debug', "MOVEDOWN");
+            log::add('jeezvizv2', 'debug', "MOVEDOWN");
             $EzvizCamera->move("down");
             break;
          case "MOVELEFT":
-            log::add('jeezviz-v2', 'debug', "MOVELEFT");
+            log::add('jeezvizv2', 'debug', "MOVELEFT");
             $EzvizCamera->move("left");
             break;
          case "MOVERIGHT":
-            log::add('jeezviz-v2', 'debug', "MOVERIGHT");
+            log::add('jeezvizv2', 'debug', "MOVERIGHT");
             $EzvizCamera->move("right");
             break;
       }
-      log::add('jeezviz-v2', 'debug', '============ Fin execute ==========');
+      log::add('jeezvizv2', 'debug', '============ Fin execute ==========');
 
    }
    public function RefreshCamera($EzvizCamera)
    {
-      log::add('jeezviz-v2', 'debug', '============ Début refresh ==========');
+      log::add('jeezvizv2', 'debug', '============ Début refresh ==========');
       $retour=$EzvizCamera->load();
-      $jeezvizObj = jeezviz-v2::byId($this->getEqlogic_id());
+      $jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
       foreach($retour as $key => $value) {
          $this->SaveCmdInfo($jeezvizObj, $key, $value);
       }
-      log::add('jeezviz-v2', 'debug', '============ Fin refresh ==========');
+      log::add('jeezvizv2', 'debug', '============ Fin refresh ==========');
    }
    public function SaveCmdInfo($jeezvizObj, $key, $value){
-      log::add('jeezviz-v2', 'debug', 'Vérification de la clef '.$key);
+      log::add('jeezvizv2', 'debug', 'Vérification de la clef '.$key);
       if (is_array($value))
       {
          foreach($value as $key1 => $value1) {                    
@@ -215,18 +215,18 @@ class jeezviz-v2Cmd extends cmd {
       }
       else
       {
-         log::add('jeezviz-v2', 'debug', 'Recherche de la commande '.$key);
+         log::add('jeezvizv2', 'debug', 'Recherche de la commande '.$key);
          $infoCmd = $jeezvizObj->getCmd('info', $key);
          if (is_object($infoCmd))
          { 
-         log::add('jeezviz-v2', 'debug', 'Mise à jour de la commande '.$key.' à '.$value);
+         log::add('jeezvizv2', 'debug', 'Mise à jour de la commande '.$key.' à '.$value);
          $infoCmd->event($value);
          }
       }
    }
       
    public function postSave() {
-      /*$jeezvizObj = jeezviz-v2::byId($this->getEqlogic_id());
+      /*$jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
       $refreshCmd = $jeezvizObj->getCmd('action', 'refresh');
       if (is_object($refreshCmd))
       {

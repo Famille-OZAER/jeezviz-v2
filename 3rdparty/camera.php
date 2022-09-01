@@ -21,7 +21,7 @@ class EzvizCamera
     public $_device;
     function __construct($client, $serial)
     {
-        log::add('jeezviz-v2', 'debug', "Initialize the camera object.\r\n");
+        log::add('jeezvizv2', 'debug', "Initialize the camera object.\r\n");
         $this->_serial = $serial;
         $this->_client = $client;
 
@@ -33,7 +33,7 @@ class EzvizCamera
         
     function load()
     {
-        log::add('jeezviz-v2', 'debug', "Load object properties\r\n");
+        log::add('jeezvizv2', 'debug', "Load object properties\r\n");
         $page_list = $this->_client->get_PAGE_LIST();
 
         # we need to know the index of this camera's $this->_serial  
@@ -73,7 +73,7 @@ class EzvizCamera
         }
 
         $this->_switch = $switches;
-        //log::add('jeezviz-v2', 'debug', var_dump($switches));
+        //log::add('jeezvizv2', 'debug', var_dump($switches));
         # load detection sensibility
         $this->_detection_sensibility = $this->_client->get_detection_sensibility($this->_serial);
 
@@ -89,7 +89,7 @@ class EzvizCamera
         }
         catch (Exception $e)
         {
-            log::add('jeezviz-v2', 'debug', $e);
+            log::add('jeezvizv2', 'debug', $e);
         }
         $this->_loaded = 1;
         return $this;
@@ -98,7 +98,7 @@ class EzvizCamera
 
     function status()
     {
-        log::add('jeezviz-v2', 'debug', "Return the status of the camera.\r\n");
+        log::add('jeezvizv2', 'debug', "Return the status of the camera.\r\n");
 
         if (!$this->_loaded)
         {
@@ -127,11 +127,11 @@ class EzvizCamera
 
     function move($direction, $speed=5)
     {
-        log::add('jeezviz-v2', 'debug', "Moves the camera to the ".$direction."\r\n");
+        log::add('jeezvizv2', 'debug', "Moves the camera to the ".$direction."\r\n");
         $allowedDirections=array('right','left','down','up');
         if (!in_array($direction, $allowedDirections))
         {
-            log::add('jeezviz-v2', 'debug', "Invalid direction: ".$direction."\r\n");
+            log::add('jeezvizv2', 'debug', "Invalid direction: ".$direction."\r\n");
             return false;
         }
         # launch the start command
@@ -144,52 +144,52 @@ class EzvizCamera
 
     function alarm_notify($enable)
     {
-        log::add('jeezviz-v2', 'debug', "Enable/Disable camera notification when movement is detected.\r\n");
+        log::add('jeezvizv2', 'debug', "Enable/Disable camera notification when movement is detected.\r\n");
         #return $this->_client->data_report($this->_serial, $enable);
         return $this->_client->switch_alarm($this->_serial, $enable);
     }
 
     function alarm_sound($sound_type)
     {
-        log::add('jeezviz-v2', 'debug', "Enable/Disable camera sound when movement is detected.\r\n");
+        log::add('jeezvizv2', 'debug', "Enable/Disable camera sound when movement is detected.\r\n");
         # we force enable = 1 , to make sound...
         return $this->_client->alarm_sound($this->_serial, $sound_type, 1);
     }
 
     function alarm_detection_sensibility($sensibility)
     {
-        log::add('jeezviz-v2', 'debug', "Enable/Disable camera sound when movement is detected.\r\n");
+        log::add('jeezvizv2', 'debug', "Enable/Disable camera sound when movement is detected.\r\n");
         # we force enable = 1 , to make sound...
         return $this->_client->detection_sensibility($this->_serial, $sensibility);
     }
 
     function switch_device_audio($enable=0)
     {
-        log::add('jeezviz-v2', 'debug', "Switch audio status on a device.\r\n");
+        log::add('jeezvizv2', 'debug', "Switch audio status on a device.\r\n");
         return $this->_client->switch_status($this->_serial, TYPE_AUDIO, $enable);
     }
 
     function switch_device_state_led($enable=0)
     {
-        log::add('jeezviz-v2', 'debug', "Switch audio status on a device.\r\n");
+        log::add('jeezvizv2', 'debug', "Switch audio status on a device.\r\n");
         return $this->_client->switch_status($this->_serial, TYPE_STATE_LED, $enable);
     }
 
     function switch_device_ir_led($enable=0)
     {
-        log::add('jeezviz-v2', 'debug', "Switch audio status on a device.\r\n");
+        log::add('jeezvizv2', 'debug', "Switch audio status on a device.\r\n");
         return $this->_client->switch_status($this->_serial, TYPE_IR_LED, $enable);
     }
 
     function switch_privacy_mode($enable=0)
     {
-        log::add('jeezviz-v2', 'debug', "Switch privacy mode on a device.\r\n");        
+        log::add('jeezvizv2', 'debug', "Switch privacy mode on a device.\r\n");        
         return $this->_client->switch_status($this->_serial, TYPE_PRIVACY_MODE, $enable);
     }
 
     function switch_follow_move($enable=0)
     {
-        log::add('jeezviz-v2', 'debug', "Switch follow move.\r\n");
+        log::add('jeezvizv2', 'debug', "Switch follow move.\r\n");
         return $this->_client->switch_status($this->_serial, TYPE_FOLLOW_MOVE, $enable);
     }
 }
