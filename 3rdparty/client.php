@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__."/userAgent.php";
+require_once __DIR__."/JeezvizV2UserAgent.php";
 require_once __DIR__."/camera.php";
 
 class EzvizV2Client
@@ -805,7 +805,7 @@ class EzvizV2Client
         {
             log::add('jeezvizv2', 'debug', 'Pas de token connu, authentification');   
             # setting fake user-agent header
-            $this->_UserAgent = (new userAgent) ->generate();
+            $this->_UserAgent = (new JeezvizV2UserAgent) ->generate();
         }       
         #On ne se réauthentifie que si la dernière authent est supérieure à 10 minutes
         log::add('jeezvizv2', 'debug', '$this->_sessionId : '.$this->_sessionId);   
@@ -1023,13 +1023,13 @@ class EzvizV2Client
         {
             if ($device['deviceCategory'] == $CAMERA_DEVICE_CATEGORY)
             {
-                $camera = EzvizCamera($this, $device['deviceSerial']);
+                $camera = EzvizV2Camera($this, $device['deviceSerial']);
                 $camera.load();
                 $cameras.append(camera.status());
             }
             if (device['deviceCategory'] == $DOORBELL_DEVICE_CATEGORY)
             {
-                $camera = EzvizCamera($this, $device['deviceSerial']);
+                $camera = EzvizV2Camera($this, $device['deviceSerial']);
                 $camera.load();
                 $cameras.append($camera.status());
             }

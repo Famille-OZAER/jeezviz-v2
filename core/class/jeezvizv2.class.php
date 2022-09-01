@@ -20,7 +20,7 @@
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 require_once __DIR__  . '/../../3rdparty/client.php';
 require_once __DIR__  . '/../../3rdparty/camera.php';
-require_once __DIR__  . '/../../3rdparty/userAgent.php';
+require_once __DIR__  . '/../../3rdparty/JeezvizV2UserAgent.php';
 
 class jeezvizv2 extends eqLogic {
    
@@ -134,71 +134,71 @@ class jeezvizv2Cmd extends cmd {
 
       $EzvizV2Client = new EzvizV2Client();
       #$EzvizV2Client->get_PAGE_LIST();
-      $EzvizCamera = new EzvizCamera($EzvizV2Client, $serial);
+      $EzvizV2Camera = new EzvizV2Camera($EzvizV2Client, $serial);
       
       switch (strtoupper($this->getLogicalId()))
       {
          case "REFRESH":
-            $this->RefreshCamera($EzvizCamera);
+            $this->RefreshCamera($EzvizV2Camera);
             break;
          case "PRIVACYON":
             log::add('jeezvizv2', 'debug', "PRIVACYON");
-            $EzvizCamera->switch_privacy_mode(1);
+            $EzvizV2Camera->switch_privacy_mode(1);
             break;
          case "PRIVACYOFF":
             log::add('jeezvizv2', 'debug', "PRIVACYOFF");    
-            $EzvizCamera->switch_privacy_mode(0);
+            $EzvizV2Camera->switch_privacy_mode(0);
             break;
          case "ALARMNOTIFYON":
             log::add('jeezvizv2', 'debug', "ALARMNOTIFYON");
-            #$EzvizCamera->alarm_notify(1);    
-            $EzvizCamera->alarm_notify(1);
+            #$EzvizV2Camera->alarm_notify(1);    
+            $EzvizV2Camera->alarm_notify(1);
             break;
          case "ALARMNOTIFYOFF":
             log::add('jeezvizv2', 'debug', "ALARMNOTIFYOFF");    
-            #$EzvizCamera->alarm_notify(0);
-            $EzvizCamera->alarm_notify(0);
+            #$EzvizV2Camera->alarm_notify(0);
+            $EzvizV2Camera->alarm_notify(0);
             break;
          case "ALARMNOTIFYINTENSE":
             log::add('jeezvizv2', 'debug', "ALARMNOTIFYINTENSE");    
-            $EzvizCamera->alarm_sound(1);
+            $EzvizV2Camera->alarm_sound(1);
             break;          
          case "ALARMNOTIFYLOGICIEL":
             log::add('jeezvizv2', 'debug', "ALARMNOTIFYLOGICIEL");    
-            $EzvizCamera->alarm_sound(0);
+            $EzvizV2Camera->alarm_sound(0);
             break;         
          case "ALARMNOTIFYSILENCE":
             log::add('jeezvizv2', 'debug', "ALARMNOTIFYSILENCE");    
-            $EzvizCamera->alarm_sound(2);
+            $EzvizV2Camera->alarm_sound(2);
             break;
          case "GETSTATUS":
             log::add('jeezvizv2', 'debug', "GETSTATUS");
-            log::add('jeezvizv2', 'debug', var_dump($EzvizCamera->status()));
+            log::add('jeezvizv2', 'debug', var_dump($EzvizV2Camera->status()));
             break;
          case "MOVEUP":
             log::add('jeezvizv2', 'debug', "MOVEUP");
-            $EzvizCamera->move("up");
+            $EzvizV2Camera->move("up");
             break;
          case "MOVEDOWN":
             log::add('jeezvizv2', 'debug', "MOVEDOWN");
-            $EzvizCamera->move("down");
+            $EzvizV2Camera->move("down");
             break;
          case "MOVELEFT":
             log::add('jeezvizv2', 'debug', "MOVELEFT");
-            $EzvizCamera->move("left");
+            $EzvizV2Camera->move("left");
             break;
          case "MOVERIGHT":
             log::add('jeezvizv2', 'debug', "MOVERIGHT");
-            $EzvizCamera->move("right");
+            $EzvizV2Camera->move("right");
             break;
       }
       log::add('jeezvizv2', 'debug', '============ Fin execute ==========');
 
    }
-   public function RefreshCamera($EzvizCamera)
+   public function RefreshCamera($EzvizV2Camera)
    {
       log::add('jeezvizv2', 'debug', '============ Début refresh ==========');
-      $retour=$EzvizCamera->load();
+      $retour=$EzvizV2Camera->load();
       $jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
       foreach($retour as $key => $value) {
          $this->SaveCmdInfo($jeezvizObj, $key, $value);
