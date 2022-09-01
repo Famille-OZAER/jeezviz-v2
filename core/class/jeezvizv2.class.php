@@ -139,111 +139,108 @@ class jeezvizv2Cmd extends cmd {
 
       $EzvizV2Client = new EzvizV2Client();
       #$EzvizV2Client->get_PAGE_LIST();
-      $EzvizV2Camera = new EzvizV2Camera($EzvizV2Client, $serial);
-      $EzvizV2CameraNew = new EzvizV2CameraNew($serial);
+      $EzvizV2Camera = new EzvizV2Camera($serial);
       
       switch (strtoupper($this->getLogicalId()))
       {
          case "REFRESH":
-            $this->RefreshCamera($EzvizV2CameraNew);
+            $this->RefreshCamera($EzvizV2Camera);
             break;
          case "PRIVACY_ON":
             log::add('jeezvizv2', 'debug', "PRIVACY_ON");
-            $EzvizV2CameraNew->switch_privacy_mode(1);
+            $EzvizV2Camera->switch_privacy_mode(1);
             break;
          case "PRIVACY_OFF":
             log::add('jeezvizv2', 'debug', "PRIVACY_OFF");    
-            $EzvizV2CameraNew->switch_privacy_mode(0);
+            $EzvizV2Camera->switch_privacy_mode(0);
             break;
          case "AUDIO_ON":
             log::add('jeezvizv2', 'debug', "AUDIO_ON");
-            $EzvizV2CameraNew->switch_audio_mode(1);
+            $EzvizV2Camera->switch_audio_mode(1);
             break;
          case "AUDIO_OFF":
             log::add('jeezvizv2', 'debug', "AUDIO_OFF");    
-            $EzvizV2CameraNew->switch_audio_mode(0);
+            $EzvizV2Camera->switch_audio_mode(0);
             break;
          case "IR_ON":
             log::add('jeezvizv2', 'debug', "IR_ON");
-            $EzvizV2CameraNew->switch_ir_mode(1);
+            $EzvizV2Camera->switch_ir_mode(1);
             break;
          case "IR_OFF":
             log::add('jeezvizv2', 'debug', "IR_OFF");    
-            $EzvizV2CameraNew->switch_ir_mode(0);
+            $EzvizV2Camera->switch_ir_mode(0);
             break;
          case "SLEEP_ON":
             log::add('jeezvizv2', 'debug', "SLEEP_ON");
-            $EzvizV2CameraNew->switch_sleep_mode(1);
+            $EzvizV2Camera->switch_sleep_mode(1);
             break;
          case "SLEEP_OFF":
             log::add('jeezvizv2', 'debug', "SLEEP_OFF");    
-            $EzvizV2CameraNew->switch_sleep_mode(0);
+            $EzvizV2Camera->switch_sleep_mode(0);
             break;
          case "FOLLOW_MOVE_ON":
             log::add('jeezvizv2', 'debug', "FOLLOW_MOVE_ON");
-            $EzvizV2CameraNew->switch_follow_move_mode(1);
+            $EzvizV2Camera->switch_follow_move_mode(1);
             break;
          case "FOLLOW_MOVE_OFF":
             log::add('jeezvizv2', 'debug', "FOLLOW_MOVE_OFF");    
-            $EzvizV2CameraNew->switch_follow_move_mode(0);
+            $EzvizV2Camera->switch_follow_move_mode(0);
             break;
          case "SOUND_ALARM_ON":
             log::add('jeezvizv2', 'debug', "SOUND_ALARM_ON");
-            $EzvizV2CameraNew->switch_sound_alarm_mode(1);
+            $EzvizV2Camera->switch_sound_alarm_mode(1);
             break;
          case "SOUND_ALARM_OFF":
             log::add('jeezvizv2', 'debug', "SOUND_ALARM_OFF");    
-            $EzvizV2CameraNew->switch_sound_alarm_mode(0);
+            $EzvizV2Camera->switch_sound_alarm_mode(0);
             break;
          case "STATE_ON":
             log::add('jeezvizv2', 'debug', "STATE_ON");
-            $EzvizV2CameraNew->switch_state_mode(1);
+            $EzvizV2Camera->switch_state_mode(1);
             break;
          case "STATE_OFF":
             log::add('jeezvizv2', 'debug', "STATE_OFF");    
-            $EzvizV2CameraNew->switch_state_mode(0);
+            $EzvizV2Camera->switch_state_mode(0);
             break;
          case "ALARMNOTIFY_ON":
             log::add('jeezvizv2', 'debug', "ALARMNOTIFY_ON");
-            #$EzvizV2Camera->alarm_notify(1);    
-            $EzvizV2CameraNew->alarm_notify(1);
+            $EzvizV2Camera->alarm_notify(1);
             break;
          case "ALARMNOTIFY_OFF":
-            log::add('jeezvizv2', 'debug', "ALARMNOTIFY_OFF");    
-            #$EzvizV2Camera->alarm_notify(0);
-            $EzvizV2CameraNew->alarm_notify(0);
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFY_OFF");
+            $EzvizV2Camera->alarm_notify(0);
             break;
          case "ALARMNOTIFY_INTENSE":
             log::add('jeezvizv2', 'debug', "ALARMNOTIFY_INTENSE");    
-            $EzvizV2CameraNew->alarm_sound(1);
+            $EzvizV2Camera->alarm_sound(1);
             break;          
          case "ALARMNOTIFY_LOGICIEL":
             log::add('jeezvizv2', 'debug', "ALARMNOTIFY_LOGICIEL");    
-            $EzvizV2CameraNew->alarm_sound(0);
+            $EzvizV2Camera->alarm_sound(0);
             break;         
          case "ALARMNOTIFY_SILENCE":
             log::add('jeezvizv2', 'debug', "ALARMNOTIFY_SILENCE");    
-            $EzvizV2CameraNew->alarm_sound(2);
+            $EzvizV2Camera->alarm_sound(2);
             break;
          case "MOVE_UP":
             log::add('jeezvizv2', 'debug', "MOVE_UP");
-            $EzvizV2CameraNew->move("up");
+            $EzvizV2Camera->move("up");
             break;
          case "MOVE_DOWN":
             log::add('jeezvizv2', 'debug', "MOVE_DOWN");
-            $EzvizV2CameraNew->move("down");
+            $EzvizV2Camera->move("down");
             break;
          case "MOVE_LEFT":
             log::add('jeezvizv2', 'debug', "MOVE_LEFT");
-            $EzvizV2CameraNew->move("left");
+            $EzvizV2Camera->move("left");
             break;
          case "MOVE_RIGHT":
             log::add('jeezvizv2', 'debug', "MOVE_RIGHT");
-            $EzvizV2CameraNew->move("right");
+            $EzvizV2Camera->move("right");
             break;            
          case "MOVE_CENTER":
             log::add('jeezvizv2', 'debug', "MOVE_CENTER");
-            $EzvizV2CameraNew->move_coords(0.5,0.5);
+            $EzvizV2Camera->move_coords(0.5,0.5);
             break;
       }
       log::add('jeezvizv2', 'debug', '============ Fin execute ==========');

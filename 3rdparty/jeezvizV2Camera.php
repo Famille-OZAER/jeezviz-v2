@@ -13,7 +13,7 @@ const KEY_ALARM_NOTIFICATION = 'globalStatus';
 
 const ALARM_SOUND_MODE = array(0=>'Software', 1=>'Intensive', 2=>'Disabled');
 
-class EzvizV2CameraNew
+class EzvizV2Camera
 {
     public $_serial;
     public $_loaded;
