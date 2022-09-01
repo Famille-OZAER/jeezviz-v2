@@ -20,6 +20,7 @@
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 require_once __DIR__  . '/../../3rdparty/client.php';
 require_once __DIR__  . '/../../3rdparty/camera.php';
+require_once __DIR__  . '/../../3rdparty/jeezvizV2Camera.php';
 require_once __DIR__  . '/../../3rdparty/JeezvizV2UserAgent.php';
 
 class jeezvizv2 extends eqLogic {
@@ -125,8 +126,13 @@ class jeezvizv2 extends eqLogic {
 	}
 
 	public static function dependancy_install() {
-		log::remove(__CLASS__ . '_update');
-		return array('script' => dirname(__FILE__) . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder('jeezvizv2') . '/dependance', 'log' => log::getPathToLog(__CLASS__ . '_update'));
+		log::remove(__CLASS__ . '_dependancy_install');
+      
+      log::add('jeezvizv2_dependancy_install', 'debug', '============ Début install dépendances ==========');
+      log::add('jeezvizv2_dependancy_install', 'debug', 'script : '.dirname(__FILE__) . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder('jeezvizv2') . '/dependance');
+      log::add('jeezvizv2_dependancy_install', 'debug', 'log'.log::getPathToLog(__CLASS__ . '_dependancy_install'));
+     
+		return array('script' => dirname(__FILE__) . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder('jeezvizv2') . '/dependance', 'log' => log::getPathToLog(__CLASS__ . '__dependancy_install'));
 	}
 
 }
@@ -151,11 +157,12 @@ class jeezvizv2Cmd extends cmd {
       $EzvizV2Client = new EzvizV2Client();
       #$EzvizV2Client->get_PAGE_LIST();
       $EzvizV2Camera = new EzvizV2Camera($EzvizV2Client, $serial);
+      $EzvizV2CameraNew = new EzvizV2CameraNew($serial);
       
       switch (strtoupper($this->getLogicalId()))
       {
          case "REFRESH":
-            $this->RefreshCamera($EzvizV2Camera);
+            $this->RefreshCamera($EzvizV2CameraNew);
             break;
          case "PRIVACYON":
             log::add('jeezvizv2', 'debug', "PRIVACYON");
@@ -214,29 +221,55 @@ class jeezvizv2Cmd extends cmd {
    public function RefreshCamera($EzvizV2Camera)
    {
       log::add('jeezvizv2', 'debug', '============ Début refresh ==========');
-      $retour=$EzvizV2Camera->load();
-      $jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
-      foreach($retour as $key => $value) {
-         $this->SaveCmdInfo($jeezvizObj, $key, $value);
+      try {
+         $retour=$EzvizV2Camera->Load();
+         $jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
+         foreach($retour as $key => $value) {
+            $this->SaveCmdInfo($jeezvizObj, $key, $value);
+         }
+      } catch (Exception $e) {
+         log::add('jeezvizv2', 'debug', $e->getMessage());      
       }
       log::add('jeezvizv2', 'debug', '============ Fin refresh ==========');
    }
-   public function SaveCmdInfo($jeezvizObj, $key, $value){
-      log::add('jeezvizv2', 'debug', 'Vérification de la clef '.$key);
+   public function SaveCmdInfo($jeezvizObj, $key, $value, $parentKey=null){
+      log::add('jeezvizv2', 'debug', 'Vérification de la clef '.$parentKey.$key);
       if (is_array($value))
       {
+         $parentKey= $parentKey.$key.'_';
          foreach($value as $key1 => $value1) {                    
-      $this->SaveCmdInfo($jeezvizObj, $key1, $value1);
+            $this->SaveCmdInfo($jeezvizObj, $key1, $value1);
          }          
       }
       else
       {
-         log::add('jeezvizv2', 'debug', 'Recherche de la commande '.$key);
-         $infoCmd = $jeezvizObj->getCmd('info', $key);
+         log::add('jeezvizv2', 'debug', 'Recherche de la commande '.$parentKey.$key);
+         $infoCmd = $jeezvizObj->getCmd('info', $parentKey.$key);
          if (is_object($infoCmd))
          { 
-         log::add('jeezvizv2', 'debug', 'Mise à jour de la commande '.$key.' à '.$value);
-         $infoCmd->event($value);
+            log::add('jeezvizv2', 'debug', 'Mise à jour de la commande '.$parentKey.$key.' à '.$value);
+            $infoCmd->event($value);
+         }
+         else
+         {
+            log::add('jeezvizv2', 'debug', 'Création de la commande '.$parentKey.$key.' à '.$value);
+            // Création de la commande
+            $cmd = new jeezvizCmd();
+            // Nom affiché
+            $cmd->setName($cmdName);
+            // Identifiant de la commande
+            $cmd->setLogicalId($logicalID);
+            // Identifiant de l'équipement
+            $cmd->setEqLogic_id($this->getId());
+            // Type de la commande
+            $cmd->setType('info');
+            $cmd->setSubType('string');
+            // Visibilité de la commande
+            $cmd->setIsVisible(1);
+            // Sauvegarde de la commande
+            $cmd->save();
+            log::add('jeezvizv2', 'debug', 'Mise à jour de la commande '.$parentKey.$key.' à '.$value);
+            $infoCmd->event($value);
          }
       }
    }

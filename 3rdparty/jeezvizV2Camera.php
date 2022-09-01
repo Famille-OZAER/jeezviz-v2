@@ -13,20 +13,20 @@ const KEY_ALARM_NOTIFICATION = 'globalStatus';
 
 const ALARM_SOUND_MODE = array(0=>'Software', 1=>'Intensive', 2=>'Disabled');
 
-class EzvizV2Camera
+class EzvizV2CameraNew
 {
     public $_serial;
-    public $_client;
     public $_loaded;
     public $_device;
-    function __construct($client, $serial)
+    public $_account;
+    public $_password;
+    function __construct($serial)
     {
         log::add('jeezvizv2', 'debug', "Initialize the camera object.\r\n");
         $this->_serial = $serial;
-        $this->_client = $client;
-
+        $this->_account = config::byKey('identifiant', 'jeezvizv2');
+        $this->_password =  config::byKey('motdepasse', 'jeezvizv2');
         $this->_loaded = 0;
-
         # $this->load();
     }
 
@@ -34,8 +34,10 @@ class EzvizV2Camera
     function load()
     {
         log::add('jeezvizv2', 'debug', "Load object properties\r\n");
-        $page_list = $this->_client->get_PAGE_LIST();
-
+        $response=exec('pyezviz -u '.'olivier@ozaer.fr'.' -p '.'29040311@Oo'.' camera '.'--serial '.$EzvizV2Camera->serial.' status');
+        $retour=json_decode($response, TRUE);
+        return $retour;
+/*
         # we need to know the index of this camera's $this->_serial  
         foreach ($page_list['deviceInfos'] as $device)
         {
@@ -90,7 +92,7 @@ class EzvizV2Camera
         catch (Exception $e)
         {
             log::add('jeezvizv2', 'debug', $e);
-        }
+        }*/
         $this->_loaded = 1;
         return $this;
     }
