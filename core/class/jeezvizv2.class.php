@@ -113,6 +113,22 @@ class jeezvizv2 extends eqLogic {
          $cmd->save();
       }
    }
+
+   public static function dependancy_info() {
+		$return = array();
+		$return['progress_file'] = '/tmp/dependancy_jeezvizv2_in_progress';
+		$return['state'] = 'ok';
+		if (exec('sudo pip3 list | grep -E "pyezviz" | wc -l') < 1) {
+			$return['state'] = 'nok';
+		}
+		return $return;
+	}
+
+	public static function dependancy_install() {
+		log::remove(__CLASS__ . '_update');
+		return array('script' => dirname(__FILE__) . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder('jeezvizv2') . '/dependance', 'log' => log::getPathToLog(__CLASS__ . '_update'));
+	}
+
 }
 
 class jeezvizv2Cmd extends cmd {

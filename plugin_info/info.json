@@ -6,7 +6,7 @@
 	"author" : "OOZAER",
 	"require" : "4.0", 
 	"category" : "security",
-	"hasDependency" : false, 
+	"hasDependency" : true, 
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
 	"changelog" : "https://famille-ozaer.github.io/jeezvizv2/#language#/changelog.html",
