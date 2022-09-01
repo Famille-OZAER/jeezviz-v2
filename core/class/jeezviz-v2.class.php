@@ -22,7 +22,7 @@ require_once __DIR__  . '/../../3rdparty/client.php';
 require_once __DIR__  . '/../../3rdparty/camera.php';
 require_once __DIR__  . '/../../3rdparty/userAgent.php';
 
-class jeezviz extends eqLogic {
+class jeezviz-v2 extends eqLogic {
    
     /*     * ***********************Methode static*************************** */
 
@@ -115,7 +115,7 @@ class jeezviz extends eqLogic {
    }
 }
 
-class jeezvizCmd extends cmd {
+class jeezviz-v2Cmd extends cmd {
 
    public function execute($_options = array()) {
       log::add('jeezviz-v2', 'debug', '============ Début execute ==========');
@@ -127,7 +127,7 @@ class jeezvizCmd extends cmd {
       log::add('jeezviz-v2', 'debug', 'EqLogic_Id : '.$this->getEqlogic_id());
       log::add('jeezviz-v2', 'debug', 'Name : '.$this->getName());
 
-      $jeezvizObj = jeezviz::byId($this->getEqlogic_id());
+      $jeezvizObj = jeezviz-v2::byId($this->getEqlogic_id());
       $serial=$jeezvizObj->getConfiguration('serial');
       
       log::add('jeezviz-v2', 'debug', 'Serial : '.$serial);         
@@ -199,7 +199,7 @@ class jeezvizCmd extends cmd {
    {
       log::add('jeezviz-v2', 'debug', '============ Début refresh ==========');
       $retour=$EzvizCamera->load();
-      $jeezvizObj = jeezviz::byId($this->getEqlogic_id());
+      $jeezvizObj = jeezviz-v2::byId($this->getEqlogic_id());
       foreach($retour as $key => $value) {
          $this->SaveCmdInfo($jeezvizObj, $key, $value);
       }
@@ -226,7 +226,7 @@ class jeezvizCmd extends cmd {
    }
       
    public function postSave() {
-      /*$jeezvizObj = jeezviz::byId($this->getEqlogic_id());
+      /*$jeezvizObj = jeezviz-v2::byId($this->getEqlogic_id());
       $refreshCmd = $jeezvizObj->getCmd('action', 'refresh');
       if (is_object($refreshCmd))
       {
