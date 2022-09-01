@@ -2,6 +2,7 @@
 require_once __DIR__."/JeezvizV2UserAgent.php";
 require_once __DIR__."/camera.php";
 
+const DEFAULT_TIMEOUT = 10;
 class EzvizV2Client
 {
     public $account;
@@ -48,9 +49,6 @@ class EzvizV2Client
     public $DETECTION_SENSIBILITY_URL;
     public $DETECTION_SENSIBILITY_GET_URL;
 
-
-
-    public $DEFAULT_TIMEOUT = 10;
     public $MAX_RETRIES = 3;
 
     function get_JsonLastError()

@@ -22,7 +22,7 @@ class EzvizV2CameraNew
     public $_password;
     function __construct($serial)
     {
-        log::add('jeezvizv2', 'debug', "Initialize the camera object.\r\n");
+        log::add('jeezvizv2', 'debug', "Initialize the camera V2 object.\r\n");
         $this->_serial = $serial;
         $this->_account = config::byKey('identifiant', 'jeezvizv2');
         $this->_password =  config::byKey('motdepasse', 'jeezvizv2');
@@ -33,10 +33,12 @@ class EzvizV2CameraNew
         
     function load()
     {
-        log::add('jeezvizv2', 'debug', "Load object properties\r\n");
-        $response=exec('pyezviz -u '.'olivier@ozaer.fr'.' -p '.'29040311@Oo'.' camera '.'--serial '.$EzvizV2Camera->serial.' status');
-        $retour=json_decode($response, TRUE);
-        return $retour;
+        log::add('jeezvizv2', 'debug', "Load object properties V2\r\n");
+        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' status');
+        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' status', $response);        
+        log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
+        $response=json_decode(implode('',$response), true);
+        return $response;
 /*
         # we need to know the index of this camera's $this->_serial  
         foreach ($page_list['deviceInfos'] as $device)
@@ -92,106 +94,90 @@ class EzvizV2CameraNew
         catch (Exception $e)
         {
             log::add('jeezvizv2', 'debug', $e);
-        }*/
+        }
+*/
         $this->_loaded = 1;
         return $this;
-    }
-    
-    function status()
-    {
-        log::add('jeezvizv2', 'debug', "Return the status of the camera.\r\n");
-
-        if (!$this->_loaded)
-        {
-            $this->load();
-        }
-        $status=array('serial'=>$this->_serial,
-            'name'=>$this->_device['name'],
-            'status'=>$this->_device['status'],
-            'device_sub_category'=>$this->_device['deviceSubCategory'],
-            'privacy'=>$this->_switch[TYPE_PRIVACY_MODE]['enable'],
-            'audio'=>$this->_switch[TYPE_AUDIO]['enable'],
-            'ir_led'=>$this->_switch[TYPE_IR_LED]['enable'],
-            'state_led'=>$this->_switch[TYPE_STATE_LED]['enable'],
-            'follow_move'=>$this->_switch[TYPE_FOLLOW_MOVE]['enable'],
-            'alarm_notify'=>$this->_status[KEY_ALARM_NOTIFICATION],
-            'alarm_sound_mod'=>ALARM_SOUND_MODE[$this->_status['alarmSoundMode']],
-            # 'alarm_sound_mod'=>'Intensive',
-            'encrypted'=>$this->_status['isEncrypt'],
-            'local_ip'=>$this->_connection['localIp'],
-            'local_rtsp_port'=>$this->_connection['localRtspPort'],
-            'detection_sensibility'=>$this->_detection_sensibility,
-        );
-        return $status;
-    }
-
-
-    function move($direction, $speed=5)
-    {
-        log::add('jeezvizv2', 'debug', "Moves the camera to the ".$direction."\r\n");
-        $allowedDirections=array('right','left','down','up');
-        if (!in_array($direction, $allowedDirections))
-        {
-            log::add('jeezvizv2', 'debug', "Invalid direction: ".$direction."\r\n");
-            return false;
-        }
-        # launch the start command
-        $this->_client->ptzControl(strtoupper($direction), $this->_serial, 'START', $speed);
-        sleep (1);
-        # launch the stop command
-        $this->_client->ptzControl(strtoupper($direction), $this->_serial, 'STOP', $speed);
-        return True;
     }
 
     function alarm_notify($enable)
     {
-        log::add('jeezvizv2', 'debug', "Enable/Disable camera notification when movement is detected.\r\n");
-        #return $this->_client->data_report($this->_serial, $enable);
-        return $this->_client->switch_alarm($this->_serial, $enable);
+        log::add('jeezvizv2', 'debug', "Enable/Disable camera notification when movement is detected V2.\r\n");
+        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' alarm --notify '.$enable);
+        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' alarm --notify '.$enable, $response);        
+        log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
+        $response=json_decode(implode('',$response), true);
+        return $response;
     }
 
-    function alarm_sound($sound_type)
+    function alarm_sound($soundMode)
     {
-        log::add('jeezvizv2', 'debug', "Enable/Disable camera sound when movement is detected.\r\n");
-        # we force enable = 1 , to make sound...
-        return $this->_client->alarm_sound($this->_serial, $sound_type, 1);
-    }
-
-    function alarm_detection_sensibility($sensibility)
-    {
-        log::add('jeezvizv2', 'debug', "Enable/Disable camera sound when movement is detected.\r\n");
-        # we force enable = 1 , to make sound...
-        return $this->_client->detection_sensibility($this->_serial, $sensibility);
-    }
-
-    function switch_device_audio($enable=0)
-    {
-        log::add('jeezvizv2', 'debug', "Switch audio status on a device.\r\n");
-        return $this->_client->switch_status($this->_serial, TYPE_AUDIO, $enable);
-    }
-
-    function switch_device_state_led($enable=0)
-    {
-        log::add('jeezvizv2', 'debug', "Switch audio status on a device.\r\n");
-        return $this->_client->switch_status($this->_serial, TYPE_STATE_LED, $enable);
-    }
-
-    function switch_device_ir_led($enable=0)
-    {
-        log::add('jeezvizv2', 'debug', "Switch audio status on a device.\r\n");
-        return $this->_client->switch_status($this->_serial, TYPE_IR_LED, $enable);
+        log::add('jeezvizv2', 'debug', "Change camera notification mode V2.\r\n");
+        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' alarm --sound '.$soundMode);
+        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' alarm --sound '.$soundMode, $response);        
+        log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
+        $response=json_decode(implode('',$response), true);
+        return $response;
     }
 
     function switch_privacy_mode($enable=0)
     {
-        log::add('jeezvizv2', 'debug', "Switch privacy mode on a device.\r\n");        
-        return $this->_client->switch_status($this->_serial, TYPE_PRIVACY_MODE, $enable);
+        return $this->switch_mode('privacy',$enable);
     }
 
-    function switch_follow_move($enable=0)
+    function switch_audio_mode($enable=0)
     {
-        log::add('jeezvizv2', 'debug', "Switch follow move.\r\n");
-        return $this->_client->switch_status($this->_serial, TYPE_FOLLOW_MOVE, $enable);
+        return $this->switch_mode('audio',$enable);
+    }
+    
+    function switch_ir_mode($enable=0)
+    {
+        return $this->switch_mode('ir',$enable);
+    }
+    
+    function switch_state_mode($enable=0)
+    {
+        return $this->switch_mode('state',$enable);
+    }
+    function switch_sleep_mode($enable=0)
+    {
+        return $this->switch_mode('sleep',$enable);
+    }
+    function switch_follow_move_mode($enable=0)
+    {
+        return $this->switch_mode('follow_move',$enable);
+    }
+    function switch_sound_alarm_mode($enable=0)
+    {
+        return $this->switch_mode('sound_alarm',$enable);
+    }
+    function switch_mode($switchName,$enable)
+    {
+        log::add('jeezvizv2', 'debug', 'Switch '.$switchName.' mode on a device V2');
+        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' switch --switch '.$switchName.' --enable '.$enable);
+        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' switch --switch '.$switchName.' --enable '.$enable, $response);        
+        log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
+        $response=json_decode(implode('',$response), true);
+        return $response;
+    }
+    function move($direction, $speed=5)
+    {
+        log::add('jeezvizv2', 'debug', "Move a device V2\r\n");
+        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' move --direction '.$direction.' --speed '.$speed);
+        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' move --direction '.$direction.' --speed '.$speed, $response);        
+        log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
+        $response=json_decode(implode('',$response), true);
+        return $response;
+    }
+
+    function move_coords($x, $y)
+    {
+        log::add('jeezvizv2', 'debug', "Move a device to center V2\r\n");
+        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' move_coords --x 0.5 --y 0.50');
+        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' move_coords --x '.$x.' --y '.$y, $response);        
+        log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
+        $response=json_decode(implode('',$response), true);
+        return $response;
     }
 }
     

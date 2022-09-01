@@ -18,8 +18,6 @@
 
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
-require_once __DIR__  . '/../../3rdparty/client.php';
-require_once __DIR__  . '/../../3rdparty/camera.php';
 require_once __DIR__  . '/../../3rdparty/jeezvizV2Camera.php';
 require_once __DIR__  . '/../../3rdparty/JeezvizV2UserAgent.php';
 
@@ -44,53 +42,34 @@ class jeezvizv2 extends eqLogic {
    public function postSave() {
       log::add('jeezvizv2', 'debug', '============ Début postSave ==========');
       $defaultActions=array("refresh" => "Rafraichir", 
-                  "moveup" => "Haut", 
-                  "movedown" => "Bas", 
-                  "moveleft" => "Gauche", 
-                  "moveright" => "Droite", 
-                  "privacyOn" => "Mode Privé On", 
-                  "privacyOff" => "Mode Privé Off", 
-                  "alarmNotifyOn" => "Activer les notifications", 
-                  "alarmNotifyOff" => "Désactiver les notifications",
-                  "alarmNotifyIntense" => "Notifications : intences",
-                  "alarmNotifyLogiciel" => "Notifications : Rappels léger",
-                  "alarmNotifySilence" => "Notifications : Silence");
-      $defaultBinariesInfos=array("hik" => "Hikvision",                              
-                        "offlineNotify" => "Notification de déconnection",
-                        "status" => "Etat");
-      $defaultNumericInfos=array("casPort" => "Port CAS",
-                        "offlineTimestamp" => "Déconnectée depuis (Timestamp)");
-      $defaultOtherInfos=array("name" => "Nom",
-                        "deviceSerial" => "Numéro de série",
-                        "fullSerial" => "Numéro de série complet",
-                        "deviceType" => "Type d'équipement",
-                        "devicePicPrefix" => "Url de l'Image",
-                        "version" => "Version",
-                        "supportExt" => "Extension supportées",
-                        "userDeviceCreateTime" => "Date de création",
-                        "casIp" => "IP CAS",
-                        "channelNumber" => "Canal",
-                        "deviceCategory" => "Catégorie",
-                        "deviceSubCategory" => "Sous Catégorie",
-                        "ezDeviceCapability" => "EzDeviceCapability",
-                        "customType" => "Custom Type",
-                        "offlineTime" => "Déconnectée depuis",
-                        "accessPlatform" => "Accès plateforme",
-                        "deviceDomain" => "Domaine",
-                        "instructionBook" => "Mode d'emploi");
+                  "move_up" => "Déplacer vers le Haut", 
+                  "move_down" => "Déplacer vers le Bas", 
+                  "move_left" => "Déplacer vers la Gauche", 
+                  "move_right" => "Déplacer vers la Droite", 
+                  "move_center" => "Centrer la caméra", 
+                  "privacy_On" => "Mode Privé On", 
+                  "privacy_Off" => "Mode Privé Off", 
+                  "audio_On" => "Activer le son", 
+                  "audio_Off" => "Désactiver le son", 
+                  "ir_On" => "Allumer les led infrarouge", 
+                  "ir_Off" => "Eteindre led infrarouge", 
+                  //"state_On" => "Allumer", --> Effet non connu
+                  //"state_Off" => "Eteindre",  --> Effet non connu
+                  "sleep_On" => "Mettre en veille", 
+                  "sleep_Off" => "Sortir de veille", 
+                  "follow_move_On" => "Activer le suivi de mouvement", 
+                  "follow_move_Off" => "Désactiver le suivi de mouvement", 
+                  "sound_alarm_On" => "Emettre un son d'alerte",
+                  "sound_alarm_Off" => "Arrêter le son d'alerte",
+                  "alarmNotify_On" => "Activer les notifications", 
+                  "alarmNotify_Off" => "Désactiver les notifications",
+                  "alarmNotify_Intense" => "Notifications : Intences",
+                  "alarmNotify_Logiciel" => "Notifications : Rappels léger",
+                  "alarmNotify_Silence" => "Notifications : Silence");
                         
       foreach ($defaultActions as $key => $value) {
          $this->createCmd($value, $key, 'action', 'other');
-      }
-      foreach ($defaultBinariesInfos as $key => $value) {
-         $this->createCmd($value, $key, 'info', 'binary');
-      }
-      foreach ($defaultNumericInfos as $key => $value) {
-         $this->createCmd($value, $key, 'info', 'numeric');
-      }
-      foreach ($defaultOtherInfos as $key => $value) {
-         $this->createCmd($value, $key, 'info', 'string');
-      }
+      }     
    }
    public function createCmd($cmdName, $logicalID, $type, $subType)
    {
@@ -98,7 +77,7 @@ class jeezvizv2 extends eqLogic {
       if (!is_object($getDataCmd))
       {
          // Création de la commande
-         $cmd = new jeezvizCmd();
+         $cmd = new jeezvizv2Cmd();
          // Nom affiché
          $cmd->setName($cmdName);
          // Identifiant de la commande
@@ -112,6 +91,10 @@ class jeezvizv2 extends eqLogic {
          $cmd->setIsVisible(1);
          // Sauvegarde de la commande
          $cmd->save();
+         return $cmd;
+      }
+      else{
+         $getDataCmd;
       }
    }
 
@@ -164,55 +147,103 @@ class jeezvizv2Cmd extends cmd {
          case "REFRESH":
             $this->RefreshCamera($EzvizV2CameraNew);
             break;
-         case "PRIVACYON":
-            log::add('jeezvizv2', 'debug', "PRIVACYON");
-            $EzvizV2Camera->switch_privacy_mode(1);
+         case "PRIVACY_ON":
+            log::add('jeezvizv2', 'debug', "PRIVACY_ON");
+            $EzvizV2CameraNew->switch_privacy_mode(1);
             break;
-         case "PRIVACYOFF":
-            log::add('jeezvizv2', 'debug', "PRIVACYOFF");    
-            $EzvizV2Camera->switch_privacy_mode(0);
+         case "PRIVACY_OFF":
+            log::add('jeezvizv2', 'debug', "PRIVACY_OFF");    
+            $EzvizV2CameraNew->switch_privacy_mode(0);
             break;
-         case "ALARMNOTIFYON":
-            log::add('jeezvizv2', 'debug', "ALARMNOTIFYON");
+         case "AUDIO_ON":
+            log::add('jeezvizv2', 'debug', "AUDIO_ON");
+            $EzvizV2CameraNew->switch_audio_mode(1);
+            break;
+         case "AUDIO_OFF":
+            log::add('jeezvizv2', 'debug', "AUDIO_OFF");    
+            $EzvizV2CameraNew->switch_audio_mode(0);
+            break;
+         case "IR_ON":
+            log::add('jeezvizv2', 'debug', "IR_ON");
+            $EzvizV2CameraNew->switch_ir_mode(1);
+            break;
+         case "IR_OFF":
+            log::add('jeezvizv2', 'debug', "IR_OFF");    
+            $EzvizV2CameraNew->switch_ir_mode(0);
+            break;
+         case "SLEEP_ON":
+            log::add('jeezvizv2', 'debug', "SLEEP_ON");
+            $EzvizV2CameraNew->switch_sleep_mode(1);
+            break;
+         case "SLEEP_OFF":
+            log::add('jeezvizv2', 'debug', "SLEEP_OFF");    
+            $EzvizV2CameraNew->switch_sleep_mode(0);
+            break;
+         case "FOLLOW_MOVE_ON":
+            log::add('jeezvizv2', 'debug', "FOLLOW_MOVE_ON");
+            $EzvizV2CameraNew->switch_follow_move_mode(1);
+            break;
+         case "FOLLOW_MOVE_OFF":
+            log::add('jeezvizv2', 'debug', "FOLLOW_MOVE_OFF");    
+            $EzvizV2CameraNew->switch_follow_move_mode(0);
+            break;
+         case "SOUND_ALARM_ON":
+            log::add('jeezvizv2', 'debug', "SOUND_ALARM_ON");
+            $EzvizV2CameraNew->switch_sound_alarm_mode(1);
+            break;
+         case "SOUND_ALARM_OFF":
+            log::add('jeezvizv2', 'debug', "SOUND_ALARM_OFF");    
+            $EzvizV2CameraNew->switch_sound_alarm_mode(0);
+            break;
+         case "STATE_ON":
+            log::add('jeezvizv2', 'debug', "STATE_ON");
+            $EzvizV2CameraNew->switch_state_mode(1);
+            break;
+         case "STATE_OFF":
+            log::add('jeezvizv2', 'debug', "STATE_OFF");    
+            $EzvizV2CameraNew->switch_state_mode(0);
+            break;
+         case "ALARMNOTIFY_ON":
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFY_ON");
             #$EzvizV2Camera->alarm_notify(1);    
-            $EzvizV2Camera->alarm_notify(1);
+            $EzvizV2CameraNew->alarm_notify(1);
             break;
-         case "ALARMNOTIFYOFF":
-            log::add('jeezvizv2', 'debug', "ALARMNOTIFYOFF");    
+         case "ALARMNOTIFY_OFF":
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFY_OFF");    
             #$EzvizV2Camera->alarm_notify(0);
-            $EzvizV2Camera->alarm_notify(0);
+            $EzvizV2CameraNew->alarm_notify(0);
             break;
-         case "ALARMNOTIFYINTENSE":
-            log::add('jeezvizv2', 'debug', "ALARMNOTIFYINTENSE");    
-            $EzvizV2Camera->alarm_sound(1);
+         case "ALARMNOTIFY_INTENSE":
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFY_INTENSE");    
+            $EzvizV2CameraNew->alarm_sound(1);
             break;          
-         case "ALARMNOTIFYLOGICIEL":
-            log::add('jeezvizv2', 'debug', "ALARMNOTIFYLOGICIEL");    
-            $EzvizV2Camera->alarm_sound(0);
+         case "ALARMNOTIFY_LOGICIEL":
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFY_LOGICIEL");    
+            $EzvizV2CameraNew->alarm_sound(0);
             break;         
-         case "ALARMNOTIFYSILENCE":
-            log::add('jeezvizv2', 'debug', "ALARMNOTIFYSILENCE");    
-            $EzvizV2Camera->alarm_sound(2);
+         case "ALARMNOTIFY_SILENCE":
+            log::add('jeezvizv2', 'debug', "ALARMNOTIFY_SILENCE");    
+            $EzvizV2CameraNew->alarm_sound(2);
             break;
-         case "GETSTATUS":
-            log::add('jeezvizv2', 'debug', "GETSTATUS");
-            log::add('jeezvizv2', 'debug', var_dump($EzvizV2Camera->status()));
+         case "MOVE_UP":
+            log::add('jeezvizv2', 'debug', "MOVE_UP");
+            $EzvizV2CameraNew->move("up");
             break;
-         case "MOVEUP":
-            log::add('jeezvizv2', 'debug', "MOVEUP");
-            $EzvizV2Camera->move("up");
+         case "MOVE_DOWN":
+            log::add('jeezvizv2', 'debug', "MOVE_DOWN");
+            $EzvizV2CameraNew->move("down");
             break;
-         case "MOVEDOWN":
-            log::add('jeezvizv2', 'debug', "MOVEDOWN");
-            $EzvizV2Camera->move("down");
+         case "MOVE_LEFT":
+            log::add('jeezvizv2', 'debug', "MOVE_LEFT");
+            $EzvizV2CameraNew->move("left");
             break;
-         case "MOVELEFT":
-            log::add('jeezvizv2', 'debug', "MOVELEFT");
-            $EzvizV2Camera->move("left");
-            break;
-         case "MOVERIGHT":
-            log::add('jeezvizv2', 'debug', "MOVERIGHT");
-            $EzvizV2Camera->move("right");
+         case "MOVE_RIGHT":
+            log::add('jeezvizv2', 'debug', "MOVE_RIGHT");
+            $EzvizV2CameraNew->move("right");
+            break;            
+         case "MOVE_CENTER":
+            log::add('jeezvizv2', 'debug', "MOVE_CENTER");
+            $EzvizV2CameraNew->move_coords(0.5,0.5);
             break;
       }
       log::add('jeezvizv2', 'debug', '============ Fin execute ==========');
@@ -233,54 +264,53 @@ class jeezvizv2Cmd extends cmd {
       log::add('jeezvizv2', 'debug', '============ Fin refresh ==========');
    }
    public function SaveCmdInfo($jeezvizObj, $key, $value, $parentKey=null){
-      log::add('jeezvizv2', 'debug', 'Vérification de la clef '.$parentKey.$key);
-      if (is_array($value))
-      {
-         $parentKey= $parentKey.$key.'_';
-         foreach($value as $key1 => $value1) {                    
-            $this->SaveCmdInfo($jeezvizObj, $key1, $value1);
-         }          
-      }
-      else
-      {
-         log::add('jeezvizv2', 'debug', 'Recherche de la commande '.$parentKey.$key);
-         $infoCmd = $jeezvizObj->getCmd('info', $parentKey.$key);
-         if (is_object($infoCmd))
-         { 
-            log::add('jeezvizv2', 'debug', 'Mise à jour de la commande '.$parentKey.$key.' à '.$value);
-            $infoCmd->event($value);
+      try {
+         log::add('jeezvizv2', 'debug', 'Vérification de la clef '.$parentKey.$key);         
+         log::add('jeezvizv2', 'debug', 'value : '.$value);
+         if (is_array($value))
+         {
+            log::add('jeezvizv2', 'debug', 'La clef '.$parentKey.$key.' contient des sous clefs');
+            $parentKey= $parentKey.$key.'#';
+            foreach($value as $key1 => $value1) {                    
+               $this->SaveCmdInfo($jeezvizObj, $key1, $value1, $parentKey);
+            }          
          }
          else
          {
-            log::add('jeezvizv2', 'debug', 'Création de la commande '.$parentKey.$key.' à '.$value);
-            // Création de la commande
-            $cmd = new jeezvizCmd();
-            // Nom affiché
-            $cmd->setName($cmdName);
-            // Identifiant de la commande
-            $cmd->setLogicalId($logicalID);
-            // Identifiant de l'équipement
-            $cmd->setEqLogic_id($this->getId());
-            // Type de la commande
-            $cmd->setType('info');
-            $cmd->setSubType('string');
-            // Visibilité de la commande
-            $cmd->setIsVisible(1);
-            // Sauvegarde de la commande
-            $cmd->save();
-            log::add('jeezvizv2', 'debug', 'Mise à jour de la commande '.$parentKey.$key.' à '.$value);
-            $infoCmd->event($value);
+            if ($key!=null)
+            {
+               log::add('jeezvizv2', 'debug', 'Recherche de la commande '.$parentKey.$key);
+               $infoCmd = $jeezvizObj->getCmd('info', $parentKey.$key);
+               if (is_object($infoCmd))
+               { 
+                  log::add('jeezvizv2', 'debug', 'Mise à jour de la commande '.$parentKey.$key.' à '.$value);
+                  $infoCmd->event($value);
+               }
+               else
+               {
+                  log::add('jeezvizv2', 'debug', 'Création de la commande '.$parentKey.$key);
+                  // Création de la commande
+                  if (is_numeric($value))
+                  {
+                     $infoCmd = $jeezvizObj->createCmd($parentKey.$key, $parentKey.$key, 'info', 'numeric');
+                  }     
+                  elseif (is_bool($value)){
+                     $infoCmd = $jeezvizObj->createCmd($parentKey.$key, $parentKey.$key, 'info', 'binary');
+                  }   
+                  else{
+                     $infoCmd = $jeezvizObj->createCmd($parentKey.$key, $parentKey.$key, 'info', 'string');
+                  }             
+                  log::add('jeezvizv2', 'debug', 'Mise à jour de la commande '.$parentKey.$key.' à '.$value);
+                  $infoCmd->event($value);
+               }
+            }         
          }
-      }
+      } catch (Exception $e) {
+         log::add('jeezvizv2', 'debug', $e->getMessage());  
+      }      
    }
       
    public function postSave() {
-      /*$jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
-      $refreshCmd = $jeezvizObj->getCmd('action', 'refresh');
-      if (is_object($refreshCmd))
-      {
-         $refreshCmd->execute();
-      }*/
    }
 }
 
