@@ -4,7 +4,7 @@
  * Supports Hundreds of Android devices, 32 & 64 bit versions of Windows XP-10.5, Linux 540-686, and Mac 7-10.12
  * as well as browsers Firefox, Chrome, and Internet Explorer.
  */
-class userAgent {
+class JeezvizV2UserAgent {
     /**
      * Windows Operating System list with dynamic versioning
      * @var array $windows_os
@@ -282,38 +282,38 @@ class userAgent {
     
     /**
      * generate
-     * @param null $userAgent
+     * @param null $JeezvizV2
      * @return string *
      */
-    public function generate($userAgent = NULL) {
-        if($userAgent === NULL) {
+    public function generate($JeezvizV2 = NULL) {
+        if($JeezvizV2 === NULL) {
             $r = random_int(0, 100);
             if($r >= 44) {
-                $userAgent = array_rand([ 'firefox' => 1, 'chrome' => 1, 'explorer' => 1 ]);
+                $JeezvizV2 = array_rand([ 'firefox' => 1, 'chrome' => 1, 'explorer' => 1 ]);
             } else {
-                $userAgent = array_rand([ 'iphone' => 1, 'android' => 1, 'mobile' => 1 ]);
+                $JeezvizV2 = array_rand([ 'iphone' => 1, 'android' => 1, 'mobile' => 1 ]);
             }
-        } elseif($userAgent == 'windows' || $userAgent == 'mac' || $userAgent == 'linux') {
+        } elseif($JeezvizV2 == 'windows' || $JeezvizV2 == 'mac' || $JeezvizV2 == 'linux') {
             $agents = [ 'firefox' => 1, 'chrome' => 1 ];
-            if($userAgent == 'windows') {
+            if($JeezvizV2 == 'windows') {
                 $agents['explorer'] = 1;
             }
-            $userAgent = array_rand($agents);
+            $JeezvizV2 = array_rand($agents);
         }
-        $_SESSION['agent'] = $userAgent;
-        if($userAgent == 'chrome') {
-            return 'Mozilla/5.0 (' . $this->getOS($userAgent) . ') AppleWebKit/' . (random_int(1, 100) > 50 ? random_int(533, 537) : random_int(600, 603)) . '.' . random_int(1, 50) . ' (KHTML, like Gecko) Chrome/' . self::chromeVersion([ 'min' => 47,
+        $_SESSION['agent'] = $JeezvizV2;
+        if($JeezvizV2 == 'chrome') {
+            return 'Mozilla/5.0 (' . $this->getOS($JeezvizV2) . ') AppleWebKit/' . (random_int(1, 100) > 50 ? random_int(533, 537) : random_int(600, 603)) . '.' . random_int(1, 50) . ' (KHTML, like Gecko) Chrome/' . self::chromeVersion([ 'min' => 47,
                                                                                                                                                                                                                                               'max' => 55 ]) . ' Safari/' . (random_int(1, 100) > 50 ? random_int(533, 537) : random_int(600, 603));
-        } elseif($userAgent == 'firefox') {
+        } elseif($JeezvizV2 == 'firefox') {
             
-            return 'Mozilla/5.0 (' . $this->getOS($userAgent) . ') Gecko/' . (random_int(1, 100) > 30 ? '20100101' : '20130401') . ' Firefox/' . self::firefoxVersion([ 'min' => 45,
+            return 'Mozilla/5.0 (' . $this->getOS($JeezvizV2) . ') Gecko/' . (random_int(1, 100) > 30 ? '20100101' : '20130401') . ' Firefox/' . self::firefoxVersion([ 'min' => 45,
                                                                                                                                                                         'max' => 74 ]);
-        } elseif($userAgent == 'explorer') {
+        } elseif($JeezvizV2 == 'explorer') {
             
             return 'Mozilla / 5.0 (compatible; MSIE ' . ($int = random_int(7, 11)) . '.0; ' . $this->getOS('windows') . ' Trident / ' . ($int == 7 || $int == 8 ? '4' : ($int == 9 ? '5' : ($int == 10 ? '6' : '7'))) . '.0)';
-        } elseif($userAgent == 'mobile' || $userAgent == 'android' || $userAgent == 'iphone' || $userAgent == 'ipad' || $userAgent == 'ipod') {
+        } elseif($JeezvizV2 == 'mobile' || $JeezvizV2 == 'android' || $JeezvizV2 == 'iphone' || $JeezvizV2 == 'ipad' || $JeezvizV2 == 'ipod') {
             
-            return 'Mozilla/5.0 (' . $this->getMobileOS($userAgent) . ') AppleWebKit/' . (random_int(1, 100) > 50 ? random_int(533, 537) : random_int(600, 603)) . '.' . random_int(1, 50) . ' (KHTML, like Gecko)  Chrome/' . self::chromeVersion([ 'min' => 47,
+            return 'Mozilla/5.0 (' . $this->getMobileOS($JeezvizV2) . ') AppleWebKit/' . (random_int(1, 100) > 50 ? random_int(533, 537) : random_int(600, 603)) . '.' . random_int(1, 50) . ' (KHTML, like Gecko)  Chrome/' . self::chromeVersion([ 'min' => 47,
                                                                                                                                                                                                                                                      'max' => 55 ]) . ' Mobile Safari/' . (random_int(1, 100) > 50 ? random_int(533, 537) : random_int(600, 603)) . '.' . random_int(0, 9);
         } else {
             new Exception('Unable to determine user agent to generate');

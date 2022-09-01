@@ -31,7 +31,7 @@ if (!isConnect()) {
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-4 control-label">{{mot de passe}}</label>
+            <label class="col-lg-4 control-label">{{Mot de passe}}</label>
             <div class="col-lg-2">
                 <input class="configKey form-control" data-l1key="motdepasse" type="password"/>
             </div>
