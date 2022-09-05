@@ -38,66 +38,8 @@ class EzvizV2Camera
         exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' status', $response);        
         log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
         $response=json_decode(implode('',$response), true);
-        return $response;
-/*
-        # we need to know the index of this camera's $this->_serial  
-        foreach ($page_list['deviceInfos'] as $device)
-        {
-            if ($device['deviceSerial'] == $this->_serial)
-            {
-                $this->_device = $device;
-            }
-            break;
-        }           
-
-        foreach ($page_list['cameraInfos'] as $camera)
-        {
-            if ($camera['deviceSerial'] == $this->_serial)
-            {
-                $this->_camera_infos = $camera;
-                break;
-            }
-        }
-
-        # global status
-        $this->_status = $page_list['statusInfos'][$this->_serial];
-
-
-        # load connection infos
-        $this->_connection = $page_list['connectionInfos'][$this->_serial];
-
-        # a bit of wifi infos
-        #$this->_wifi = $page_list['wifiStatusInfos'][$this->_serial];
-
-        # load switches
-        $switches = array();
-        foreach ($page_list['switchStatusInfos'][$this->_serial] as $switch)
-        {
-            $switches[$switch['type']] = $switch; 
-        }
-
-        $this->_switch = $switches;
-        //log::add('jeezvizv2', 'debug', var_dump($switches));
-        # load detection sensibility
-        $this->_detection_sensibility = $this->_client->get_detection_sensibility($this->_serial);
-
-        # load camera object
-        try
-        {
-            # $this->_switch = page_list['switchStatusInfos'][$this->_serial];
-            $this->_time_plan = $page_list['timePlanInfos'][$this->_serial];
-            $this->_nodisturb = $page_list['alarmNodisturbInfos'][$this->_serial];
-            $this->_kms = $page_list['kmsInfos'][$this->_serial];
-            $this->_hiddns = $page_list['hiddnsInfos'][$this->_serial];
-            $this->_p2p = $page_list['p2pInfos'][$this->_serial];
-        }
-        catch (Exception $e)
-        {
-            log::add('jeezvizv2', 'debug', $e);
-        }
-*/
         $this->_loaded = 1;
-        return $this;
+        return $response;
     }
 
     function alarm_notify($enable)
@@ -173,8 +115,20 @@ class EzvizV2Camera
     function move_coords($x, $y)
     {
         log::add('jeezvizv2', 'debug', "Move a device to center V2\r\n");
-        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' move_coords --x 0.5 --y 0.50');
+        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' move_coords --x '.$x.' --y '.$y);
         exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' move_coords --x '.$x.' --y '.$y, $response);        
+        log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
+        $response=json_decode(implode('',$response), true);
+        return $response;
+    }
+
+    
+
+    function set_home_defence_mode($home_defence_mode)
+    {
+        log::add('jeezvizv2', 'debug', "Set home defence mode V2\r\n");
+        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** home_defence_mode --mode '.$home_defence_mode);
+        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' home_defence_mode --mode '.$home_defence_mode, $response);        
         log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
         $response=json_decode(implode('',$response), true);
         return $response;

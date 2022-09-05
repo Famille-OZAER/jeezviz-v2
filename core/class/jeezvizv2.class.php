@@ -65,7 +65,9 @@ class jeezvizv2 extends eqLogic {
                   "alarmNotify_Off" => "Désactiver les notifications",
                   "alarmNotify_Intense" => "Notifications : Intences",
                   "alarmNotify_Logiciel" => "Notifications : Rappels léger",
-                  "alarmNotify_Silence" => "Notifications : Silence");
+                  "alarmNotify_Silence" => "Notifications : Silence",
+                  "home_defence_mode_HOME_MODE" => "Activer la détection pour toutes les caméras",
+                  "home_defence_mode_AWAY_MODE" => "Désactiver la détection pour toutes les caméras");
                         
       foreach ($defaultActions as $key => $value) {
          $this->createCmd($value, $key, 'action', 'other');
@@ -239,6 +241,14 @@ class jeezvizv2Cmd extends cmd {
          case "MOVE_CENTER":
             log::add('jeezvizv2', 'debug', "MOVE_CENTER");
             $EzvizV2Camera->move_coords(0.5,0.5);
+            break;      
+         case "HOME_DEFENCE_MODE_HOME":
+            log::add('jeezvizv2', 'debug', "HOME_DEFENCE_MODE_HOME");
+            $EzvizV2Camera->set_home_defence_mode("HOME_MODE");
+            break;      
+         case "HOME_DEFENCE_MODE_AWAY":
+            log::add('jeezvizv2', 'debug', "HOME_DEFENCE_MODE_AWAY");
+            $EzvizV2Camera->set_home_defence_mode("AWAY_MODE");
             break;
       }
       log::add('jeezvizv2', 'debug', '============ Fin execute ==========');
@@ -250,6 +260,7 @@ class jeezvizv2Cmd extends cmd {
       try {
          $retour=$EzvizV2Camera->Load();
          $jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
+         log::add('jeezvizv2', 'debug', implode('//',$jeezvizObj));
          foreach($retour as $key => $value) {
             $this->SaveCmdInfo($jeezvizObj, $key, $value);
          }
