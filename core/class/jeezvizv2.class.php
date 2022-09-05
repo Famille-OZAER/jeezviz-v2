@@ -72,6 +72,7 @@ class jeezvizv2 extends eqLogic {
       foreach ($defaultActions as $key => $value) {
          $this->createCmd($value, $key, 'action', 'other');
       }     
+      log::add('jeezvizv2', 'debug', '============ Fin postSave ==========');
    }
    public function createCmd($cmdName, $logicalID, $type, $subType)
    {
