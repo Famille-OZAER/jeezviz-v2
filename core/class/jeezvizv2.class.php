@@ -66,8 +66,8 @@ class jeezvizv2 extends eqLogic {
                   "alarmNotify_Intense" => "Notifications : Intences",
                   "alarmNotify_Logiciel" => "Notifications : Rappels léger",
                   "alarmNotify_Silence" => "Notifications : Silence",
-                  "home_defence_mode_HOME_MODE" => "Activer la détection pour toutes les caméras",
-                  "home_defence_mode_AWAY_MODE" => "Désactiver la détection pour toutes les caméras");
+                  "home_defence_mode_HOME_MODE" => "Désactiver la détection pour toutes les caméras",
+                  "home_defence_mode_AWAY_MODE" => "Activer la détection pour toutes les caméras");
                         
       foreach ($defaultActions as $key => $value) {
          $this->createCmd($value, $key, 'action', 'other');
