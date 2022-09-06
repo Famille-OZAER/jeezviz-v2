@@ -243,12 +243,12 @@ class jeezvizv2Cmd extends cmd {
             log::add('jeezvizv2', 'debug', "MOVE_CENTER");
             $EzvizV2Camera->move_coords(0.5,0.5);
             break;      
-         case "HOME_DEFENCE_MODE_HOME":
-            log::add('jeezvizv2', 'debug', "HOME_DEFENCE_MODE_HOME");
+         case "HOME_DEFENCE_MODE_HOME_MODE":
+            log::add('jeezvizv2', 'debug', "HOME_DEFENCE_MODE_HOME_MODE");
             $EzvizV2Camera->set_home_defence_mode("HOME_MODE");
             break;      
-         case "HOME_DEFENCE_MODE_AWAY":
-            log::add('jeezvizv2', 'debug', "HOME_DEFENCE_MODE_AWAY");
+         case "HOME_DEFENCE_MODE_AWAY_MODE":
+            log::add('jeezvizv2', 'debug', "HOME_DEFENCE_MODE_AWAY_MODE");
             $EzvizV2Camera->set_home_defence_mode("AWAY_MODE");
             break;
       }
