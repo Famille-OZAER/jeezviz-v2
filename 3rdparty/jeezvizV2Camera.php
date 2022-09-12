@@ -1,5 +1,6 @@
 <?php
 
+const pyezviz = "/usr/local/bin/pyezviz";
 # seems to be some internal reference. 21 = sleep mode
 #const TYPE_PRIVACY_MODE = 21;
 const TYPE_PRIVACY_MODE = 7;
@@ -36,9 +37,10 @@ class EzvizV2Camera
     function load()
     {
         log::add('jeezvizv2', 'debug', "Load object properties V2\r\n");
-        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' status');
-        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' status', $response);        
+        log::add('jeezvizv2', 'debug', pyezviz.' -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' status');
+        $result=exec(pyezviz.' -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' status', $response);        
         log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
+        log::add('jeezvizv2', 'debug',$result);        
         $response=json_decode(implode('',$response), true);
         $this->_loaded = 1;
         return $response;
@@ -63,8 +65,8 @@ class EzvizV2Camera
     function alarm_notify($enable)
     {
         log::add('jeezvizv2', 'debug', "Enable/Disable camera notification when movement is detected V2.\r\n");
-        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' alarm --notify '.$enable);
-        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' alarm --notify '.$enable, $response);        
+        log::add('jeezvizv2', 'debug', pyezviz.' -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' alarm --notify '.$enable);
+        exec(pyezviz.' -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' alarm --notify '.$enable, $response);        
         log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
         $response=json_decode(implode('',$response), true);
         return $response;
@@ -73,8 +75,8 @@ class EzvizV2Camera
     function alarm_sound($soundMode)
     {
         log::add('jeezvizv2', 'debug', "Change camera notification mode V2.\r\n");
-        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' alarm --sound '.$soundMode);
-        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' alarm --sound '.$soundMode, $response);        
+        log::add('jeezvizv2', 'debug', pyezviz.' -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' alarm --sound '.$soundMode);
+        exec(pyezviz.' -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' alarm --sound '.$soundMode, $response);        
         log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
         $response=json_decode(implode('',$response), true);
         return $response;
@@ -114,8 +116,8 @@ class EzvizV2Camera
     function switch_mode($switchName,$enable)
     {
         log::add('jeezvizv2', 'debug', 'Switch '.$switchName.' mode on a device V2');
-        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' switch --switch '.$switchName.' --enable '.$enable);
-        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' switch --switch '.$switchName.' --enable '.$enable, $response);        
+        log::add('jeezvizv2', 'debug', pyezviz.' -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' switch --switch '.$switchName.' --enable '.$enable);
+        exec(pyezviz.' -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' switch --switch '.$switchName.' --enable '.$enable, $response);        
         log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
         $response=json_decode(implode('',$response), true);
         return $response;
@@ -123,8 +125,8 @@ class EzvizV2Camera
     function move($direction, $speed=5)
     {
         log::add('jeezvizv2', 'debug', "Move a device V2\r\n");
-        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' move --direction '.$direction.' --speed '.$speed);
-        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' move --direction '.$direction.' --speed '.$speed, $response);        
+        log::add('jeezvizv2', 'debug', pyezviz.' -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' move --direction '.$direction.' --speed '.$speed);
+        exec(pyezviz.' -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' move --direction '.$direction.' --speed '.$speed, $response);        
         log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
         $response=json_decode(implode('',$response), true);
         return $response;
@@ -133,8 +135,8 @@ class EzvizV2Camera
     function move_coords($x, $y)
     {
         log::add('jeezvizv2', 'debug', "Move a device to center V2\r\n");
-        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' move_coords --x '.$x.' --y '.$y);
-        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' move_coords --x '.$x.' --y '.$y, $response);        
+        log::add('jeezvizv2', 'debug', pyezviz.' -u '.$this->_account.' -p ****** camera '.'--serial '.$this->_serial.' move_coords --x '.$x.' --y '.$y);
+        exec(pyezviz.' -u '.$this->_account.' -p '.$this->_password.' camera '.'--serial '.$this->_serial.' move_coords --x '.$x.' --y '.$y, $response);        
         log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
         $response=json_decode(implode('',$response), true);
         return $response;
@@ -145,8 +147,8 @@ class EzvizV2Camera
     function set_home_defence_mode($home_defence_mode)
     {
         log::add('jeezvizv2', 'debug', "Set home defence mode V2\r\n");
-        log::add('jeezvizv2', 'debug', 'pyezviz -u '.$this->_account.' -p ****** home_defence_mode --mode '.$home_defence_mode);
-        exec('pyezviz -u '.$this->_account.' -p '.$this->_password.' home_defence_mode --mode '.$home_defence_mode, $response);        
+        log::add('jeezvizv2', 'debug', pyezviz.' -u '.$this->_account.' -p ****** home_defence_mode --mode '.$home_defence_mode);
+        exec(pyezviz.' -u '.$this->_account.' -p '.$this->_password.' home_defence_mode --mode '.$home_defence_mode, $response);        
         log::add('jeezvizv2', 'debug',implode('\r\n', $response));        
         $response=json_decode(implode('',$response), true);
         return $response;
