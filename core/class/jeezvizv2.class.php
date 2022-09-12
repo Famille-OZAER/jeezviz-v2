@@ -145,7 +145,9 @@ class jeezvizv2Cmd extends cmd {
       switch (strtoupper($this->getLogicalId()))
       {
          case "REFRESH":
-            $this->RefreshCamera($EzvizV2Camera);
+            log::add('jeezvizv2', 'debug', "REFRESH");
+            //$this->RefreshCamera($EzvizV2Camera);
+            $EzvizV2Camera->refresh($this);
             break;
          case "PRIVACY_ON":
             log::add('jeezvizv2', 'debug', "PRIVACY_ON");
@@ -255,21 +257,7 @@ class jeezvizv2Cmd extends cmd {
       log::add('jeezvizv2', 'debug', '============ Fin execute ==========');
 
    }
-   public function RefreshCamera($EzvizV2Camera)
-   {
-      log::add('jeezvizv2', 'debug', '============ Début refresh ==========');
-      try {
-         $retour=$EzvizV2Camera->Load();
-         $jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
-         log::add('jeezvizv2', 'debug', implode('//',$jeezvizObj));
-         foreach($retour as $key => $value) {
-            $this->SaveCmdInfo($jeezvizObj, $key, $value);
-         }
-      } catch (Exception $e) {
-         log::add('jeezvizv2', 'debug', $e->getMessage());      
-      }
-      log::add('jeezvizv2', 'debug', '============ Fin refresh ==========');
-   }
+   
    public function SaveCmdInfo($jeezvizObj, $key, $value, $parentKey=null){
       try {
          log::add('jeezvizv2', 'debug', 'Vérification de la clef '.$parentKey.$key);         

@@ -20,13 +20,15 @@ class EzvizV2Camera
     public $_device;
     public $_account;
     public $_password;
-    function __construct($serial)
+    public $_Eqlogic_Id;
+    function __construct($serial, $Eqlogic_Id)
     {
         log::add('jeezvizv2', 'debug', "Initialize the camera V2 object.\r\n");
         $this->_serial = $serial;
         $this->_account = config::byKey('identifiant', 'jeezvizv2');
         $this->_password =  config::byKey('motdepasse', 'jeezvizv2');
         $this->_loaded = 0;
+        $this->_Eqlogic_Id = $Eqlogic_Id;
         # $this->load();
     }
 
@@ -42,6 +44,22 @@ class EzvizV2Camera
         return $response;
     }
 
+    function refresh($RefreshCmd)
+    {
+        log::add('jeezvizv2', 'debug', '============ Début refresh ==========');
+        try {
+            $retour=$this->Load();
+            $jeezvizObj = jeezvizv2::byId($this->_Eqlogic_Id);
+            log::add('jeezvizv2', 'debug', implode('//',$jeezvizObj));
+            foreach($retour as $key => $value) {
+                $RefreshCmd->SaveCmdInfo($jeezvizObj, $key, $value);
+            }
+        } catch (Exception $e) {
+            log::add('jeezvizv2', 'debug', $e->getMessage());      
+        }
+        log::add('jeezvizv2', 'debug', '============ Fin refresh ==========');
+        
+    }
     function alarm_notify($enable)
     {
         log::add('jeezvizv2', 'debug', "Enable/Disable camera notification when movement is detected V2.\r\n");
