@@ -132,7 +132,8 @@ class jeezvizv2Cmd extends cmd {
       }
       
       log::add('jeezvizv2', 'debug', 'Fonction execute démarrée');
-      log::add('jeezvizv2', 'debug', 'EqLogic_Id : '.$this->getEqlogic_id());
+      $eqLogicId = $this->getEqlogic_id();
+      log::add('jeezvizv2', 'debug', 'EqLogic_Id : '.$eqLogicId);
       log::add('jeezvizv2', 'debug', 'Name : '.$this->getName());
 
       $jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
@@ -140,7 +141,7 @@ class jeezvizv2Cmd extends cmd {
       
       log::add('jeezvizv2', 'debug', 'Serial : '.$serial);         
 
-      $EzvizV2Camera = new EzvizV2Camera($serial);
+      $EzvizV2Camera = new EzvizV2Camera($serial, $eqLogicId);
       
       switch (strtoupper($this->getLogicalId()))
       {
