@@ -20,7 +20,7 @@ $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder:
 /*
  * Fonction permettant l'affichage des commandes dans l'équipement
  */
-function addCmdToTable(_cmd) {
+/*function addCmdToTable(_cmd) {
     if (!isset(_cmd)) {
         var _cmd = {configuration: {}};
     }
@@ -56,4 +56,4 @@ function addCmdToTable(_cmd) {
         $('#table_cmd tbody tr:last .cmdAttr[data-l1key=type]').value(init(_cmd.type));
     }
     jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
-}
+}*/
