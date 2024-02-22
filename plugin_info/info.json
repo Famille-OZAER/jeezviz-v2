@@ -1,7 +1,7 @@
 {
 	"id" : "jeezvizv2",
 	"name" : "jeezvizv2",
-	"description" : "Plugin de pilotage des caméras et visiophones EZVIZ",
+	"description" : "Plugin de pilotage des caméras et visiophones EZVIZ\r\nCe plugin est obsolète et est remplacé par Jeezviz V2",
 	"licence" : "MIT",
 	"author" : "OOZAER",
 	"require" : "4.0", 

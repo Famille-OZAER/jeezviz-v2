@@ -65,11 +65,14 @@ class jeezvizv2 extends eqLogic {
                   "alarmNotify_Off" => "Désactiver les notifications",
                   "alarmNotify_Intense" => "Notifications : Intences",
                   "alarmNotify_Logiciel" => "Notifications : Rappels léger",
-                  "alarmNotify_Silence" => "Notifications : Silence");
+                  "alarmNotify_Silence" => "Notifications : Silence",
+                  "home_defence_mode_HOME_MODE" => "Désactiver la détection pour toutes les caméras",
+                  "home_defence_mode_AWAY_MODE" => "Activer la détection pour toutes les caméras");
                         
       foreach ($defaultActions as $key => $value) {
          $this->createCmd($value, $key, 'action', 'other');
       }     
+      log::add('jeezvizv2', 'debug', '============ Fin postSave ==========');
    }
    public function createCmd($cmdName, $logicalID, $type, $subType)
    {
@@ -129,7 +132,8 @@ class jeezvizv2Cmd extends cmd {
       }
       
       log::add('jeezvizv2', 'debug', 'Fonction execute démarrée');
-      log::add('jeezvizv2', 'debug', 'EqLogic_Id : '.$this->getEqlogic_id());
+      $eqLogicId = $this->getEqlogic_id();
+      log::add('jeezvizv2', 'debug', 'EqLogic_Id : '.$eqLogicId);
       log::add('jeezvizv2', 'debug', 'Name : '.$this->getName());
 
       $jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
@@ -137,12 +141,14 @@ class jeezvizv2Cmd extends cmd {
       
       log::add('jeezvizv2', 'debug', 'Serial : '.$serial);         
 
-      $EzvizV2Camera = new EzvizV2Camera($serial);
+      $EzvizV2Camera = new EzvizV2Camera($serial, $eqLogicId);
       
       switch (strtoupper($this->getLogicalId()))
       {
          case "REFRESH":
-            $this->RefreshCamera($EzvizV2Camera);
+            log::add('jeezvizv2', 'debug', "REFRESH");
+            //$this->RefreshCamera($EzvizV2Camera);
+            $EzvizV2Camera->refresh($this);
             break;
          case "PRIVACY_ON":
             log::add('jeezvizv2', 'debug', "PRIVACY_ON");
@@ -239,25 +245,20 @@ class jeezvizv2Cmd extends cmd {
          case "MOVE_CENTER":
             log::add('jeezvizv2', 'debug', "MOVE_CENTER");
             $EzvizV2Camera->move_coords(0.5,0.5);
+            break;      
+         case "HOME_DEFENCE_MODE_HOME_MODE":
+            log::add('jeezvizv2', 'debug', "HOME_DEFENCE_MODE_HOME_MODE");
+            $EzvizV2Camera->set_home_defence_mode("HOME_MODE");
+            break;      
+         case "HOME_DEFENCE_MODE_AWAY_MODE":
+            log::add('jeezvizv2', 'debug', "HOME_DEFENCE_MODE_AWAY_MODE");
+            $EzvizV2Camera->set_home_defence_mode("AWAY_MODE");
             break;
       }
       log::add('jeezvizv2', 'debug', '============ Fin execute ==========');
 
    }
-   public function RefreshCamera($EzvizV2Camera)
-   {
-      log::add('jeezvizv2', 'debug', '============ Début refresh ==========');
-      try {
-         $retour=$EzvizV2Camera->Load();
-         $jeezvizObj = jeezvizv2::byId($this->getEqlogic_id());
-         foreach($retour as $key => $value) {
-            $this->SaveCmdInfo($jeezvizObj, $key, $value);
-         }
-      } catch (Exception $e) {
-         log::add('jeezvizv2', 'debug', $e->getMessage());      
-      }
-      log::add('jeezvizv2', 'debug', '============ Fin refresh ==========');
-   }
+   
    public function SaveCmdInfo($jeezvizObj, $key, $value, $parentKey=null){
       try {
          log::add('jeezvizv2', 'debug', 'Vérification de la clef '.$parentKey.$key);         
