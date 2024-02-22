@@ -15,9 +15,9 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-$("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 /*
+$("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+
  * Fonction permettant l'affichage des commandes dans l'équipement
  */
 /*function addCmdToTable(_cmd) {
